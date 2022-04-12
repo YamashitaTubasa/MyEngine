@@ -63,6 +63,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			TranslateMessage(&msg); // キー入力メッセージの処理
 			DispatchMessage(&msg);  // プロシージャにメッツセージを送る
 		}
+
 		// ×ボタンで終了メッセージが来たらゲームループを抜ける
 		if (msg.message == WM_QUIT) {
 			break;
