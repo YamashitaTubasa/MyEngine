@@ -222,6 +222,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
             break;
         }
         //DirectX毎フレーム処理　ここから
+        
         //バックバッファの番号取得(２つなので0番か1番)
         UINT bbIndex = swapChain->GetCurrentBackBufferIndex();
 
@@ -238,12 +239,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
         rtvHandle.ptr += bbIndex * device->GetDescriptorHandleIncrementSize(rtvHeapDesc.Type);
         commandList->OMSetRenderTargets(1, &rtvHandle, false, nullptr);
 
-        //3.描画クリア　　　　　　　R    G     B    A
+        //3.描画クリア　　　　　R    G     B    A
         FLOAT clearcolor[] = { 0.1f,0.25f,0.5f,0.0f };//青っぽい色
         commandList->ClearRenderTargetView(rtvHandle, clearcolor, 0, nullptr);
+
         //4.描画コマンドはここから
 
         //4.描画コマンドはここまで
+        
         //5.リソースバリアを戻す
         barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;//表示状態から
         barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;//描画状態へ
