@@ -328,6 +328,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		}, // (1行で書いたほうが見やすい)
+
 		//座標以外に　色、テクスチャーUVなどを渡す場合はさらに続ける
 		/*{},
 		{},*/
