@@ -37,10 +37,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//コンソールへの文字出力
 	OutputDebugStringA("Hellow,DirectX!!\n");
 	//ウィンドウサイズ
-// ウィンドウ横幅
-	const int WIN_WIDTH = 1280;
-	// ウィンドウ縦幅
-	const int WIN_HEIGHT = 720;
+	const int WIN_WIDTH = 1280; // ウィンドウ横幅
+	const int WIN_HEIGHT = 720; // ウィンドウ縦幅
 
 	//ウィンドウクラスの設定
 	WNDCLASSEX w{};
@@ -76,7 +74,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
    //DirectX初期化処理　ここから
 #ifdef _DEBUG
-//デバックレイヤーをオンに
+    //デバックレイヤーをオンに
 	ID3D12Debug* debugCountroller;
 	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugCountroller)))) {
 		debugCountroller->EnableDebugLayer();
@@ -243,8 +241,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	 //頂点データ
 	XMFLOAT3 vertices[] = {
 		{ -0.5f, -0.5f, 0.0f },//左下
-		{ -0.5f, 0.5f, 0.0f },//左上
-		{ 0.5f, -0.5f, 0.0f },//右下
+		{ -0.5f, 0.5f, 0.0f }, //左上
+		{ 0.5f, -0.5f, 0.0f }, //右下
 	};
 	//頂点データ全体のサイズ　＝　頂点データ一つ分のサイズ　＊　頂点データの要素数
 	UINT sizeVB = static_cast<UINT>(sizeof(XMFLOAT3) * _countof(vertices));
@@ -372,6 +370,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// ラスタライザの設定
 	pipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;  // カリングしない
 	pipelineDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID; // ポリゴン内塗りつぶし
+	//pipelineDesc.RasterizerState.FillMode = D3D12_FILL_MODE_WIREFRAME; // ワイヤーフレーム
 	pipelineDesc.RasterizerState.DepthClipEnable = true; // 深度クリッピングを有効に
 
 	// ブレンドステート
@@ -453,27 +452,48 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		rtvHandle.ptr += bbIndex * device->GetDescriptorHandleIncrementSize(rtvHeapDesc.Type);
 		commandList->OMSetRenderTargets(1, &rtvHandle, false, nullptr);
 
-		//3.描画クリア　　　　　　　R    G     B    A
+		//3.描画クリア　　　　　R    G     B    A
 		FLOAT clearcolor[] = { 0.1f,0.25f,0.5f,0.0f };//青っぽい色
 		if (key[DIK_SPACE])     // スペースキーが押されていたら
 		{
 			clearcolor[0] = { 1.0f };
-			clearcolor[1] = { 0.1f };
-			clearcolor[2] = { 0.7f };
+			clearcolor[1] = { 0.0f };
+			clearcolor[2] = { 1.0f };
 			clearcolor[3] = { 1.0f };
 		}
 		commandList->ClearRenderTargetView(rtvHandle, clearcolor, 0, nullptr);
+
 		//4.描画コマンドはここから
 		// ビューポート設定コマンド
-		D3D12_VIEWPORT viewport{};
-		viewport.Width = WIN_WIDTH;
-		viewport.Height = WIN_HEIGHT;
-		viewport.TopLeftX = 0;
-		viewport.TopLeftY = 0;
-		viewport.MinDepth = 0.0f;
-		viewport.MaxDepth = 1.0f;
-		// ビューポート設定コマンドを、コマンドリストに積む
-		commandList->RSSetViewports(1, &viewport);
+		D3D12_VIEWPORT viewport[4];
+		//******** 左上の三角形 ********//
+		viewport[0].Width = 1000 ;
+		viewport[0].Height = 500 ;
+		viewport[0].TopLeftX = -100;
+		viewport[0].TopLeftY = 0;
+		viewport[0].MinDepth = 0.0f;
+		viewport[0].MaxDepth = 1.0f;
+		//******** 右上の三角形 ********//
+		viewport[1].Width = 300;
+		viewport[1].Height = 500;
+		viewport[1].TopLeftX = 900;
+		viewport[1].TopLeftY = 0;
+		viewport[1].MinDepth = 0.0f;
+		viewport[1].MaxDepth = 1.0f;
+		//******** 左下の三角形 ********//
+		viewport[2].Width = 1000;
+		viewport[2].Height = 100;
+		viewport[2].TopLeftX = -100;
+		viewport[2].TopLeftY = 500;
+		viewport[2].MinDepth = 0.0f;
+		viewport[2].MaxDepth = 1.0f;
+		//******** 右下の三角形 ********//
+		viewport[3].Width = 300;
+		viewport[3].Height = 100;
+		viewport[3].TopLeftX = 900;
+		viewport[3].TopLeftY = 500;
+		viewport[3].MinDepth = 0.0f;
+		viewport[3].MaxDepth = 1.0f;
 
 		// シザー矩形
 		D3D12_RECT scissorRect{};
@@ -496,9 +516,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		// 描画コマンド
 		commandList->DrawInstanced(_countof(vertices), 1, 0, 0);//全ての頂点を使って描画
+		
+		for (int i = 0; i < sizeof(viewport) / sizeof(viewport[0]); i++) {
+			// ビューポート設定コマンドを、コマンドリストに積む
+			commandList->RSSetViewports(1, &viewport[i]);
 
-
-
+			commandList->DrawInstanced(_countof(viewport),1, 0, 0);
+		}
 
 		//4.描画コマンドはここまで
 		//5.リソースバリアを戻す
