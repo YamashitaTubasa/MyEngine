@@ -477,7 +477,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		// シザー矩形
 		D3D12_RECT scissorRect{};
-		scissorRect.left = 0;//切り抜き座標左
+		scissorRect.left = 700;//切り抜き座標左
 		scissorRect.right = scissorRect.left + WIN_WIDTH;//切り抜き座標右
 		scissorRect.top = 0;//切り抜き座標上
 		scissorRect.bottom = scissorRect.top + WIN_HEIGHT;//切り抜き座標下
