@@ -73,7 +73,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	MSG msg{};//メッセージ
 
-   //*************************************** DirectX初期化処理　ここから ********************************//
+   //**************************************** DirectX初期化処理　ここから ********************************//
 #ifdef _DEBUG
 //デバックレイヤーをオンに
 	ID3D12Debug* debugCountroller;
