@@ -10,12 +10,11 @@ using namespace DirectX;
 #define DIRECTINPUT_VERSION     0x0800   // DirectInputのバージョン指定
 #include <dinput.h>
 
+#pragma comment(lib, "dinput8.lib")
+#pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3dcompiler.lib")
-#pragma comment(lib, "dinput8.lib")
-#pragma comment(lib, "dxguid.lib")
-
 
 //ウィンドウプロシージャ
 LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
@@ -37,8 +36,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//コンソールへの文字出力
 	OutputDebugStringA("Hellow,DirectX!!\n");
 	//ウィンドウサイズ
-	const int WIN_WIDTH = 1280; // ウィンドウ横幅
-	const int WIN_HEIGHT = 720; // ウィンドウ縦幅
+// ウィンドウ横幅
+	const int WIN_WIDTH = 1280;
+	// ウィンドウ縦幅
+	const int WIN_HEIGHT = 720;
 
 	//ウィンドウクラスの設定
 	WNDCLASSEX w{};
@@ -72,9 +73,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	MSG msg{};//メッセージ
 
-   //DirectX初期化処理　ここから
+   //*************************************** DirectX初期化処理　ここから ********************************//
 #ifdef _DEBUG
-    //デバックレイヤーをオンに
+//デバックレイヤーをオンに
 	ID3D12Debug* debugCountroller;
 	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugCountroller)))) {
 		debugCountroller->EnableDebugLayer();
@@ -234,15 +235,52 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 	assert(SUCCEEDED(result));
 
+	//********************************* DirectX初期化処理　ここまで ***********************************//
 
-	//DirectX初期化処理　ここまで
+	//************************************** 描画初期化処理 *******************************************//
 
-	 //描画初期化処理
-	 //頂点データ
+// 定数バッファ用データ構造体（マテリアル）
+	struct ConstBufferDataMaterial {
+		XMFLOAT4 color;
+	};// 色 (RGBA)
+
+	// ヒープ設定
+	D3D12_HEAP_PROPERTIES cbHeapProp{};
+	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;     // GPUへの転送用
+	// リソース設定
+	D3D12_RESOURCE_DESC cbResourceDesc{};
+	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	cbResourceDesc.Width = (sizeof(ConstBufferDataMaterial) + 0xff) & ~0xff;   // 256バイトアラインメント
+	cbResourceDesc.Height = 1;
+	cbResourceDesc.DepthOrArraySize = 1;
+	cbResourceDesc.MipLevels = 1;
+	cbResourceDesc.SampleDesc.Count = 1;
+	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+	ID3D12Resource* constBuffMaterial = nullptr;
+	// 定数バッファの生成
+	result = device->CreateCommittedResource(
+		&cbHeapProp, // ヒープ設定
+		D3D12_HEAP_FLAG_NONE,
+		&cbResourceDesc, // リソース設定
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&constBuffMaterial));
+	assert(SUCCEEDED(result));
+	// 定数バッファのマッピング
+	ConstBufferDataMaterial* constMapMaterial = nullptr;
+	result = constBuffMaterial->Map(0, nullptr, (void**)&constMapMaterial); // マッピング
+	assert(SUCCEEDED(result));
+
+	float RED = 1.0f;
+	float GREEN = 0.0f;
+	float BLUE = 0.0f;
+
+
+	//頂点データ
 	XMFLOAT3 vertices[] = {
-		{ -0.5f, -0.5f, 0.0f },//左下
-		{ -0.5f, 0.5f, 0.0f }, //左上
-		{ 0.5f, -0.5f, 0.0f }, //右下
+	{ -0.5f, -0.5f, 0.0f},  // Xが-で左　Yが-で下　左下
+	{ -0.5f, +0.5f, 0.0f},  // Xが-で左　Yが+で上　左上
+	{ +0.5f, -0.5f, 0.0f},  // Xが+で右　Yが-で下　右下
 	};
 	//頂点データ全体のサイズ　＝　頂点データ一つ分のサイズ　＊　頂点データの要素数
 	UINT sizeVB = static_cast<UINT>(sizeof(XMFLOAT3) * _countof(vertices));
@@ -350,9 +388,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		}, // (1行で書いたほうが見やすい)
-		//座標以外に　色、テクスチャーUVなどを渡す場合はさらに続ける
-		/*{},
-		{},*/
 	};
 
 	// グラフィックスパイプライン設定
@@ -370,11 +405,40 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// ラスタライザの設定
 	pipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;  // カリングしない
 	pipelineDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID; // ポリゴン内塗りつぶし
-	//pipelineDesc.RasterizerState.FillMode = D3D12_FILL_MODE_WIREFRAME; // ワイヤーフレーム
 	pipelineDesc.RasterizerState.DepthClipEnable = true; // 深度クリッピングを有効に
 
 	// ブレンドステート
-	pipelineDesc.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;  // RBGA全てのチャンネルを描画
+	// pipelineDesc.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+	// レンダーターゲットのブレンド設定
+	D3D12_RENDER_TARGET_BLEND_DESC& blenddesc = pipelineDesc.BlendState.RenderTarget[0];
+	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL; 
+	// RBGA全てのチャンネルを描画
+	blenddesc.BlendEnable = true;                         // ブレンドを有効にする
+	blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;          // 加算
+	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;            // ソースの値を100% 使う
+	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;          // デストの値を  0% 使う
+
+	//// 加算合成
+	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;             // 加算
+	//blenddesc.SrcBlend = D3D12_BLEND_ONE;               // ソースの値を100% 使う
+	//blenddesc.DestBlend = D3D12_BLEND_ONE;              // デストの値を100% 使う
+
+	//// 減算合成
+	//blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;    // デストからソースを減算
+	//blenddesc.SrcBlend = D3D12_BLEND_ONE;               // ソースの値を100% 使う
+	//blenddesc.DestBlend = D3D12_BLEND_ONE;              // デストの値を100% 使う
+
+	//// 色反転
+	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;             // 加算
+	//blenddesc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;    // 1.0f-デストカラーの値
+	//blenddesc.DestBlend = D3D12_BLEND_ZERO;             // 使わない
+
+	// 半透明合成
+	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;               // 加算
+	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;           // ソースのアルファ値
+	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;      // 1.0f-ソースのアルファ値
+
+	// RBGA全てのチャンネルを描画
 
 	// 頂点レイアウトの設定
 	pipelineDesc.InputLayout.pInputElementDescs = inputLayout;
@@ -388,11 +452,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	pipelineDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; // 0～255指定のRGBA
 	pipelineDesc.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
 
+	// ルートパラメータの設定
+	D3D12_ROOT_PARAMETER rootParam = {};
+	rootParam.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;    // 定数バッファビュー
+	rootParam.Descriptor.ShaderRegister = 0;                    // 定数バッファ番号
+	rootParam.Descriptor.RegisterSpace = 0;                     // デフォルト値
+	rootParam.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;   //全てのシェーダから見える
+
 	// ルートシグネチャ
 	ID3D12RootSignature* rootSignature;
 	// ルートシグネチャの設定
 	D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc{};
 	rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+	rootSignatureDesc.pParameters = &rootParam; //ルートパラメータの先頭アドレス
+	rootSignatureDesc.NumParameters = 1;        //ルートパラメータ数
 	// ルートシグネチャのシリアライズ
 	ID3DBlob* rootSigBlob = nullptr;
 	result = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0,
@@ -410,7 +483,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	result = device->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
 	assert(SUCCEEDED(result));
 
-
+	int isGradationflag = 0;
 
 	while (true) {
 		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
@@ -422,7 +495,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		if (msg.message == WM_QUIT) {
 			break;
 		}
+		if (GREEN <= 1.0f) {
+			RED -= 0.01f;
+			GREEN += 0.01f;
+		}
+		// 値を書き込むと自動的に転送される
+		constMapMaterial->color = XMFLOAT4(RED, GREEN, BLUE, 0.5f);              // RGBAで半透明の赤
 		//DirectX毎フレーム処理　ここから
+
 		// キーボード情報の取得開始
 		keyboard->Acquire();
 
@@ -452,48 +532,33 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		rtvHandle.ptr += bbIndex * device->GetDescriptorHandleIncrementSize(rtvHeapDesc.Type);
 		commandList->OMSetRenderTargets(1, &rtvHandle, false, nullptr);
 
-		//3.描画クリア　　　　　R    G     B    A
+		//3.描画クリア　　　　　　　R    G     B    A
 		FLOAT clearcolor[] = { 0.1f,0.25f,0.5f,0.0f };//青っぽい色
-		if (key[DIK_SPACE])     // スペースキーが押されていたら
-		{
-			clearcolor[0] = { 1.0f };
-			clearcolor[1] = { 0.0f };
-			clearcolor[2] = { 1.0f };
-			clearcolor[3] = { 1.0f };
-		}
-		commandList->ClearRenderTargetView(rtvHandle, clearcolor, 0, nullptr);
+		//if (key[DIK_SPACE])     // スペースキーが押されていたら
+		//{
+		//	clearcolor[0] = { 0.7f };//青っぽい色
+		//	clearcolor[1] = { 0.5f };
+		//	clearcolor[2] = { 0.3f };
+		//	clearcolor[3] = { 0.0f };
+		//}
 
+		bool キーを押した状態か(uint8_t キー番号);
+		bool キーを離した状態か(uint8_t キー番号);
+		bool キーを押した瞬間か(uint8_t キー番号);
+		bool キーを離した瞬間か(uint8_t キー番号);
+
+		commandList->ClearRenderTargetView(rtvHandle, clearcolor, 0, nullptr);
 		//4.描画コマンドはここから
 		// ビューポート設定コマンド
-		D3D12_VIEWPORT viewport[4];
-		//******** 左上の三角形 ********//
-		viewport[0].Width = 1000 ;
-		viewport[0].Height = 500 ;
-		viewport[0].TopLeftX = -100;
-		viewport[0].TopLeftY = 0;
-		viewport[0].MinDepth = 0.0f;
-		viewport[0].MaxDepth = 1.0f;
-		//******** 右上の三角形 ********//
-		viewport[1].Width = 300;
-		viewport[1].Height = 500;
-		viewport[1].TopLeftX = 900;
-		viewport[1].TopLeftY = 0;
-		viewport[1].MinDepth = 0.0f;
-		viewport[1].MaxDepth = 1.0f;
-		//******** 左下の三角形 ********//
-		viewport[2].Width = 1000;
-		viewport[2].Height = 100;
-		viewport[2].TopLeftX = -100;
-		viewport[2].TopLeftY = 500;
-		viewport[2].MinDepth = 0.0f;
-		viewport[2].MaxDepth = 1.0f;
-		//******** 右下の三角形 ********//
-		viewport[3].Width = 300;
-		viewport[3].Height = 100;
-		viewport[3].TopLeftX = 900;
-		viewport[3].TopLeftY = 500;
-		viewport[3].MinDepth = 0.0f;
-		viewport[3].MaxDepth = 1.0f;
+		D3D12_VIEWPORT viewport{};
+		viewport.Width = WIN_WIDTH;
+		viewport.Height = WIN_HEIGHT;
+		viewport.TopLeftX = 0;
+		viewport.TopLeftY = 0;
+		viewport.MinDepth = 0.0f;
+		viewport.MaxDepth = 1.0f;
+		// ビューポート設定コマンドを、コマンドリストに積む
+		commandList->RSSetViewports(1, &viewport);
 
 		// シザー矩形
 		D3D12_RECT scissorRect{};
@@ -507,6 +572,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// パイプラインステートとルートシグネチャの設定コマンド
 		commandList->SetPipelineState(pipelineState);
 		commandList->SetGraphicsRootSignature(rootSignature);
+		// 定数バッファビュー(CBV)の設定コマンド
+		commandList->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
+
+		// 描画コマンド
+		commandList->DrawInstanced(_countof(vertices), 1, 0, 0);
 
 		// プリミティブ形状の設定コマンド
 		commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);//三角形リスト
@@ -516,13 +586,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		// 描画コマンド
 		commandList->DrawInstanced(_countof(vertices), 1, 0, 0);//全ての頂点を使って描画
-		
-		for (int i = 0; i < sizeof(viewport) / sizeof(viewport[0]); i++) {
-			// ビューポート設定コマンドを、コマンドリストに積む
-			commandList->RSSetViewports(1, &viewport[i]);
 
-			commandList->DrawInstanced(_countof(viewport),1, 0, 0);
-		}
 
 		//4.描画コマンドはここまで
 		//5.リソースバリアを戻す
@@ -553,6 +617,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//再びコマンドリストを貯める準備
 		result = commandList->Reset(cmdAllocator, nullptr);
 		assert(SUCCEEDED(result));
+
 		//DirectX毎フレーム処理　ここまで
 	}
 
