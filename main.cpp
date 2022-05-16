@@ -277,10 +277,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 
 	//頂点データ
-	XMFLOAT3 vertices[] = {
-	{ -0.5f, -0.5f, 0.0f},  // Xが-で左　Yが-で下　左下
-	{ -0.5f, +0.5f, 0.0f},  // Xが-で左　Yが+で上　左上
-	{ +0.5f, -0.5f, 0.0f},  // Xが+で右　Yが-で下　右下
+	XMFLOAT3 vertices[] = 
+	{
+		{ -0.5f, -0.5f, 0.0f},  // Xが-で左　Yが-で下　左下
+		{ +0.5f, -0.5f, 0.0f},  // Xが+で右　Yが-で下　右下
+		{ -0.5f,  0.0f, 0.0f},  // Xが-で左　          左中
+		{ +0.5f,  0.0f, 0.0f},  // Xが+で右　          右中
+		{ -0.5f, +0.5f, 0.0f},  // Xが-で左　Yが+で上　左上
+		{ +0.5f, +0.5f, 0.0f},  // Xが+で右  Yが+で上  右上
 	};
 	//頂点データ全体のサイズ　＝　頂点データ一つ分のサイズ　＊　頂点データの要素数
 	UINT sizeVB = static_cast<UINT>(sizeof(XMFLOAT3) * _countof(vertices));
@@ -575,8 +579,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 定数バッファビュー(CBV)の設定コマンド
 		commandList->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
 
-		// 描画コマンド
-		commandList->DrawInstanced(_countof(vertices), 1, 0, 0);
+		//// 描画コマンド
+		//commandList->DrawInstanced(_countof(vertices), 1, 0, 0);
 
 		// プリミティブ形状の設定コマンド
 		commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);//三角形リスト
