@@ -574,14 +574,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET; //描画状態へ
 		commandList->ResourceBarrier(1, &barrierDesc);
 
-		//2.描画先の変更
+		// 2.描画先の変更
 		// レンダーターゲットビューのハンドルを取得
 		D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = rtvHeap->GetCPUDescriptorHandleForHeapStart();
 		rtvHandle.ptr += bbIndex * device->GetDescriptorHandleIncrementSize(rtvHeapDesc.Type);
 		commandList->OMSetRenderTargets(1, &rtvHandle, false, nullptr);
 
-		//3.描画クリア　　　　　R    G     B    A
-		FLOAT clearcolor[] = { 0.1f,0.25f,0.5f,0.0f };//青っぽい色
+		// 3.描画クリア　　　　 R    G     B    A
+		FLOAT clearcolor[] = { 0.5f,0.5f,0.0f,0.0f };//青っぽい色
 		//if (key[DIK_SPACE])     // スペースキーが押されていたら
 		//{
 		//	clearcolor[0] = { 0.7f };//青っぽい色
@@ -597,7 +597,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		commandList->ClearRenderTargetView(rtvHandle, clearcolor, 0, nullptr);
 
-		//4.描画コマンドはここから
+		// 4.描画コマンドはここから
 		// ビューポート設定コマンド
 		D3D12_VIEWPORT viewport{};
 		viewport.Width = WIN_WIDTH;
@@ -625,9 +625,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		commandList->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
 		// インデックスバッファビューの設定コマンド
 		commandList->IASetIndexBuffer(&ibView);
-		//// 描画コマンド
-		//commandList->DrawInstanced(_countof(vertices), 1, 0, 0);
-
+		
 		// プリミティブ形状の設定コマンド
 		commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);//三角形リスト
 
@@ -637,9 +635,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 描画コマンド
 		commandList->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);//全ての頂点を使って描画
 
-		//4.描画コマンドはここまで
+		// 4.描画コマンドはここまで
 
-		//5.リソースバリアを戻す
+		// 5.リソースバリアを戻す
 		barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;//表示状態から
 		barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;//描画状態へ
 		commandList->ResourceBarrier(1, &barrierDesc);
