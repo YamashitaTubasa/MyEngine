@@ -44,10 +44,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//ウィンドウクラスの設定
 	WNDCLASSEX w{};
 	w.cbSize = sizeof(WNDCLASSEX);
-	w.lpfnWndProc = (WNDPROC)WindowProc;//ウィンドウプロシージャを設定
-	w.lpszClassName = L"DirectXGame";//ウィンドクラス名
-	w.hInstance = GetModuleHandle(nullptr);//ウィンドハンドル
-	w.hCursor = LoadCursor(NULL, IDC_ARROW);//カーソル指定
+	w.lpfnWndProc = (WNDPROC)WindowProc;     //ウィンドウプロシージャを設定
+	w.lpszClassName = L"DirectXGame";        //ウィンドクラス名
+	w.hInstance = GetModuleHandle(nullptr);  //ウィンドハンドル
+	w.hCursor = LoadCursor(NULL, IDC_ARROW); //カーソル指定
 
 	//ウィンドクラスを05に登録する
 	RegisterClassEx(&w);
@@ -57,13 +57,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);
 
 	//ウィンドウオブジェクトの生成
-	HWND hwnd = CreateWindow(w.lpszClassName,//クラス名
-		L"DirectXGame",//タイトルバーの文字
-		WS_OVERLAPPEDWINDOW,//標準的なウィンドウスタイル
-		CW_USEDEFAULT,//標準X座標 (05に任せる)
-		CW_USEDEFAULT,//標準Y座標 (05に任せる)
-		wrc.right - wrc.left,//ウィンドウ横幅
-		wrc.bottom - wrc.top,//ウィンドウ縦幅
+	HWND hwnd = CreateWindow(w.lpszClassName, //クラス名
+		L"DirectXGame",       //タイトルバーの文字
+		WS_OVERLAPPEDWINDOW,  //標準的なウィンドウスタイル
+		CW_USEDEFAULT,        //標準X座標 (05に任せる)
+		CW_USEDEFAULT,        //標準Y座標 (05に任せる)
+		wrc.right - wrc.left, //ウィンドウ横幅
+		wrc.bottom - wrc.top, //ウィンドウ縦幅
 		nullptr,
 		nullptr,
 		w.hInstance,
@@ -168,11 +168,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
 	swapChainDesc.Width = 1280;
 	swapChainDesc.Height = 720;
-	swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;//色情報の書式
-	swapChainDesc.SampleDesc.Count = 1;//マルチサンプルしない
-	swapChainDesc.BufferUsage = DXGI_USAGE_BACK_BUFFER;//バックバッファ用
-	swapChainDesc.BufferCount = 2;//バッファ数を2つに設定
-	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;// フリップ用は破棄
+	swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;        //色情報の書式
+	swapChainDesc.SampleDesc.Count = 1;                       //マルチサンプルしない
+	swapChainDesc.BufferUsage = DXGI_USAGE_BACK_BUFFER;       //バックバッファ用
+	swapChainDesc.BufferCount = 2;                            //バッファ数を2つに設定
+	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD; // フリップ用は破棄
 	swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 	//スワップチェーンの生成
 	result = dxgiFactory->CreateSwapChainForHwnd(
@@ -182,8 +182,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	//デスクリプタヒープの設定
 	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc{};
-	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;//レンゲーターゲットレビュー
-	rtvHeapDesc.NumDescriptors = swapChainDesc.BufferCount;//裏表の2つ
+	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;      //レンゲーターゲットレビュー
+	rtvHeapDesc.NumDescriptors = swapChainDesc.BufferCount; //裏表の2つ
 
 	//デスクリプタヒープの生成
 	device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&rtvHeap));
