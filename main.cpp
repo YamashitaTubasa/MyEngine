@@ -572,7 +572,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			GREEN += 0.001f;
 		}
 		// 値を書き込むと自動的に転送される
-		constMapMaterial->color = XMFLOAT4(RED, GREEN, BLUE, 0.5f);              // RGBAで半透明の赤
+		constMapMaterial->color = XMFLOAT4(RED, GREEN, BLUE, 0.5f);             // RGBAで半透明の赤
 		//DirectX毎フレーム処理　ここから
 
 		// キーボード情報の取得開始
