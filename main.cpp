@@ -358,7 +358,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// ハンドルの指す位置にシェーダーリソースビュー作成
 	device->CreateShaderResourceView(texBuff, &srvDesc, srvHandle);
-
 	
 	// 頂点データ構造体
 	struct Vertex
