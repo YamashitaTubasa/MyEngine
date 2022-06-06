@@ -11,6 +11,7 @@ using namespace DirectX;
 #include <dinput.h>
 #include <DirectXTex.h>
 
+
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "d3d12.lib")
