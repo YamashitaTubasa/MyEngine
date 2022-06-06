@@ -450,6 +450,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//	0.1f, 1000.0f              //  前端、奥端
 	//);
 	
+
 	// 射影変換行列(透視投影)
 	XMMATRIX matProjection =
 	XMMatrixPerspectiveFovLH(
