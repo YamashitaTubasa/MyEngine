@@ -851,11 +851,14 @@ while (true) {
 	if (key[DIK_UP] || key[DIK_DOWN] || key[DIK_RIGHT] || key[DIK_LEFT])
 	{
 		// 座標を移動する処理（Z座標）
-		if (key[DIK_UP]) { position.z += 1.0f; }
-		else if (key[DIK_DOWN]) { position.z -= 1.0f; }
-		if (key[DIK_RIGHT]) { position.x += 1.0f; }
-		else if (key[DIK_LEFT]) { position.x -= 1.0f; }
+		if (key[DIK_UP]) { position.z += 1.5f; }
+		else if (key[DIK_DOWN]) { position.z -= 1.5f; }
+		if (key[DIK_RIGHT]) { position.x += 1.5f; }
+		else if (key[DIK_LEFT]) { position.x -= 1.5f; }
     }
+	matWorld = XMMatrixIdentity();
+	matWorld += matScale;
+	matWorld += matRot;
 	XMMATRIX matTrans; // 平行移動行列
 	matTrans = XMMatrixTranslation(position.x, position.y, position.z);
 	matWorld += matTrans; // ワールド行列に平行移動を反映
