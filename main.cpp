@@ -474,7 +474,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// 値を書き込むと自動的に転送される
 	constMapMaterial->color = XMFLOAT4(1, 1, 1, 0.5f);              // RGBAで半透明の赤
 
-
 	// 横方向ピクセル数
 	const size_t textureWidth = 256;
 	// 縦方向ピクセル数
