@@ -412,7 +412,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 定数バッファのマッピング
 		result = constBuffTransform->Map(0, nullptr, (void**)&constMapTransform); // マッピング
 		assert(SUCCEEDED(result));
-		
 	}
 	// 単位行列を代入
 	constMapTransform->mat = XMMatrixIdentity();
