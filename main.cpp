@@ -346,11 +346,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		12,13,14,  //三角形7つ目
 		13,14,15, //三角形8つ目
 		////下
-		//16,17,18,  //三角形7つ目
-		//17,18,19, //三角形8つ目
-		////上
-		//20,21,22,  //三角形7つ目
-		//21,22,23 //三角形8つ目
+		16,17,18,  //三角形7つ目
+		17,18,19, //三角形8つ目
+		//上
+		20,21,22,  //三角形7つ目
+		21,22,23 //三角形8つ目
 	};
 
 	// 頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
@@ -796,6 +796,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// ラスタライザの設定
 	pipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;  // カリングしない
+	//pipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK; // 背面をカリング
 	pipelineDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID; // ポリゴン内塗りつぶし
 	pipelineDesc.RasterizerState.DepthClipEnable = true;           // 深度クリッピングを有効に
 
