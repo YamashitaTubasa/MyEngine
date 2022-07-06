@@ -288,47 +288,48 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// 頂点データ構造体
 	struct Vertex
 	{
-		XMFLOAT3 pos; // xyz座標
-		XMFLOAT2 uv;  // uv座標
+		XMFLOAT3 pos;    // xyz座標
+		XMFLOAT3 normal; // 法線ベクトル
+		XMFLOAT2 uv;     // uv座標
 	};
 	// 頂点データ
 	Vertex vertices[] = {
 		//前
-		//  x     y     z       u     v
-		{{-5.0f,-5.0f, -5.0f}, {0.0f, 1.0f}}, // 左下
-		{{-5.0f, 5.0f, -5.0f}, {0.0f, 0.0f}}, // 左上
-		{{ 5.0f,-5.0f, -5.0f}, {1.0f, 1.0f}}, // 右下
-		{{ 5.0f, 5.0f, -5.0f}, {1.0f, 0.0f}}, // 右上
+		//  x     y     z            u     v
+		{{-5.0f,-5.0f,-5.0f}, {}, {0.0f, 1.0f}}, // 左下
+		{{-5.0f, 5.0f,-5.0f}, {}, {0.0f, 0.0f}}, // 左上
+		{{ 5.0f,-5.0f,-5.0f}, {}, {1.0f, 1.0f}}, // 右下
+		{{ 5.0f, 5.0f,-5.0f}, {}, {1.0f, 0.0f}}, // 右上
 		//後
-		//  x     y     z       u     v
-		{{-5.0f,-5.0f, 5.0f}, {0.0f, 1.0f}}, // 左下
-		{{-5.0f, 5.0f, 5.0f}, {0.0f, 0.0f}}, // 左上
-		{{ 5.0f,-5.0f, 5.0f}, {1.0f, 1.0f}}, // 右下
-		{{ 5.0f, 5.0f, 5.0f}, {1.0f, 0.0f}}, // 右上
+		//  x     y     z           u     v
+		{{-5.0f,-5.0f, 5.0f}, {}, {0.0f, 1.0f}}, // 左下
+		{{-5.0f, 5.0f, 5.0f}, {}, {0.0f, 0.0f}}, // 左上
+		{{ 5.0f,-5.0f, 5.0f}, {}, {1.0f, 1.0f}}, // 右下
+		{{ 5.0f, 5.0f, 5.0f}, {}, {1.0f, 0.0f}}, // 右上
 		//左
-		//  x     y     z       u     v
-		{{-5.0f,-5.0f,-5.0f}, {0.0f, 1.0f}}, // 左下
-		{{-5.0f,-5.0f, 5.0f}, {0.0f, 0.0f}}, // 左上
-		{{-5.0f, 5.0f,-5.0f}, {1.0f, 1.0f}}, // 右下
-		{{-5.0f, 5.0f, 5.0f}, {1.0f, 0.0f}}, // 右上
-		//右
-		//  x     y     z       u     v
-		{{ 5.0f,-5.0f,-5.0f}, {0.0f, 1.0f}}, // 左下
-		{{ 5.0f,-5.0f, 5.0f}, {0.0f, 0.0f}}, // 左上
-		{{ 5.0f, 5.0f,-5.0f}, {1.0f, 1.0f}}, // 右下
-		{{ 5.0f, 5.0f, 5.0f}, {1.0f, 0.0f}}, // 右上
-		//下
-		//  x     y     z       u     v
-		{{-5.0f, 5.0f, 5.0f}, {0.0f, 1.0f}}, // 左下
-		{{-5.0f, 5.0f,-5.0f}, {0.0f, 0.0f}}, // 左上
-		{{ 5.0f, 5.0f, 5.0f}, {1.0f, 1.0f}}, // 右下
-		{{ 5.0f, 5.0f,-5.0f}, {1.0f, 0.0f}}, // 右上
-		//上
-		//  x     y     z       u     v
-		{{-5.0f,-5.0f, 5.0f}, {0.0f, 1.0f}}, // 左下
-		{{-5.0f,-5.0f,-5.0f}, {0.0f, 0.0f}}, // 左上
-		{{ 5.0f,-5.0f, 5.0f}, {1.0f, 1.0f}}, // 右下
-		{{ 5.0f,-5.0f,-5.0f}, {1.0f, 0.0f}}, // 右上
+		//  x     y     z           u     v
+		{{-5.0f,-5.0f,-5.0f}, {}, {0.0f, 1.0f}}, // 左下
+		{{-5.0f,-5.0f, 5.0f}, {}, {0.0f, 0.0f}}, // 左上
+		{{-5.0f, 5.0f,-5.0f}, {}, {1.0f, 1.0f}}, // 右下
+		{{-5.0f, 5.0f, 5.0f}, {}, {1.0f, 0.0f}}, // 右上
+		//右					
+		//  x     y     z           u     v
+		{{ 5.0f,-5.0f,-5.0f}, {}, {0.0f, 1.0f}}, // 左下
+		{{ 5.0f,-5.0f, 5.0f}, {}, {0.0f, 0.0f}}, // 左上
+		{{ 5.0f, 5.0f,-5.0f}, {}, {1.0f, 1.0f}}, // 右下
+		{{ 5.0f, 5.0f, 5.0f}, {}, {1.0f, 0.0f}}, // 右上
+		//下					
+		//  x     y     z           u     v
+		{{ 5.0f,-5.0f, 5.0f}, {}, {0.0f, 1.0f}}, // 左下
+		{{ 5.0f,-5.0f,-5.0f}, {}, {0.0f, 0.0f}}, // 左上
+		{{-5.0f,-5.0f, 5.0f}, {}, {1.0f, 1.0f}}, // 右下
+		{{-5.0f,-5.0f,-5.0f}, {}, {1.0f, 0.0f}}, // 右上
+		//上					
+		//  x     y     z           u     v
+		{{-5.0f, 5.0f, 5.0f}, {}, {0.0f, 1.0f}}, // 左下
+		{{-5.0f, 5.0f,-5.0f}, {}, {0.0f, 0.0f}}, // 左上
+		{{ 5.0f, 5.0f, 5.0f}, {}, {1.0f, 1.0f}}, // 右下
+		{{ 5.0f, 5.0f,-5.0f}, {}, {1.0f, 0.0f}}, // 右上
 	};
 
 	// インデックスデータ
@@ -767,6 +768,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
+		{
+			"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
+		},
+
 		{//uv座標(1行で書いたほうが見やすい)
 			"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
@@ -936,14 +943,26 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 
 		// いずれかのキーを押していたら
-		if (key[DIK_D] || key[DIK_A])
+		if (key[DIK_D] || key[DIK_A] )
 		{
 			if (key[DIK_D]) { angle += XMConvertToRadians(1.0f); }
 			else if (key[DIK_A]) { angle -= XMConvertToRadians(1.0f); }
-
+			
 			// angleラジアンだけY軸まわりに回転。半径は-100
 			eye.x = -100 * sinf(angle);
 			eye.z = -100 * cosf(angle);
+			
+			// ビュー変換行列
+			matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
+		}
+		if (key[DIK_W] || key[DIK_S])
+		{
+			if (key[DIK_W]) { angle -= XMConvertToRadians(1.0f); }
+			else if (key[DIK_S]) { angle += XMConvertToRadians(1.0f); }
+
+			// angleラジアンだけY軸まわりに回転。半径は-100
+			eye.y = -100 * sinf(angle);
+
 			// ビュー変換行列
 			matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
 		}
