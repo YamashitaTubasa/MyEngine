@@ -118,7 +118,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		DXGI_ADAPTER_DESC3 adapterDesc;
 		//アダプターの情報を取得する
 		adapters[i]->GetDesc3(&adapterDesc);
-
 		//ソフトウェアデバイスを回避
 		if (!(adapterDesc.Flags & DXGI_ADAPTER_FLAG3_SOFTWARE)) {
 			//デバイスを採用してループを抜ける
