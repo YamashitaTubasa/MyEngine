@@ -148,26 +148,26 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 	}
 
-	//コマンドアロケーターを生成
+	// コマンドアロケーターを生成
 	result = device->CreateCommandAllocator(
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
 		IID_PPV_ARGS(&cmdAllocator));
 	assert(SUCCEEDED(result));
 
-	//コマンドリストを生成
+	// コマンドリストを生成
 	result = device->CreateCommandList(0,
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
 		cmdAllocator, nullptr,
 		IID_PPV_ARGS(&commandList));
 	assert(SUCCEEDED(result));
 
-	//コマンドキューの設定
+	// コマンドキューの設定
 	D3D12_COMMAND_QUEUE_DESC commandQueueDesc{};
-	//コマンドキューを生成
+	// コマンドキューを生成
 	result = device->CreateCommandQueue(&commandQueueDesc, IID_PPV_ARGS(&commandQueue));
 	assert(SUCCEEDED(result));
 
-	//スワップチェーンの設定
+	// スワップチェーンの設定
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
 	swapChainDesc.Width = 1280;
 	swapChainDesc.Height = 720;
@@ -177,13 +177,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	swapChainDesc.BufferCount = 2;//バッファ数を2つに設定
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;// フリップ用は破棄
 	swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
-	//スワップチェーンの生成
+	// スワップチェーンの生成
 	result = dxgiFactory->CreateSwapChainForHwnd(
 		commandQueue, hwnd, &swapChainDesc, nullptr, nullptr,
 		(IDXGISwapChain1**)&swapChain);
 	assert(SUCCEEDED(result));
 
-	//リソース設定
+	// リソース設定
 	D3D12_RESOURCE_DESC depthResourceDesc{};
 	depthResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
 	depthResourceDesc.Width = WIN_WIDTH;//レンダーターゲットに合わせる
@@ -193,14 +193,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	depthResourceDesc.SampleDesc.Count = 1;
 	depthResourceDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;//テプスステンシル
 
-	//深度値用ヒーププロパティ
+	// 深度値用ヒーププロパティ
 	D3D12_HEAP_PROPERTIES depthHeapProp{};
 	depthHeapProp.Type = D3D12_HEAP_TYPE_DEFAULT;
-	//深度値のクリア設定
+	// 深度値のクリア設定
 	D3D12_CLEAR_VALUE depthClearValue{};//深度値1.0f(最大値)でクリア
 	depthClearValue.Format = DXGI_FORMAT_D32_FLOAT; //深度値フォーマット
 
-	//リソース設定
+	// リソース設定
 	ID3D12Resource* depthBuff = nullptr;
 	result = device->CreateCommittedResource(
 		&depthHeapProp,
@@ -210,14 +210,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		&depthClearValue,
 		IID_PPV_ARGS(&depthBuff));
 
-	//深度ビュー用デスクリプタヒープ作成
+	// 深度ビュー用デスクリプタヒープ作成
 	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc{};
 	dsvHeapDesc.NumDescriptors = 1;//深度ビューは1つ
 	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
 	ID3D12DescriptorHeap* dsvHeap = nullptr;
 	result = device->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&dsvHeap));
 
-	//深度ビュー作成
+	// 深度ビュー作成
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
 	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
 	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
@@ -226,36 +226,36 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		&dsvDesc,
 		dsvHeap->GetCPUDescriptorHandleForHeapStart());
 
-	//デスクリプタヒープの設定
+	// デスクリプタヒープの設定
 	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc{};
 	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;//レンゲーターゲットレビュー
 	rtvHeapDesc.NumDescriptors = swapChainDesc.BufferCount;//裏表の2つ
 
-	//デスクリプタヒープの生成
+	// デスクリプタヒープの生成
 	device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&rtvHeap));
 
-	//バックバッファ
+	// バックバッファ
 	std::vector<ID3D12Resource*> backBuffers;
 	backBuffers.resize(swapChainDesc.BufferCount);
 
-	//スワップチェーンの全てのバッファについて処理する
+	// スワップチェーンの全てのバッファについて処理する
 	for (size_t i = 0; i < backBuffers.size(); i++) {
-		//スワップチェーンからバッファを取得
+		// スワップチェーンからバッファを取得
 		swapChain->GetBuffer((UINT)i, IID_PPV_ARGS(&backBuffers[i]));
-		//デクリプタヒープからバッファを取得
+		// デクリプタヒープからバッファを取得
 		D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = rtvHeap->GetCPUDescriptorHandleForHeapStart();
-		//裏か表かでアドレスがずれる
+		// 裏か表かでアドレスがずれる
 		rtvHandle.ptr += i * device->GetDescriptorHandleIncrementSize(rtvHeapDesc.Type);
-		//レンダーターゲットレビューの設定
+		// レンダーターゲットレビューの設定
 		D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
-		//シェーダーの計算結果をSRGBに変換して書き込む
+		// シェーダーの計算結果をSRGBに変換して書き込む
 		rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 		rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
-		//レンダーターゲットレビューの生成
+		// レンダーターゲットレビューの生成
 		device->CreateRenderTargetView(backBuffers[i], &rtvDesc, rtvHandle);
 	}
 
-	//フェンスの生成
+	// フェンスの生成
 	ID3D12Fence* fence = nullptr;
 	UINT64 fenceVal = 0;
 
@@ -294,37 +294,37 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	};
 	// 頂点データ
 	Vertex vertices[] = {
-		//前
+		///前
 		//  x     y     z            u     v
 		{{-5.0f,-5.0f,-5.0f}, {}, {0.0f, 1.0f}}, // 左下
 		{{-5.0f, 5.0f,-5.0f}, {}, {0.0f, 0.0f}}, // 左上
 		{{ 5.0f,-5.0f,-5.0f}, {}, {1.0f, 1.0f}}, // 右下
 		{{ 5.0f, 5.0f,-5.0f}, {}, {1.0f, 0.0f}}, // 右上
-		//後
+		///後
 		//  x     y     z           u     v
 		{{-5.0f,-5.0f, 5.0f}, {}, {0.0f, 1.0f}}, // 左下
 		{{-5.0f, 5.0f, 5.0f}, {}, {0.0f, 0.0f}}, // 左上
 		{{ 5.0f,-5.0f, 5.0f}, {}, {1.0f, 1.0f}}, // 右下
 		{{ 5.0f, 5.0f, 5.0f}, {}, {1.0f, 0.0f}}, // 右上
-		//左
+		///左
 		//  x     y     z           u     v
 		{{-5.0f,-5.0f,-5.0f}, {}, {0.0f, 1.0f}}, // 左下
 		{{-5.0f,-5.0f, 5.0f}, {}, {0.0f, 0.0f}}, // 左上
 		{{-5.0f, 5.0f,-5.0f}, {}, {1.0f, 1.0f}}, // 右下
 		{{-5.0f, 5.0f, 5.0f}, {}, {1.0f, 0.0f}}, // 右上
-		//右					
+		///右					
 		//  x     y     z           u     v
 		{{ 5.0f,-5.0f,-5.0f}, {}, {0.0f, 1.0f}}, // 左下
 		{{ 5.0f,-5.0f, 5.0f}, {}, {0.0f, 0.0f}}, // 左上
 		{{ 5.0f, 5.0f,-5.0f}, {}, {1.0f, 1.0f}}, // 右下
 		{{ 5.0f, 5.0f, 5.0f}, {}, {1.0f, 0.0f}}, // 右上
-		//下					
+		///下					
 		//  x     y     z           u     v
 		{{ 5.0f,-5.0f, 5.0f}, {}, {0.0f, 1.0f}}, // 左下
 		{{ 5.0f,-5.0f,-5.0f}, {}, {0.0f, 0.0f}}, // 左上
 		{{-5.0f,-5.0f, 5.0f}, {}, {1.0f, 1.0f}}, // 右下
 		{{-5.0f,-5.0f,-5.0f}, {}, {1.0f, 0.0f}}, // 右上
-		//上					
+		///上					
 		//  x     y     z           u     v
 		{{-5.0f, 5.0f, 5.0f}, {}, {0.0f, 1.0f}}, // 左下
 		{{-5.0f, 5.0f,-5.0f}, {}, {0.0f, 0.0f}}, // 左上
@@ -334,24 +334,24 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// インデックスデータ
 	unsigned short indices[] = {
-		//前
+		///前
 		0, 1, 2,  //三角形1つ目
-		1, 2, 3,  //三角形2つ目
-		//後
-		4, 5, 6,  //三角形3つ目
-		5, 6, 7,  //三角形4つ目
-		//左
+		2, 1, 3,  //三角形2つ目
+		///後
+		5, 4, 6,  //三角形3つ目
+		7, 5, 6,  //三角形4つ目
+		///左
 		8,9,10,   //三角形5つ目
-		9,10,11,  //三角形6つ目
-		//右
-		12,13,14, //三角形7つ目
-		13,14,15, //三角形8つ目
-		//下
+		10,9,11,  //三角形6つ目
+		///右
+		13,12,14, //三角形7つ目
+		14,15,13, //三角形8つ目
+		///下
 		16,17,18, //三角形7つ目
-		17,18,19, //三角形8つ目
-		//上
+		18,17,19, //三角形8つ目
+		///上
 		20,21,22, //三角形7つ目
-		21,22,23  //三角形8つ目
+		22,21,23  //三角形8つ目
 	};
 
 	// 頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
@@ -418,6 +418,29 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
 	ibView.Format = DXGI_FORMAT_R16_UINT;
 	ibView.SizeInBytes = sizeIB;
+
+	for (int i = 0; i < _countof(indices) / 3; i++) 
+	{// 三角形1つごとに計算していく
+		// 三角形のインデックスを取り出して、一時的な変数に入れる
+		unsigned short indices_0 = indices[i * 3 + 0];
+		unsigned short indices_1 = indices[i * 3 + 1];
+		unsigned short indices_2 = indices[i * 3 + 2];
+		// 三角形を構成する頂点座標をベクトルに代入
+		XMVECTOR p0 = XMLoadFloat3(&vertices[indices_0].pos);
+		XMVECTOR p1 = XMLoadFloat3(&vertices[indices_1].pos);
+		XMVECTOR p2 = XMLoadFloat3(&vertices[indices_2].pos);
+		// p0→p1ベクトル、p0→p2ベクトルを計算（ベクトルの減算）
+		XMVECTOR v1 = XMVectorSubtract(p1, p0);
+		XMVECTOR v2 = XMVectorSubtract(p2, p0);
+		// 外積は両方から垂直なベクトル
+		XMVECTOR normal = XMVector3Cross(v1, v2);
+		// 正規化（長さを1にする）
+		normal = XMVector3Normalize(normal);
+		// 求めた法線を頂点データに代入
+		XMStoreFloat3(&vertices[indices_0].normal, normal);
+		XMStoreFloat3(&vertices[indices_1].normal, normal);
+		XMStoreFloat3(&vertices[indices_2].normal, normal);
+	}
 
 	//GPU上のバッファに対応した仮想メモリ（メインメモリ上）を取得
 	Vertex* vertMap = nullptr;
