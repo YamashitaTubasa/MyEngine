@@ -271,10 +271,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	result = constBuffMaterial->Map(0, nullptr, (void**)&constMapMaterial); // マッピング
 	assert(SUCCEEDED(result));
 
+	// RGBの変数宣言
 	float RED = 1.0f;
 	float GREEN = 0.0f;
 	float BLUE = 0.0f;
-
 
 	//頂点データ
 	XMFLOAT3 vertices[] = {
@@ -496,11 +496,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;
 		}
 		if (GREEN <= 1.0f) {
-			RED -= 0.01f;
-			GREEN += 0.01f;
+			RED -= 0.005f;
+			BLUE -= 0.005f;
+			GREEN += 0.005f;
 		}
+		
 		// 値を書き込むと自動的に転送される
-		constMapMaterial->color = XMFLOAT4(RED, GREEN, BLUE, 0.5f);              // RGBAで半透明の赤
+		constMapMaterial->color = XMFLOAT4(RED, GREEN, BLUE, 0.6f);              // RGBAで半透明の赤
+		
 		//DirectX毎フレーム処理　ここから
 
 		// キーボード情報の取得開始
@@ -532,7 +535,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		rtvHandle.ptr += bbIndex * device->GetDescriptorHandleIncrementSize(rtvHeapDesc.Type);
 		commandList->OMSetRenderTargets(1, &rtvHandle, false, nullptr);
 
-		//3.描画クリア　　　　　　　R    G     B    A
+		//3.描画クリア　　　　　R    G     B    A
 		FLOAT clearcolor[] = { 0.1f,0.25f,0.5f,0.0f };//青っぽい色
 		//if (key[DIK_SPACE])     // スペースキーが押されていたら
 		//{
