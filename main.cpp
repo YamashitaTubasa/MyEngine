@@ -278,9 +278,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	//頂点データ
 	XMFLOAT3 vertices[] = {
-	{ -0.5f, -0.5f, 0.0f},  // Xが-で左　Yが-で下　左下
-	{ -0.5f, +0.5f, 0.0f},  // Xが-で左　Yが+で上　左上
-	{ +0.5f, -0.5f, 0.0f},  // Xが+で右　Yが-で下　右下
+		{ -0.5f, -0.5f, 0.0f},  // Xが-で左　Yが-で下　左下
+		{ -0.5f, +0.5f, 0.0f},  // Xが-で左　Yが+で上　左上
+		{ +0.5f, -0.5f, 0.0f},  // Xが+で右　Yが-で下　右下
 	};
 	//頂点データ全体のサイズ　＝　頂点データ一つ分のサイズ　＊　頂点データの要素数
 	UINT sizeVB = static_cast<UINT>(sizeof(XMFLOAT3) * _countof(vertices));
@@ -537,13 +537,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		//3.描画クリア　　　　　R    G     B    A
 		FLOAT clearcolor[] = { 0.1f,0.25f,0.5f,0.0f };//青っぽい色
-		//if (key[DIK_SPACE])     // スペースキーが押されていたら
-		//{
-		//	clearcolor[0] = { 0.7f };//青っぽい色
-		//	clearcolor[1] = { 0.5f };
-		//	clearcolor[2] = { 0.3f };
-		//	clearcolor[3] = { 0.0f };
-		//}
+		if (key[DIK_SPACE])     // スペースキーが押されていたら
+		{
+			clearcolor[0] = { 0.7f };//青っぽい色
+			clearcolor[1] = { 0.5f };
+			clearcolor[2] = { 0.3f };
+			clearcolor[3] = { 0.0f };
+		}
 
 		bool キーを押した状態か(uint8_t キー番号);
 		bool キーを離した状態か(uint8_t キー番号);
@@ -577,9 +577,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		commandList->SetGraphicsRootSignature(rootSignature);
 		// 定数バッファビュー(CBV)の設定コマンド
 		commandList->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
-
-		// 描画コマンド
-		commandList->DrawInstanced(_countof(vertices), 1, 0, 0);
 
 		// プリミティブ形状の設定コマンド
 		commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);//三角形リスト
