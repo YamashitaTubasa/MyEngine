@@ -18,6 +18,7 @@ using namespace DirectX;
 #pragma comment(lib, "d3dcompiler.lib")
 
 float angle = 0.0f; // カメラの回転角
+float alpha = 0.5f; // αブレンド
 
 //ウィンドウプロシージャ
 LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
@@ -39,10 +40,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//コンソールへの文字出力
 	OutputDebugStringA("Hellow,DirectX!!\n");
 	//ウィンドウサイズ
-	// ウィンドウ横幅
-	const int WIN_WIDTH = 1280;
-	// ウィンドウ縦幅
-	const int WIN_HEIGHT = 720;
+	const int WIN_WIDTH = 1280; // ウィンドウ横幅
+	const int WIN_HEIGHT = 720; // ウィンドウ縦幅
 
 	//ウィンドウクラスの設定
 	WNDCLASSEX w{};
@@ -76,6 +75,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	MSG msg{};//メッセージ
 
+	/*int mouseX, mouseY;*/
+	
    //DirectX初期化処理　ここから
 #ifdef _DEBUG
 //デバックレイヤーをオンに
@@ -193,14 +194,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	depthResourceDesc.SampleDesc.Count = 1;
 	depthResourceDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;//テプスステンシル
 
-	//深度値用ヒーププロパティ
+	// 深度値用ヒーププロパティ
 	D3D12_HEAP_PROPERTIES depthHeapProp{};
 	depthHeapProp.Type = D3D12_HEAP_TYPE_DEFAULT;
-	//深度値のクリア設定
+	// 深度値のクリア設定
 	D3D12_CLEAR_VALUE depthClearValue{};//深度値1.0f(最大値)でクリア
 	depthClearValue.Format = DXGI_FORMAT_D32_FLOAT; //深度値フォーマット
 
-	//リソース設定
+	// リソース設定
 	ID3D12Resource* depthBuff = nullptr;
 	result = device->CreateCommittedResource(
 		&depthHeapProp,
@@ -210,14 +211,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		&depthClearValue,
 		IID_PPV_ARGS(&depthBuff));
 
-	//深度ビュー用デスクリプタヒープ作成
+	// 深度ビュー用デスクリプタヒープ作成
 	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc{};
 	dsvHeapDesc.NumDescriptors = 1;//深度ビューは1つ
 	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
 	ID3D12DescriptorHeap* dsvHeap = nullptr;
 	result = device->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&dsvHeap));
 
-	//深度ビュー作成
+	// 深度ビュー作成
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
 	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
 	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
@@ -281,9 +282,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 	assert(SUCCEEDED(result));
 
-	//DirectX初期化処理　ここまで
+	// DirectX初期化処理　ここまで
 
-	//描画初期化処理
+	// 描画初期化処理
 
 	// 頂点データ構造体
 	struct Vertex
@@ -293,64 +294,64 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	};
 	// 頂点データ
 	Vertex vertices[] = {
-		//前
-		//  x     y     z       u     v
-		{{-5.0f,-5.0f, -5.0f}, {0.0f, 1.0f}}, // 左下
-		{{-5.0f, 5.0f, -5.0f}, {0.0f, 0.0f}}, // 左上
-		{{ 5.0f,-5.0f, -5.0f}, {1.0f, 1.0f}}, // 右下
-		{{ 5.0f, 5.0f, -5.0f}, {1.0f, 0.0f}}, // 右上
-		//後
-		//  x     y     z       u     v
-		{{-5.0f,-5.0f, 5.0f}, {0.0f, 1.0f}}, // 左下
-		{{-5.0f, 5.0f, 5.0f}, {0.0f, 0.0f}}, // 左上
-		{{ 5.0f,-5.0f, 5.0f}, {1.0f, 1.0f}}, // 右下
-		{{ 5.0f, 5.0f, 5.0f}, {1.0f, 0.0f}}, // 右上
-		//左
-		//  x     y     z       u     v
-		{{-5.0f,-5.0f,-5.0f}, {0.0f, 1.0f}}, // 左下
-		{{-5.0f,-5.0f, 5.0f}, {0.0f, 0.0f}}, // 左上
-		{{-5.0f, 5.0f,-5.0f}, {1.0f, 1.0f}}, // 右下
-		{{-5.0f, 5.0f, 5.0f}, {1.0f, 0.0f}}, // 右上
-		//右
-		//  x     y     z       u     v
-		{{ 5.0f,-5.0f,-5.0f}, {0.0f, 1.0f}}, // 左下
-		{{ 5.0f,-5.0f, 5.0f}, {0.0f, 0.0f}}, // 左上
-		{{ 5.0f, 5.0f,-5.0f}, {1.0f, 1.0f}}, // 右下
-		{{ 5.0f, 5.0f, 5.0f}, {1.0f, 0.0f}}, // 右上
-		//下
-		//  x     y     z       u     v
-		{{-5.0f, 5.0f, 5.0f}, {0.0f, 1.0f}}, // 左下
-		{{-5.0f, 5.0f,-5.0f}, {0.0f, 0.0f}}, // 左上
-		{{ 5.0f, 5.0f, 5.0f}, {1.0f, 1.0f}}, // 右下
-		{{ 5.0f, 5.0f,-5.0f}, {1.0f, 0.0f}}, // 右上
-		//上
-		//  x     y     z       u     v
-		{{-5.0f,-5.0f, 5.0f}, {0.0f, 1.0f}}, // 左下
-		{{-5.0f,-5.0f,-5.0f}, {0.0f, 0.0f}}, // 左上
-		{{ 5.0f,-5.0f, 5.0f}, {1.0f, 1.0f}}, // 右下
-		{{ 5.0f,-5.0f,-5.0f}, {1.0f, 0.0f}}, // 右上
+		///前
+		//  x     y     z            u     v
+		{{-5.0f,-5.0f,-5.0f},{0.0f, 1.0f}}, // 左下
+		{{-5.0f, 5.0f,-5.0f},{0.0f, 0.0f}}, // 左上
+		{{ 5.0f,-5.0f,-5.0f},{1.0f, 1.0f}}, // 右下
+		{{ 5.0f, 5.0f,-5.0f},{1.0f, 0.0f}}, // 右上
+		///後
+		//  x     y     z      u     v
+		{{-5.0f,-5.0f, 5.0f},{0.0f, 1.0f}}, // 左下
+		{{-5.0f, 5.0f, 5.0f},{0.0f, 0.0f}}, // 左上
+		{{ 5.0f,-5.0f, 5.0f},{1.0f, 1.0f}}, // 右下
+		{{ 5.0f, 5.0f, 5.0f},{1.0f, 0.0f}}, // 右上
+		///左
+		//  x     y     z      u     v
+		{{-5.0f,-5.0f,-5.0f},{0.0f, 1.0f}}, // 左下
+		{{-5.0f,-5.0f, 5.0f},{0.0f, 0.0f}}, // 左上
+		{{-5.0f, 5.0f,-5.0f},{1.0f, 1.0f}}, // 右下
+		{{-5.0f, 5.0f, 5.0f},{1.0f, 0.0f}}, // 右上
+		///右				
+		//  x     y     z      u     v
+		{{ 5.0f,-5.0f,-5.0f},{0.0f, 1.0f}}, // 左下
+		{{ 5.0f,-5.0f, 5.0f},{0.0f, 0.0f}}, // 左上
+		{{ 5.0f, 5.0f,-5.0f},{1.0f, 1.0f}}, // 右下
+		{{ 5.0f, 5.0f, 5.0f},{1.0f, 0.0f}}, // 右上
+		///下				
+		//  x     y     z      u     v
+		{{ 5.0f,-5.0f, 5.0f},{0.0f, 1.0f}}, // 左下
+		{{ 5.0f,-5.0f,-5.0f},{0.0f, 0.0f}}, // 左上
+		{{-5.0f,-5.0f, 5.0f},{1.0f, 1.0f}}, // 右下
+		{{-5.0f,-5.0f,-5.0f},{1.0f, 0.0f}}, // 右上
+		///上				
+		//  x     y     z      u     v
+		{{-5.0f, 5.0f, 5.0f},{0.0f, 1.0f}}, // 左下
+		{{-5.0f, 5.0f,-5.0f},{0.0f, 0.0f}}, // 左上
+		{{ 5.0f, 5.0f, 5.0f},{1.0f, 1.0f}}, // 右下
+		{{ 5.0f, 5.0f,-5.0f},{1.0f, 0.0f}}, // 右上
 	};
 
 	// インデックスデータ
 	unsigned short indices[] = {
 		//前
 		0, 1, 2,  //三角形1つ目
-		1, 2, 3,  //三角形2つ目
-		//後
-		4, 5, 6,  //三角形3つ目
-		5, 6, 7,  //三角形4つ目
-		//左
+		2, 1, 3,  //三角形2つ目
+		///後
+		5, 4, 6,  //三角形3つ目
+		7, 5, 6,  //三角形4つ目
+		///左
 		8,9,10,   //三角形5つ目
-		9,10,11,  //三角形6つ目
-		//右
-		12,13,14, //三角形7つ目
-		13,14,15, //三角形8つ目
-		//下
+		10,9,11,  //三角形6つ目
+		///右
+		13,12,14, //三角形7つ目
+		14,15,13, //三角形8つ目
+		///下
 		16,17,18, //三角形7つ目
-		17,18,19, //三角形8つ目
-		//上
+		18,17,19, //三角形8つ目
+		///上
 		20,21,22, //三角形7つ目
-		21,22,23  //三角形8つ目
+		22,21,23  //三角形8つ目
 	};
 
 	// 頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
@@ -473,6 +474,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	ConstBufferDataMaterial* constMapMaterial = nullptr;
 	result = constBuffMaterial->Map(0, nullptr, (void**)&constMapMaterial); // マッピング
 	assert(SUCCEEDED(result));
+	float RED = 1;
+	float GREEN = 0;
+	float BLUE = 0;
+	constMapMaterial->color = XMFLOAT4(RED, GREEN, BLUE, 0.5f);
 
 	ID3D12Resource* constBuffTransform = nullptr;
 	ConstBufferDataTransform* constMapTransform = nullptr;
@@ -631,7 +636,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	textureResourceDesc.MipLevels = (UINT16)metadata.mipLevels;
 	textureResourceDesc.SampleDesc.Count = 1;
 
-
 	// テクスチャバッファの生成
 	ID3D12Resource* texBuff = nullptr;
 	result = device->CreateCommittedResource(
@@ -705,7 +709,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	device->CreateShaderResourceView(texBuff, &srvDesc, srvHandle);
 
 
-
 	ID3DBlob* vsBlob = nullptr; // 頂点シェーダオブジェクト
 	ID3DBlob* psBlob = nullptr; // ピクセルシェーダオブジェクト
 	ID3DBlob* errorBlob = nullptr; // エラーオブジェクト
@@ -774,8 +777,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		},
 	};
 
-
-
 	// グラフィックスパイプライン設定
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
 
@@ -829,7 +830,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;           // ソースのアルファ値
 	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;      // 1.0f-ソースのアルファ値
 
-
 	// RBGA全てのチャンネルを描画
 
 	// 頂点レイアウトの設定
@@ -868,8 +868,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	rootParams[2].Descriptor.ShaderRegister = 1; // 定数バッファ番号
 	rootParams[2].Descriptor.RegisterSpace = 0; // デフォルト値
 	rootParams[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL; // すべてのシェーダから見える
-
-
 
 	// ルートシグネチャ
 	ID3D12RootSignature* rootSignature;
@@ -915,11 +913,24 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	while (true) {
 		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
-			TranslateMessage(&msg);//キー入力メッセージの処理
-			DispatchMessage(&msg);//プロシージャーにメッセージを送る
+			TranslateMessage(&msg);// キー入力メッセージの処理
+			DispatchMessage(&msg); // プロシージャーにメッセージを送る
 		}
 
-		//DirectX毎フレーム処理　ここから
+		// 色を変える
+		if (GREEN <= 1.0f) {
+			RED -= 0.001f;
+			GREEN += 0.001f;
+		}
+		if (GREEN >= 1.0f) {
+			RED = 1.0f;
+			GREEN = 0.0f;
+		}
+
+		// 値を書き込むと自動的に転送される
+		constMapMaterial->color = XMFLOAT4(RED, GREEN, BLUE, alpha);
+
+		// DirectX毎フレーム処理　ここから
 
 		// キーボード情報の取得開始
 		keyboard->Acquire();
@@ -927,6 +938,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 全キーの入力状態を取得する
 		BYTE key[256] = {};
 		keyboard->GetDeviceState(sizeof(key), key);
+
+		// カーソル座標取得
+		/*GetMousePoint(&mouseX, &mouseY);
+
+		int Mouse = GetMouseInput();*/
 
 		// 数字の0キーが押されていたら
 		if (key[DIK_0])
@@ -946,6 +962,33 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			// ビュー変換行列
 			matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
 		}
+		if (key[DIK_W] || key[DIK_S])
+		{
+			if (key[DIK_W]) { angle -= XMConvertToRadians(1.0f); }
+			else if (key[DIK_S]) { angle += XMConvertToRadians(1.0f); }
+
+			// angleラジアンだけY軸まわりに回転。半径は-100
+			eye.y = -100 * sinf(angle);
+
+			// ビュー変換行列
+			matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
+		}
+
+		// αブレンドの調整
+		if (key[DIK_O] || key[DIK_P]) 
+		{
+			if (key[DIK_O]) { 
+				if (alpha <= 1.0 ) {
+					alpha += 0.01;
+				}
+			}
+			else if (key[DIK_P]) { 
+				if (alpha >= 0) {
+					alpha -= 0.01;
+				}
+			}
+		}
+		
 		if (key[DIK_UP] || key[DIK_DOWN] || key[DIK_RIGHT] || key[DIK_LEFT])
 		{
 			// 座標を移動する処理（Z座標）
@@ -964,24 +1007,24 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 定数バッファに転送
 		constMapTransform->mat = matWorld * matView * matProjection;
 
-		//バックバッファの番号取得(２つなので0番か1番)
+		// バックバッファの番号取得(２つなので0番か1番)
 		UINT bbIndex = swapChain->GetCurrentBackBufferIndex();
 
-		//1.リソースバリアで書き込み可能に変更
+		// 1.リソースバリアで書き込み可能に変更
 		D3D12_RESOURCE_BARRIER barrierDesc{};
 		barrierDesc.Transition.pResource = backBuffers[bbIndex];//バックバッファを指定
 		barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;//表示状態から
 		barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;//描画状態へ
 		commandList->ResourceBarrier(1, &barrierDesc);
 
-		//2.描画先の変更
+		// 2.描画先の変更
 		// レンダーターゲットビューのハンドルを取得
 		D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = rtvHeap->GetCPUDescriptorHandleForHeapStart();
 		rtvHandle.ptr += bbIndex * device->GetDescriptorHandleIncrementSize(rtvHeapDesc.Type);
 		D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvHeap->GetCPUDescriptorHandleForHeapStart();
 		commandList->OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
 
-		//3.描画クリア　　　　　　　R    G     B    A
+		// 3.描画クリア　　　　　R    G     B    A
 		FLOAT clearcolor[] = { 0.1f,0.25f,0.5f,0.0f };//青っぽい色
 		commandList->ClearRenderTargetView(rtvHandle, clearcolor, 0, nullptr);
 		commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
@@ -1000,7 +1043,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		bool キーを離した瞬間か(uint8_t キー番号);
 
 		commandList->ClearRenderTargetView(rtvHandle, clearcolor, 0, nullptr);
-		//4.描画コマンドはここから
+		// 4.描画コマンドはここから
 		// ビューポート設定コマンド
 		D3D12_VIEWPORT viewport{};
 		viewport.Width = WIN_WIDTH;
@@ -1048,22 +1091,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		commandList->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);
 
 
-		//4.描画コマンドはここまで
-		//5.リソースバリアを戻す
+		// 4.描画コマンドはここまで
+		// 5.リソースバリアを戻す
 		barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;//表示状態から
 		barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;//描画状態へ
 		commandList->ResourceBarrier(1, &barrierDesc);
-		//命令のクローズ
+		// 命令のクローズ
 		result = commandList->Close();
 		assert(SUCCEEDED(result));
-		//コマンドリストの実行
+		// コマンドリストの実行
 		ID3D12CommandList* commandLists[] = { commandList };
 		commandQueue->ExecuteCommandLists(1, commandLists);
 
-		//画面に表示するバッファをクリップ(裏表の入れ替え)
+		// 画面に表示するバッファをクリップ(裏表の入れ替え)
 		result = swapChain->Present(1, 0);
 		assert(SUCCEEDED(result));
-		//コマンドの実行完了を持つ
+		// コマンドの実行完了を持つ
 		commandQueue->Signal(fence, ++fenceVal);
 		if (fence->GetCompletedValue() != fenceVal) {
 			HANDLE event = CreateEvent(nullptr, false, false, nullptr);
@@ -1071,17 +1114,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			WaitForSingleObject(event, INFINITE);
 			CloseHandle(event);
 		}
-		//キューをクリア
+		// キューをクリア
 		result = cmdAllocator->Reset();
 		assert(SUCCEEDED(result));
-		//再びコマンドリストを貯める準備
+		// 再びコマンドリストを貯める準備
 		result = commandList->Reset(cmdAllocator, nullptr);
 		assert(SUCCEEDED(result));
 
-		//DirectX毎フレーム処理　ここまで
+		// DirectX毎フレーム処理　ここまで
 	}
 
-	//ウィンドウクラスを登録解除
+	// ウィンドウクラスを登録解除
 	UnregisterClass(w.lpszClassName, w.hInstance);
 
 	return 0;
