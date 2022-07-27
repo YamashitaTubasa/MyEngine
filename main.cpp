@@ -19,66 +19,66 @@ using namespace DirectX;
 
 float angle = 0.0f; // カメラの回転角
 
-//ウィンドウプロシージャ
+// ウィンドウプロシージャ
 LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
-	//メッセージに応じてゲーム固有の処理を行う
+	// メッセージに応じてゲーム固有の処理を行う
 	switch (msg) {
-		//ウィンドウが破棄された
+		// ウィンドウが破棄された
 	case WM_DESTROY:
-		//osに対して、アプリの終了を伝える
+		// osに対して、アプリの終了を伝える
 		PostQuitMessage(0);
 		return 0;
 	}
-	//標準メッセージ処理を行う
+	// 標準メッセージ処理を行う
 	return DefWindowProc(hwnd, msg, wparam, lparam);
 }
 
-//windowsアプリでのエントリーポイント(main関数)
+// windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
-	//コンソールへの文字出力
+	// コンソールへの文字出力
 	OutputDebugStringA("Hellow,DirectX!!\n");
-	//ウィンドウサイズ
+	// ウィンドウサイズ
 	// ウィンドウ横幅
 	const int WIN_WIDTH = 1280;
 	// ウィンドウ縦幅
 	const int WIN_HEIGHT = 720;
 
-	//ウィンドウクラスの設定
+	// ウィンドウクラスの設定
 	WNDCLASSEX w{};
 	w.cbSize = sizeof(WNDCLASSEX);
-	w.lpfnWndProc = (WNDPROC)WindowProc;    //ウィンドウプロシージャを設定
-	w.lpszClassName = L"DirectXGame";       //ウィンドクラス名
-	w.hInstance = GetModuleHandle(nullptr); //ウィンドハンドル
-	w.hCursor = LoadCursor(NULL, IDC_ARROW);//カーソル指定
+	w.lpfnWndProc = (WNDPROC)WindowProc;    // ウィンドウプロシージャを設定
+	w.lpszClassName = L"DirectXGame";       // ウィンドクラス名
+	w.hInstance = GetModuleHandle(nullptr); // ウィンドハンドル
+	w.hCursor = LoadCursor(NULL, IDC_ARROW);// カーソル指定
 
-	//ウィンドクラスを05に登録する
+	// ウィンドクラスを05に登録する
 	RegisterClassEx(&w);
-	//ウィンドサイズ{X座標　Y座標　横幅　縦幅}
+	// ウィンドサイズ{X座標　Y座標　横幅　縦幅}
 	RECT wrc = { 0, 0, WIN_WIDTH, WIN_HEIGHT };
-	//自動でサイズを補正する
+	// 自動でサイズを補正する
 	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);
 
-	//ウィンドウオブジェクトの生成
-	HWND hwnd = CreateWindow(w.lpszClassName,//クラス名
-		L"DirectXGame",//タイトルバーの文字
-		WS_OVERLAPPEDWINDOW,//標準的なウィンドウスタイル
-		CW_USEDEFAULT,//標準X座標 (05に任せる)
-		CW_USEDEFAULT,//標準Y座標 (05に任せる)
-		wrc.right - wrc.left,//ウィンドウ横幅
-		wrc.bottom - wrc.top,//ウィンドウ縦幅
+	// ウィンドウオブジェクトの生成
+	HWND hwnd = CreateWindow(w.lpszClassName,// クラス名
+		L"DirectXGame",// タイトルバーの文字
+		WS_OVERLAPPEDWINDOW,// 標準的なウィンドウスタイル
+		CW_USEDEFAULT,// 標準X座標 (05に任せる)
+		CW_USEDEFAULT,// 標準Y座標 (05に任せる)
+		wrc.right - wrc.left,// ウィンドウ横幅
+		wrc.bottom - wrc.top,// ウィンドウ縦幅
 		nullptr,
 		nullptr,
 		w.hInstance,
 		nullptr);
-	//ウィンドウを表示状態にする
+	// ウィンドウを表示状態にする
 	ShowWindow(hwnd, SW_SHOW);
 
-	MSG msg{};//メッセージ
+	MSG msg{};// メッセージ
 
-   //DirectX初期化処理　ここから
+   // DirectX初期化処理　ここから
 #ifdef _DEBUG
-//デバックレイヤーをオンに
+// デバックレイヤーをオンに
 	ID3D12Debug* debugCountroller;
 	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugCountroller)))) {
 		debugCountroller->EnableDebugLayer();
@@ -94,40 +94,40 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	ID3D12CommandQueue* commandQueue = nullptr;
 	ID3D12DescriptorHeap* rtvHeap = nullptr;
 
-	//DXGIファクトリーの生成
+	// DXGIファクトリーの生成
 	result = CreateDXGIFactory(IID_PPV_ARGS(&dxgiFactory));
 	assert(SUCCEEDED(result));
 
-	//アダプターの列挙用
+	// アダプターの列挙用
 	std::vector<IDXGIAdapter4*> adapters;
-	//ここに特定の名前を持つアダプターオブジェクトが入る
+	// ここに特定の名前を持つアダプターオブジェクトが入る
 	IDXGIAdapter4* tmpAdapter = nullptr;
 
-	//パフォーマンスが高いものから順に、全てのアダプターを列挙する
+	// パフォーマンスが高いものから順に、全てのアダプターを列挙する
 	for (UINT i = 0;
 		dxgiFactory->EnumAdapterByGpuPreference(i,
 			DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE,
 			IID_PPV_ARGS(&tmpAdapter)) != DXGI_ERROR_NOT_FOUND;
 		i++) {
-		//動的配列に追加する
+		// 動的配列に追加する
 		adapters.push_back(tmpAdapter);
 	}
 
-	//妥当なアダプターを選別する
+	// 妥当なアダプターを選別する
 	for (size_t i = 0; i < adapters.size(); i++) {
 		DXGI_ADAPTER_DESC3 adapterDesc;
-		//アダプターの情報を取得する
+		// アダプターの情報を取得する
 		adapters[i]->GetDesc3(&adapterDesc);
 
-		//ソフトウェアデバイスを回避
+		// ソフトウェアデバイスを回避
 		if (!(adapterDesc.Flags & DXGI_ADAPTER_FLAG3_SOFTWARE)) {
-			//デバイスを採用してループを抜ける
+			// デバイスを採用してループを抜ける
 			tmpAdapter = adapters[i];
 			break;
 		}
 	}
 
-	//対応レベルの配列
+	// 対応レベルの配列
 	D3D_FEATURE_LEVEL levels[] = {
 		D3D_FEATURE_LEVEL_12_1,
 		D3D_FEATURE_LEVEL_12_0,
@@ -138,11 +138,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	D3D_FEATURE_LEVEL featureLevel;
 
 	for (size_t i = 0; i < _countof(levels); i++) {
-		//採用したアダプターでデバイスを生成
+		// 採用したアダプターでデバイスを生成
 		result = D3D12CreateDevice(tmpAdapter, levels[i],
 			IID_PPV_ARGS(&device));
 		if (result == S_OK) {
-			//デバイスを生成できた時点でループを抜ける
+			// デバイスを生成できた時点でループを抜ける
 			featureLevel = levels[i];
 			break;
 		}
@@ -527,12 +527,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			D3D12_RESOURCE_STATE_GENERIC_READ,
 			nullptr,
 			IID_PPV_ARGS(&constBuffTransform1));
-		assert(SUCCEEDED(result));
-		// 定数バッファのマッピング
-		result = constBuffTransform1->Map(0, nullptr, (void**)&constMapTransform1); // マッピング
-		assert(SUCCEEDED(result));
 
+		// 定数バッファのマッピング
+		result = constBuffTransform1->Map(0, nullptr, 
+		(void**)&constMapTransform1); // マッピング
+		assert(SUCCEEDED(result));
 	}
+
 	// 単位行列を代入
 	constMapTransform0->mat = XMMatrixIdentity();
 	constMapTransform0->mat.r[0].m128_f32[0] = 2.0f / 1280;
@@ -546,6 +547,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		720, 0,
 		0.0f, 1.0f
 	);
+
 
 	// 透視投影行列の変換
 	//constMapTransform->mat = XMMatrixPerspectiveFovLH(
@@ -587,6 +589,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	XMMATRIX matTrans; // 平行移動行列
 	matTrans = XMMatrixTranslation(-50.0f, 0, 0); // (-50.0,0)平行移動
 	matWorld += matTrans; // ワールド行列に平行移動を反映
+
+
+		// ワールド変換行列
+	XMMATRIX matWorld1;
+	matWorld1 = XMMatrixIdentity();
+	// 各種変形行列を計算
+	XMMATRIX matScale1 = XMMatrixScaling(1.0f, 1.0f, 1.0f);
+	XMMATRIX matRot1 = XMMatrixRotationY(XM_PI / 4.0f);
+	XMMATRIX matTrans1 = XMMatrixTranslation(-20.0f, 0, 0);
+	// ワールド行列を合成
+	matWorld1 = matScale1 * matRot1 * matTrans1;
+	// ワールド、ビュー、射影行列を合成してシェーダーに転送
+	constMapTransform1->mat = matWorld1 * matView * matProjection;
 
 	// 座標
 	XMFLOAT3 position = { 0.0f,0.0f,0.0f };
@@ -806,8 +821,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		},
 	};
 
-
-
 	// グラフィックスパイプライン設定
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
 
@@ -1007,6 +1020,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 定数バッファに転送
 		constMapTransform0->mat = matWorld * matView * matProjection;
 
+		// 定数バッファに転送
+		constMapTransform1->mat = matWorld1 * matView * matProjection;
+
 		//バックバッファの番号取得(２つなので0番か1番)
 		UINT bbIndex = swapChain->GetCurrentBackBufferIndex();
 
@@ -1043,18 +1059,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		bool キーを離した瞬間か(uint8_t キー番号);
 
 		commandList->ClearRenderTargetView(rtvHandle, clearcolor, 0, nullptr);
-		
-		// ワールド変換行列
-		XMMATRIX matWorld1;
-		matWorld1 = XMMatrixIdentity();
-		// 各種変形行列を計算
-		XMMATRIX matScale1 = XMMatrixScaling(1.0f, 1.0f, 1.0f);
-		XMMATRIX matRot1 = XMMatrixRotationY(XM_PI / 4.0f);
-		XMMATRIX matTrans1 = XMMatrixTranslation(-20.0f, 0, 0);
-		// ワールド行列を合成
-		matWorld1 = matScale1 * matRot1 * matTrans1;
-		// ワールド、ビュー、射影行列を合成してシェーダーに転送
-		constMapTransform1->mat = matWorld1 * matView * matProjection;
 		
 		//4.描画コマンドはここから
 		
@@ -1105,24 +1109,24 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		commandList->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);
 
 		// 1番定数バッファビュー(CBV)の設定コマンド
-		commandList->SetGraphicsRootConstantBufferView(2, constBuffTransform0->GetGPUVirtualAddress());
+		commandList->SetGraphicsRootConstantBufferView(2, constBuffTransform1->GetGPUVirtualAddress());
 		// 描画コマンド
 		commandList->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);
 
-		//4.描画コマンドはここまで
+		// 4.描画コマンドはここまで
 		
-		//5.リソースバリアを戻す
+		// 5.リソースバリアを戻す
 		barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;//表示状態から
 		barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;//描画状態へ
 		commandList->ResourceBarrier(1, &barrierDesc);
-		//命令のクローズ
+		// 命令のクローズ
 		result = commandList->Close();
 		assert(SUCCEEDED(result));
-		//コマンドリストの実行
+		// コマンドリストの実行
 		ID3D12CommandList* commandLists[] = { commandList };
 		commandQueue->ExecuteCommandLists(1, commandLists);
 
-		//画面に表示するバッファをクリップ(裏表の入れ替え)
+		// 画面に表示するバッファをクリップ(裏表の入れ替え)
 		result = swapChain->Present(1, 0);
 		assert(SUCCEEDED(result));
 		//コマンドの実行完了を持つ
@@ -1133,17 +1137,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			WaitForSingleObject(event, INFINITE);
 			CloseHandle(event);
 		}
-		//キューをクリア
+		// キューをクリア
 		result = cmdAllocator->Reset();
 		assert(SUCCEEDED(result));
-		//再びコマンドリストを貯める準備
+		// 再びコマンドリストを貯める準備
 		result = commandList->Reset(cmdAllocator, nullptr);
 		assert(SUCCEEDED(result));
 
-		//DirectX毎フレーム処理　ここまで
+		// DirectX毎フレーム処理　ここまで
 	}
 
-	//ウィンドウクラスを登録解除
+	// ウィンドウクラスを登録解除
 	UnregisterClass(w.lpszClassName, w.hInstance);
 
 	return 0;
