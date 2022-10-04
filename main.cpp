@@ -103,14 +103,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	MSG msg{};// メッセージ
 
    // DirectX初期化処理　ここから
-#ifdef _DEBUG
-// デバックレイヤーをオンに
-	ID3D12Debug* debugCountroller;
-	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugCountroller)))) {
-		debugCountroller->EnableDebugLayer();
-	}
-#endif
-
 	HRESULT result;
 	ID3D12Device* device = nullptr;
 	IDXGIFactory7* dxgiFactory = nullptr;
@@ -119,6 +111,42 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	ID3D12GraphicsCommandList* commandList = nullptr;
 	ID3D12CommandQueue* commandQueue = nullptr;
 	ID3D12DescriptorHeap* rtvHeap = nullptr;
+
+#ifdef _DEBUG
+	// デバックレイヤーをオンに
+	ID3D12Debug* debugController;
+	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController)))) {
+		debugController->EnableDebugLayer();
+		/*debugController->SetEnableGPUBasedValidation(TRUE);*/
+	}
+
+#endif
+//#ifdef _DEBUG
+//	ID3D12InfoQueue* infoQueue;
+//	if (SUCCEEDED(device->QueryInterface(IID_PPV_ARGS(&infoQueue)))) {
+//		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
+//		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true); // エラー時に止まる
+//		infoQueue->Release();
+//	}
+//#endif
+//
+//	// 抑制するエラー
+//	D3D12_MESSAGE_ID denyIds[] = {
+//		/*
+//		* Windows11でのDXGIデバックレイヤーとDX12デバックレイヤーの相互作用バグによるエラーメッセージ
+//		* https://stackoverflow.com/questions/69805245/directx-12-application-is-crashing-in-windows-11
+//		*/
+//		D3D12_MESSAGE_ID_RESOURCE_BARRIER_MISMATCHING_COMMAND_LIST_TYPE
+//	};
+//	// 抑制する表示レベル
+//	D3D12_MESSAGE_SEVERITY severities[] = { D3D12_MESSAGE_SEVERITY_INFO };
+//	D3D12_INFO_QUEUE_FILTER filter{};
+//	filter.DenyList.NumIDs = _countof(denyIds);
+//	filter.DenyList.pIDList = denyIds;
+//	filter.DenyList.NumSeverities = _countof(severities);
+//	filter.DenyList.pSeverityList = severities;
+//	// 指定したエラーの表示を抑制
+//	infoQueue->PushStorageFilter(&filter);
 
 	// DXGIファクトリーの生成
 	result = CreateDXGIFactory(IID_PPV_ARGS(&dxgiFactory));
@@ -779,7 +807,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"BasicVS.hlsl",  // シェーダファイル名
+		L"Resources/shaders/BasicVS.hlsl",  // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "vs_5_0", // エントリーポイント名、シェーダーモデル指定
@@ -804,7 +832,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"BasicPS.hlsl",   // シェーダファイル名
+		L"Resources/shaders/BasicPS.hlsl",   // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "ps_5_0", // エントリーポイント名、シェーダーモデル指定
