@@ -121,6 +121,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	}
 
 #endif
+
 //#ifdef _DEBUG
 //	ID3D12InfoQueue* infoQueue;
 //	if (SUCCEEDED(device->QueryInterface(IID_PPV_ARGS(&infoQueue)))) {
