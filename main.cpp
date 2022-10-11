@@ -319,7 +319,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true); // エラー時に止まる
 		infoQueue->Release();
 	}
-#endif
 	// 抑制するエラー
 	D3D12_MESSAGE_ID denyIds[] = {
 		/*
@@ -337,6 +336,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	filter.DenyList.pSeverityList = severities;
 	// 指定したエラーの表示を抑制
 	infoQueue->PushStorageFilter(&filter);
+#endif
 
 	//DirectX初期化処理　ここまで
 
