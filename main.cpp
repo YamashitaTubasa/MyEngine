@@ -1008,43 +1008,43 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		input->Update();
 
 		// 数字の0キーが押されていたら
-		//if (key[DIK_0])
-		//{
-		//	OutputDebugStringA("Hit 0\n");  // 出力ウィンドウに「Hit 0」と表示
-		//}
+		if (input->PushKey(DIK_0))
+		{
+			OutputDebugStringA("Hit 0\n");  // 出力ウィンドウに「Hit 0」と表示
+		}
 
-		//// いずれかのキーを押していたら
-		//if (key[DIK_D] || key[DIK_A] )
-		//{
-		//	if (key[DIK_D]) { angle += XMConvertToRadians(1.0f); }
-		//	else if (key[DIK_A]) { angle -= XMConvertToRadians(1.0f); }
-		//	
-		//	// angleラジアンだけY軸まわりに回転。半径は-100
-		//	eye.x = -100 * sinf(angle);
-		//	eye.z = -100 * cosf(angle);
-		//	
-		//	// ビュー変換行列
-		//	matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
-		//}
-		//if (key[DIK_W] || key[DIK_S])
-		//{
-		//	if (key[DIK_W]) { angle -= XMConvertToRadians(1.0f); }
-		//	else if (key[DIK_S]) { angle += XMConvertToRadians(1.0f); }
+		// いずれかのキーを押していたら
+		if (input->PushKey(DIK_D) || input->PushKey(DIK_A) )
+		{
+			if (input->PushKey(DIK_D)) { angle += XMConvertToRadians(1.0f); }
+			else if (input->PushKey(DIK_A)) { angle -= XMConvertToRadians(1.0f); }
+			
+			// angleラジアンだけY軸まわりに回転。半径は-100
+			eye.x = -100 * sinf(angle);
+			eye.z = -100 * cosf(angle);
+			
+			// ビュー変換行列
+			matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
+		}
+		if (input->PushKey(DIK_W) || input->PushKey(DIK_S))
+		{
+			if (input->PushKey(DIK_W)) { angle -= XMConvertToRadians(1.0f); }
+			else if (input->PushKey(DIK_S)) { angle += XMConvertToRadians(1.0f); }
 
-		//	// angleラジアンだけY軸まわりに回転。半径は-100
-		//	eye.y = -100 * sinf(angle);
+			// angleラジアンだけY軸まわりに回転。半径は-100
+			eye.y = -100 * sinf(angle);
 
-		//	// ビュー変換行列
-		//	matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
-		//}
-		//if (key[DIK_UP] || key[DIK_DOWN] || key[DIK_RIGHT] || key[DIK_LEFT])
-		//{
-		//	// 座標を移動する処理（Z座標）
-		//	if (key[DIK_UP]) { position.z += 1.5f; }
-		//	else if (key[DIK_DOWN]) { position.z -= 1.5f; }
-		//	if (key[DIK_RIGHT]) { position.x += 1.5f; }
-		//	else if (key[DIK_LEFT]) { position.x -= 1.5f; }
-		//}
+			// ビュー変換行列
+			matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
+		}
+		if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->TriggerKey(DIK_RIGHT) || input->PushKey(DIK_LEFT))
+		{
+			// 座標を移動する処理（Z座標）
+			if (input->PushKey(DIK_UP)) { position.z += 1.5f; }
+			else if (input->PushKey(DIK_DOWN)) { position.z -= 1.5f; }
+			if (input->PushKey(DIK_RIGHT)) { position.x += 1.5f; }
+			else if (input->PushKey(DIK_LEFT)) { position.x -= 1.5f; }
+		}
 		matWorld = XMMatrixIdentity();
 		matWorld += matScale;
 		matWorld += matRot;
