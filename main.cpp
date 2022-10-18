@@ -1037,7 +1037,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			// ビュー変換行列
 			matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
 		}
-		if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->TriggerKey(DIK_RIGHT) || input->PushKey(DIK_LEFT))
+		if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT))
 		{
 			// 座標を移動する処理（Z座標）
 			if (input->PushKey(DIK_UP)) { position.z += 1.5f; }
