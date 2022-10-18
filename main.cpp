@@ -1045,6 +1045,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//	if (key[DIK_RIGHT]) { position.x += 1.5f; }
 		//	else if (key[DIK_LEFT]) { position.x -= 1.5f; }
 		//}
+
 		matWorld = XMMatrixIdentity();
 		matWorld += matScale;
 		matWorld += matRot;
