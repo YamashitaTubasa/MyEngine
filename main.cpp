@@ -1080,6 +1080,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		commandList->ClearRenderTargetView(rtvHandle, clearcolor, 0, nullptr);
 		commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
+
 		//if (key[DIK_SPACE])     // スペースキーが押されていたら
 		//{
 		//	clearcolor[0] = { 0.7f };//青っぽい色
