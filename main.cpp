@@ -1018,6 +1018,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			OutputDebugStringA("Hit 0\n");  // 出力ウィンドウに「Hit 0」と表示
 		}
 
+
 		// いずれかのキーを押していたら
 		if (key[DIK_D] || key[DIK_A] )
 		{
