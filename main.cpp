@@ -288,6 +288,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	result = device->CreateFence(fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
 
+
 	// ƒ|ƒCƒ“ƒ^
 	Input* input = nullptr;
 
