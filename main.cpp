@@ -64,6 +64,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// ポインタ
 	WinApp* winApp = nullptr;
+	Input* input = nullptr;
 
 	// WindowsAPIの初期化
 	winApp = new WinApp();
@@ -178,15 +179,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 	// スワップチェーンの生成
 	result = dxgiFactory->CreateSwapChainForHwnd(
-		commandQueue, hwnd, &swapChainDesc, nullptr, nullptr,
-		(IDXGISwapChain1**)&swapChain);
+		commandQueue, 
+		winApp->GetHwnd(), 
+		&swapChainDesc, 
+		nullptr, 
+		nullptr,
+		(IDXGISwapChain1**)&swapChain
+	);
 	assert(SUCCEEDED(result));
 
 	// リソース設定
 	D3D12_RESOURCE_DESC depthResourceDesc{};
 	depthResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-	depthResourceDesc.Width = WIN_WIDTH;//レンダーターゲットに合わせる
-	depthResourceDesc.Height = WIN_HEIGHT;//レンダーターゲットに合わせる
+	depthResourceDesc.Width = WinApp::window_width;//レンダーターゲットに合わせる
+	depthResourceDesc.Height = WinApp::window_height;//レンダーターゲットに合わせる
 	depthResourceDesc.DepthOrArraySize = 1;
 	depthResourceDesc.Format = DXGI_FORMAT_D32_FLOAT;//深度フォーマット
 	depthResourceDesc.SampleDesc.Count = 1;
@@ -260,13 +266,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	result = device->CreateFence(fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
 
-
-	// ポインタ
-	Input* input = nullptr;
-
 	// 入力の初期化
 	input = new Input();
-	input->Initialize(w.hInstance, hwnd);
+	input->Initialize(winApp->GetHInstance(), winApp->GetHwnd());
 
 #ifdef _DEBUG
 	ID3D12InfoQueue* infoQueue;
@@ -573,7 +575,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	XMMATRIX matProjection =
 		XMMatrixPerspectiveFovLH(
 			XMConvertToRadians(45.0f),
-			(float)WIN_WIDTH / WIN_HEIGHT,
+			(float)WinApp::window_width / WinApp::window_height,
 			0.1f, 1000.0f
 		);
 
@@ -1072,8 +1074,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		
 		// ビューポート設定コマンド
 		D3D12_VIEWPORT viewport{};
-		viewport.Width = WIN_WIDTH;
-		viewport.Height = WIN_HEIGHT;
+		viewport.Width = WinApp::window_width;
+		viewport.Height = WinApp::window_height;
 		viewport.TopLeftX = 0;
 		viewport.TopLeftY = 0;
 		viewport.MinDepth = 0.0f;
@@ -1084,9 +1086,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// シザー矩形
 		D3D12_RECT scissorRect{};
 		scissorRect.left = 0;//切り抜き座標左
-		scissorRect.right = scissorRect.left + WIN_WIDTH;//切り抜き座標右
+		scissorRect.right = scissorRect.left + WinApp::window_width;//切り抜き座標右
 		scissorRect.top = 0;//切り抜き座標上
-		scissorRect.bottom = scissorRect.top + WIN_HEIGHT;//切り抜き座標下
+		scissorRect.bottom = scissorRect.top + WinApp::window_height;//切り抜き座標下
 		// シザー矩形設定コマンドを、コマンドリストに積む
 		commandList->RSSetScissorRects(1, &scissorRect);
 
@@ -1161,7 +1163,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	delete winApp;
 
 	// ウィンドウクラスを登録解除
-	UnregisterClass(w.lpszClassName, w.hInstance);
+	UnregisterClass(wc.lpszClassName, wc.hInstance);
 
 
 	return 0;
