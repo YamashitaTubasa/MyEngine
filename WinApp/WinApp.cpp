@@ -1,5 +1,15 @@
 #include "WinApp.h"
-#include "Windows.h"
+
+LRESULT WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+{
+	// メッセージで分岐
+	switch (msg) {
+	case WM_DESTROY: // ウィンドウが破棄された
+		PostQuitMessage(0); // OSに対して、アプリの終了を伝える
+		return 0;
+	}
+	return DefWindowProc(hwnd, msg, wparam, lparam); // 標準の処理を行う
+}
 
 void WinApp::Initialize()
 {

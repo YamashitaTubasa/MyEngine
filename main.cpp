@@ -1,4 +1,3 @@
-#include <Windows.h>
 #include <d3d12.h>
 #include <dxgi1_6.h>
 #include <cassert>
@@ -68,7 +67,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// WindowsAPIの初期化
 	winApp = new WinApp();
-
+	winApp->Initialize();
 
 	MSG msg{};// メッセージ
 
@@ -1158,6 +1157,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// 入力開放
 	delete input;
+	// WindowsAPI解放
+	delete winApp;
 
 	// ウィンドウクラスを登録解除
 	UnregisterClass(w.lpszClassName, w.hInstance);
