@@ -8,7 +8,7 @@
 using namespace DirectX;
 #include <d3dcompiler.h>
 #include <DirectXTex.h>
-#include "Input.h"
+#include "Input/Input.h"
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
