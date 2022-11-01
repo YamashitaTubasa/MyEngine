@@ -1155,7 +1155,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		// DirectX毎フレーム処理　ここまで
 	}
-
 	// 入力開放
 	delete input;
 	input = nullptr;
