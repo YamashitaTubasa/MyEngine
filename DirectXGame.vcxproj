@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DirectXCommon\DirectXCommon.cpp" />
     <ClCompile Include="Input\Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="WinApp\WinApp.cpp" />
@@ -170,6 +171,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DirectXCommon\DirectXCommon.h" />
     <ClInclude Include="Input\Input.h" />
     <ClInclude Include="WinApp\WinApp.h" />
   </ItemGroup>
