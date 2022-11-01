@@ -49,3 +49,9 @@ void WinApp::Update()
 {
 
 }
+
+void WinApp::Finalize()
+{
+	// ウィンドウクラスを登録解除
+	UnregisterClass(wc.lpszClassName, wc.hInstance);
+}

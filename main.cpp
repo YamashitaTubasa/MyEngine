@@ -268,7 +268,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// 入力の初期化
 	input = new Input();
-	input->Initialize(winApp->GetHInstance(), winApp->GetHwnd());
+	input->Initialize(winApp);
 
 #ifdef _DEBUG
 	ID3D12InfoQueue* infoQueue;
@@ -1012,7 +1012,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			// ビュー変換行列
 			matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
 		}
-		if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT))
+		if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->TriggerKey(DIK_RIGHT) || input->PushKey(DIK_LEFT))
 		{
 			// 座標を移動する処理（Z座標）
 			if (input->PushKey(DIK_UP)) { position.z += 1.5f; }
@@ -1159,12 +1159,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// 入力開放
 	delete input;
+	input = nullptr;
+
+	// WindowsAPIの終了処理
+	winApp->Finalize();
+
 	// WindowsAPI解放
 	delete winApp;
-
-	// ウィンドウクラスを登録解除
-	UnregisterClass(wc.lpszClassName, wc.hInstance);
-
+	winApp = nullptr;
 
 	return 0;
 }
