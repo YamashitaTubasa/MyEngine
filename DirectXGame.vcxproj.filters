@@ -16,16 +16,28 @@
     <Filter Include="シェーダーファイル">
       <UniqueIdentifier>{92d7bcfa-ebef-45b1-9050-8a6c09a173ed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Input">
+      <UniqueIdentifier>{78df9eb9-84d5-4db3-9c06-5e21afd8b920}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Input">
+      <UniqueIdentifier>{7431be2a-968f-414b-810b-a22373c3546c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\WinApp">
+      <UniqueIdentifier>{b51a51b1-da65-43b0-bd23-0304a6a9ab3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\WInApp">
+      <UniqueIdentifier>{aca60acd-4fbe-434e-8639-743107b6cb41}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Input\Input.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Input</Filter>
     </ClCompile>
     <ClCompile Include="WinApp\WinApp.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\WinApp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -43,10 +55,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input\Input.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Input</Filter>
     </ClInclude>
     <ClInclude Include="WinApp\WinApp.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\WInApp</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

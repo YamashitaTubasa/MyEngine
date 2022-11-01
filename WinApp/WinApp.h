@@ -21,6 +21,9 @@ public: // メンバ関数
 	HWND GetHwnd() const { return hwnd; }
 	HINSTANCE GetHInstance() const { return wc.hInstance; }
 
+	// メッセージの処理
+	bool ProcessMessage();
+
 public: // 定数
 	// ウィンドウ横幅
 	static const int window_width = 1280;

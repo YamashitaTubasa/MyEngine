@@ -55,3 +55,19 @@ void WinApp::Finalize()
 	// ウィンドウクラスを登録解除
 	UnregisterClass(wc.lpszClassName, wc.hInstance);
 }
+
+bool WinApp::ProcessMessage()
+{
+	MSG msg{};// メッセージ
+
+	if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
+		TranslateMessage(&msg); //キー入力メッセージの処理
+		DispatchMessage(&msg);  //プロシージャーにメッセージを送る
+	}
+
+	if (msg.message == WM_QUIT) {
+		return true;
+	}
+
+	return false;
+}
