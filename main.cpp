@@ -9,6 +9,7 @@ using namespace DirectX;
 #include <DirectXTex.h>
 #include "Input/Input.h"
 #include "WinApp/WinApp.h"
+#include "DirectXCommon/DirectXCommon.h"
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
@@ -65,12 +66,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// ポインタ
 	WinApp* winApp = nullptr;
 	Input* input = nullptr;
+	DirectXCommon* dXCommon = nullptr;
 
 	// WindowsAPIの初期化
 	winApp = new WinApp();
 	winApp->Initialize();
 
-   // DirectX初期化処理　ここから
+    // DirectX初期化処理　ここから
+
+	// DirectXの初期化
+	dXCommon = new DirectXCommon();
+	dXCommon->Initialize();
 
 #ifdef _DEBUG
 	// デバックレイヤーをオンに
@@ -1166,6 +1172,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// WindowsAPI解放
 	delete winApp;
 	winApp = nullptr;
+
+	// DirectX解放
+	delete dXCommon;
+	dXCommon = nullptr;
 
 	return 0;
 }

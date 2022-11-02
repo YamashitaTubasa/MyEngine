@@ -11,9 +11,6 @@ public: // メンバ関数
 	// WindowsAPIの初期化
 	void Initialize();
 
-	// WindowsAPIの更新
-	void Update();
-
 	// 終了
 	void Finalize();
 

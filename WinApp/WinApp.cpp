@@ -45,11 +45,6 @@ void WinApp::Initialize()
 	ShowWindow(hwnd, SW_SHOW);
 }
 
-void WinApp::Update()
-{
-
-}
-
 void WinApp::Finalize()
 {
 	// ウィンドウクラスを登録解除

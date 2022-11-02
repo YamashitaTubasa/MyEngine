@@ -3,7 +3,7 @@
 // DirectXŠî”Õ
 class DirectXCommon
 {
-public: // ƒƒ“ƒo•Ï”
+public: // ƒƒ“ƒoŠÖ”
 	// ‰Šú‰»
 	void Initialize();
 
