@@ -48,6 +48,9 @@
     <ClCompile Include="DirectXCommon\DirectXCommon.cpp">
       <Filter>ソース ファイル\DirectXCommon</Filter>
     </ClCompile>
+    <ClCompile Include="DXInput\DXInput.cpp">
+      <Filter>ソース ファイル\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Basic.hlsli">
@@ -71,6 +74,9 @@
     </ClInclude>
     <ClInclude Include="DirectXCommon\DirectXCommon.h">
       <Filter>ヘッダー ファイル\DirectXCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="DXInput\DXInput.h">
+      <Filter>ヘッダー ファイル\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
