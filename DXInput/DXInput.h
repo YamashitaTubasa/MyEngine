@@ -4,5 +4,9 @@
 class
 {
 public:
+	void Initalize();
 
+	void Update();
+
+	void 
 };
