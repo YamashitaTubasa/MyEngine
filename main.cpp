@@ -10,6 +10,7 @@ using namespace DirectX;
 #include "Input/Input.h"
 #include "WinApp/WinApp.h"
 #include "DirectXCommon/DirectXCommon.h"
+#include "DXInput/DXInput.h"
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
@@ -67,6 +68,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	WinApp* winApp = nullptr;
 	Input* input = nullptr;
 	DirectXCommon* dXCommon = nullptr;
+	DXInput* dXInput = nullptr;
+
 
 	// WindowsAPIの初期化
 	winApp = new WinApp();
@@ -984,7 +987,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 
 		//DirectX毎フレーム処理　ここから
-
+		dXInput = new DXInput();
+		XINPUT_STATE state;
+		XInputGetState(0, &state);
+		dXInput->InputProcess();
 		input->Update();
 
 		// 数字の0キーが押されていたら
@@ -1024,6 +1030,33 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			else if (input->PushKey(DIK_DOWN)) { position.z -= 1.5f; }
 			if (input->PushKey(DIK_RIGHT)) { position.x += 1.5f; }
 			else if (input->PushKey(DIK_LEFT)) { position.x -= 1.5f; }
+		}
+		if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP || state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN || 
+			state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT || state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT)
+		{
+			// 座標を移動する処理（Z座標）
+			if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP) { position.z += 1.5f; }
+			else if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN) { position.z -= 1.5f; }
+			if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT) { position.x += 1.5f; }
+			else if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT) { position.x -= 1.5f; }
+		}
+		if (state.Gamepad.sThumbLY >= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE || state.Gamepad.sThumbLY <= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE ||
+			state.Gamepad.sThumbLX >= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE || state.Gamepad.sThumbLX <= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
+		{
+			// 座標を移動する処理（Z座標）
+			if (state.Gamepad.sThumbLY >= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) { position.z += 1.5f; }
+			else if (state.Gamepad.sThumbLY <= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) { position.z -= 1.5f; }
+			if (state.Gamepad.sThumbLX >= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) { position.x += 1.5f; }
+			else if (state.Gamepad.sThumbLX <= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) { position.x -= 1.5f; }
+		}
+		if (state.Gamepad.sThumbRY >= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE || state.Gamepad.sThumbRY <= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE ||
+			state.Gamepad.sThumbRX >= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE || state.Gamepad.sThumbRX <= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
+		{
+			// 座標を移動する処理（Z座標）
+			if (state.Gamepad.sThumbRY >= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) { position.z += 1.5f; }
+			else if (state.Gamepad.sThumbRY <= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) { position.z -= 1.5f; }
+			if (state.Gamepad.sThumbRX >= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) { position.x += 1.5f; }
+			else if (state.Gamepad.sThumbRX <= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) { position.x -= 1.5f; }
 		}
 		matWorld = XMMatrixIdentity();
 		matWorld += matScale;

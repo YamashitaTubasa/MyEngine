@@ -1,5 +1,7 @@
 #include "WinApp.h"
 
+double WinApp::frameTime = 0;//1フレームあたりの時間
+
 LRESULT WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	// メッセージで分岐
@@ -9,6 +11,22 @@ LRESULT WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 		return 0;
 	}
 	return DefWindowProc(hwnd, msg, wparam, lparam); // 標準の処理を行う
+}
+
+int WinApp::GetWinWidth()
+{
+	return window_width;
+}
+
+
+int WinApp::GetWinHeight()
+{
+	return window_height;
+}
+
+double WinApp::GetFrameTime()
+{
+	return frameTime;
 }
 
 void WinApp::Initialize()
@@ -49,6 +67,19 @@ void WinApp::Finalize()
 {
 	// ウィンドウクラスを登録解除
 	UnregisterClass(wc.lpszClassName, wc.hInstance);
+}
+
+void WinApp::CalculationFrameTime()
+{
+	static int iFlg;
+	if (iFlg == 0)
+	{
+		QueryPerformanceCounter(&m_frametime_a);
+		iFlg = 1;
+	}
+	QueryPerformanceCounter(&m_frametime_b);
+	frameTime = (m_frametime_b.QuadPart - m_frametime_a.QuadPart) * 1000.0 / m_freq.QuadPart;
+	m_frametime_a = m_frametime_b;
 }
 
 bool WinApp::ProcessMessage()
