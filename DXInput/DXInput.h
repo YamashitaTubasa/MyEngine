@@ -12,16 +12,30 @@
 #pragma comment(lib,"dwrite.lib")
 #pragma comment (lib, "xinput.lib")
 
+#define MaxCountrollers 4
+
 /// <summary>
 /// ゲームパッド
 /// </summary>
 class DXInput
 {
+public:
+    struct CountrolerState
+    {
+        XINPUT_STATE state;
+        bool Connected;
+    };
+    CountrolerState GamePad;
+
 public:// メンバ関数
     DXInput();
     ~DXInput();
 
     void InputProcess();
+
+    void XInputInvaid();
+
+    /*HRESULT UpdateCountrollerState();*/
 
     XINPUT_STATE GetState() const { return state; }
 
