@@ -1041,22 +1041,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			if (dXInput->GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT) { position.x += 1.5f; }
 			else if (dXInput->GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT) { position.x -= 1.5f; }
 		}
-		if (dXInput->GamePad.state.Gamepad.sThumbLY >= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE || dXInput->GamePad.state.Gamepad.sThumbLY <= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE ||
-			dXInput->GamePad.state.Gamepad.sThumbLX >= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE || dXInput->GamePad.state.Gamepad.sThumbLX <= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
+		if (dXInput->GamePad.state.Gamepad.sThumbLY >= XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE || dXInput->GamePad.state.Gamepad.sThumbLY <= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE ||
+			dXInput->GamePad.state.Gamepad.sThumbLX >= XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE || dXInput->GamePad.state.Gamepad.sThumbLX <= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
 		{
 			// 座標を移動する処理（Z座標）
-			if (dXInput->GamePad.state.Gamepad.sThumbLY >= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) { position.z += 1.5f; }
+			if (dXInput->GamePad.state.Gamepad.sThumbLY >= XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) { position.z += 1.5f; }
 			else if (dXInput->GamePad.state.Gamepad.sThumbLY <= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) { position.z -= 1.5f; }
-			if (dXInput->GamePad.state.Gamepad.sThumbLX >= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) { position.x += 1.5f; }
+			if (dXInput->GamePad.state.Gamepad.sThumbLX >= XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) { position.x += 1.5f; }
 			else if (dXInput->GamePad.state.Gamepad.sThumbLX <= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) { position.x -= 1.5f; }
 		}
-		if (dXInput->GamePad.state.Gamepad.sThumbRY >= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE || dXInput->GamePad.state.Gamepad.sThumbRY <= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE ||
-			dXInput->GamePad.state.Gamepad.sThumbRX >= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE || dXInput->GamePad.state.Gamepad.sThumbRX <= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
+		if (dXInput->GamePad.state.Gamepad.sThumbRY >= XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE || dXInput->GamePad.state.Gamepad.sThumbRY <= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE ||
+			dXInput->GamePad.state.Gamepad.sThumbRX >= XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE || dXInput->GamePad.state.Gamepad.sThumbRX <= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
 		{
 			// 座標を移動する処理（Z座標）
-			if (dXInput->GamePad.state.Gamepad.sThumbRY >= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) { position.z += 1.5f; }
+			if (dXInput->GamePad.state.Gamepad.sThumbRY >= XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) { position.z += 1.5f; }
 			else if (dXInput->GamePad.state.Gamepad.sThumbRY <= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) { position.z -= 1.5f; }
-			if (dXInput->GamePad.state.Gamepad.sThumbRX >= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) { position.x += 1.5f; }
+			if (dXInput->GamePad.state.Gamepad.sThumbRX >= XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) { position.x += 1.5f; }
 			else if (dXInput->GamePad.state.Gamepad.sThumbRX <= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) { position.x -= 1.5f; }
 		}
 		matWorld = XMMatrixIdentity();
@@ -1212,7 +1212,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	dXCommon = nullptr;
 
 	// DXInput解放
-	/*dXInput->XInputInvaid();*/
+	//dXInput->XInputInvaid();
 	delete dXInput;
 
 	return 0;

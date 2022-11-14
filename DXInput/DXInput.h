@@ -13,6 +13,7 @@
 #pragma comment (lib, "xinput.lib")
 
 #define MaxCountrollers 4
+#define MaxVibration 65535
 
 /// <summary>
 /// ゲームパッド
@@ -22,8 +23,9 @@ class DXInput
 public:
     struct CountrolerState
     {
-        XINPUT_STATE state;
-        bool Connected;
+        XINPUT_STATE state; // コントローラーの状態の取得
+        XINPUT_VIBRATION vibration;  // バイブレーション
+        //bool Connected;
     };
     CountrolerState GamePad;
 
@@ -37,12 +39,8 @@ public:// メンバ関数
 
     /*HRESULT UpdateCountrollerState();*/
 
-    XINPUT_STATE GetState() const { return state; }
-
 private:// メンバ変数
     WinApp* winApp = nullptr;    // WindowsAPI
-    XINPUT_STATE state;          // コントローラーの状態の取得
-    XINPUT_VIBRATION vibration;  // バイブレーション
 
 private:
     static int  pad_A, pad_B, pad_X, pad_Y;
