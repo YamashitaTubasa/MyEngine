@@ -202,6 +202,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// 深度値のクリア設定
 	D3D12_CLEAR_VALUE depthClearValue{};//深度値1.0f(最大値)でクリア
 	depthClearValue.Format = DXGI_FORMAT_D32_FLOAT; //深度値フォーマット
+	depthClearValue.DepthStencil.Depth = 1.0f;
 
 	// リソース設定
 	ID3D12Resource* depthBuff = nullptr;
