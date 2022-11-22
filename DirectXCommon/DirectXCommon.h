@@ -3,6 +3,9 @@
 #include <dxgi1_6.h>
 #include <wrl.h>
 #include "WinApp/WinApp.h"
+#include <vector>
+
+using namespace Microsoft::WRL;
 
 // DirectX基盤
 class DirectXCommon
@@ -32,21 +35,26 @@ public: // メンバ関数
 private: 
 	// WindowsAPI
 	WinApp* winApp = nullptr;
-
+	HRESULT result;
 	// DirectX12デバイス
-	Microsoft::WRL::ComPtr<ID3D12Device> device;
+	ComPtr<ID3D12Device> device;
 	// DXGIファクトリ
-	Microsoft::WRL::ComPtr<IDXGIFactory7> dxgiFactory;
+	ComPtr<IDXGIFactory7> dxgiFactory;
 	// スワップチェイン
-	Microsoft::WRL::ComPtr<IDXGISwapChain4> swapChain;
+	ComPtr<IDXGISwapChain4> swapChain;
 	// コマンドアロケータ
-	Microsoft::WRL::ComPtr<ID3D12CommandAllocator> cmdAllocator;
+	ComPtr<ID3D12CommandAllocator> commndAllocator;
 	// コマンドリスト
-	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList;
+	ComPtr<ID3D12GraphicsCommandList> commandList;
 	// コマンドキュー
-	Microsoft::WRL::ComPtr<ID3D12CommandQueue> commandQueue;
+	ComPtr<ID3D12CommandQueue> commandQueue;
 	//
-	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> rtvHeap;
-	// バックバッファ
+	ComPtr<ID3D12DescriptorHeap> rtvHeap;
+	// スワップチェーンの設定
+	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
+	// コマンドキューの設定
+	D3D12_COMMAND_QUEUE_DESC commandQueueDesc{};
+	//バックバッファ
 	std::vector<Microsoft::WRL::ComPtr<ID3D12Resource>> backBuffers;
+	
 };

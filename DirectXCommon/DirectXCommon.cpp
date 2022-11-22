@@ -32,9 +32,6 @@ void DirectXCommon::Initialize(WinApp* winApp)
 
 void DirectXCommon::InitializeDevice()
 {
-	HRESULT result;
-	// DXGIファクトリ（デバイス生成後は解放されてよい）
-	ComPtr<IDXGIFactory7> dxgiFactory;
 
 #ifdef _DEBUG
 	// デバックレイヤーをオンに
@@ -129,23 +126,22 @@ void DirectXCommon::InitializeDevice()
 
 void DirectXCommon::InitializeCommand()
 {
-	HRESULT result;
-
 	// コマンドアロケーターを生成
 	result = device->CreateCommandAllocator(
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
-		IID_PPV_ARGS(&cmdAllocator));
+		IID_PPV_ARGS(&commndAllocator));
 	assert(SUCCEEDED(result));
 
 	// コマンドリストを生成
 	result = device->CreateCommandList(0,
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
-		cmdAllocator, nullptr,
+		commndAllocator.Get(), nullptr,
 		IID_PPV_ARGS(&commandList));
 	assert(SUCCEEDED(result));
 
 	// コマンドキューの設定
 	D3D12_COMMAND_QUEUE_DESC commandQueueDesc{};
+
 	// コマンドキューを生成
 	result = device->CreateCommandQueue(&commandQueueDesc, IID_PPV_ARGS(&commandQueue));
 	assert(SUCCEEDED(result));
@@ -153,13 +149,6 @@ void DirectXCommon::InitializeCommand()
 
 void DirectXCommon::InitializeSwapchain()
 {
-	HRESULT result;
-	// コマンドキュー
-	ComPtr<ID3D12CommandQueue> commandQueue;
-	// スワップチェイン
-	ComPtr<IDXGISwapChain4> swapChain;
-
-
 	// スワップチェーンの設定
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
 	swapChainDesc.Width = 1280;
@@ -171,11 +160,16 @@ void DirectXCommon::InitializeSwapchain()
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;// フリップ用は破棄
 	swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
+	//IDXGISwapChain1のComptrを用意
+	ComPtr<IDXGISwapChain1> swapChain1;
+
 	// スワップチェーンの生成
 	result = dxgiFactory->CreateSwapChainForHwnd(
-		commandQueue, winApp->GetHwnd(), &swapChainDesc, nullptr, nullptr,
-		(IDXGISwapChain1**)&swapChain
+		commandQueue.Get(), winApp->GetHwnd(), &swapChainDesc, nullptr, nullptr,
+		&swapChain1
 	);
+	//生成したIDXGISwapChain1のオブジェクトをIDXGISwapChain4に変換する
+	swapChain1.As(&swapChain);
 	assert(SUCCEEDED(result));
 
 	// IDXGISwapChain1のオブジェクトをIDXGISwapChain4に変換
@@ -184,6 +178,10 @@ void DirectXCommon::InitializeSwapchain()
 
 void DirectXCommon::InitializeRenderTargetView()
 {
+	DXGI_SWAP_CHAIN_DESC swcDesc = {};
+    result = swapChain->GetDesc(&swcDesc);
+    assert(SUCCEEDED(result));
+
 	// デスクリプタヒープの設定
 	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc{};
 	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;//レンゲーターゲットレビュー
@@ -211,15 +209,13 @@ void DirectXCommon::InitializeRenderTargetView()
 			rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 			rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
 			// レンダーターゲットレビューの生成
-			device->CreateRenderTargetView(backBuffers[i], &rtvDesc, rtvHandle);
+			device->CreateRenderTargetView(backBuffers[i].Get(), &rtvDesc, rtvHandle);
 		}
 	}
 }
 
 void DirectXCommon::InitializeDepthBuffer()
 {
-	HRESULT result;
-
 	// リソース設定
 	D3D12_RESOURCE_DESC depthResourceDesc{};
 	depthResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
@@ -266,8 +262,6 @@ void DirectXCommon::InitializeDepthBuffer()
 
 void DirectXCommon::InitializeFence()
 {
-	HRESULT result;
-
 	// フェンスの生成
 	ID3D12Fence* fence = nullptr;
 	UINT64 fenceVal = 0;
