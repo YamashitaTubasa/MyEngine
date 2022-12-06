@@ -143,10 +143,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DirectXCommon\DirectXCommon.cpp" />
     <ClCompile Include="Input\Input.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="WinApp\WinApp.cpp" />
+    <ClCompile Include="platform\DirectXCommon.cpp" />
+    <ClCompile Include="platform\WinApp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
@@ -171,9 +171,9 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DirectXCommon\DirectXCommon.h" />
     <ClInclude Include="Input\Input.h" />
-    <ClInclude Include="WinApp\WinApp.h" />
+    <ClInclude Include="platform\DirectXCommon.h" />
+    <ClInclude Include="platform\WinApp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

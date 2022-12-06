@@ -22,17 +22,11 @@
     <Filter Include="ソース ファイル\Input">
       <UniqueIdentifier>{7431be2a-968f-414b-810b-a22373c3546c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\WinApp">
-      <UniqueIdentifier>{b51a51b1-da65-43b0-bd23-0304a6a9ab3f}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\Platform">
+      <UniqueIdentifier>{8313e8fc-96f9-4156-a4c0-69b810bb4a41}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\WInApp">
-      <UniqueIdentifier>{aca60acd-4fbe-434e-8639-743107b6cb41}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\DirectXCommon">
-      <UniqueIdentifier>{53fc9c1b-f15d-4579-ae08-4857e5e744f9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\DirectXCommon">
-      <UniqueIdentifier>{e046fef1-b613-4282-a6cb-e0ef180e298e}</UniqueIdentifier>
+    <Filter Include="ヘッダー ファイル\Platform">
+      <UniqueIdentifier>{317ea29b-1be7-4b4c-a825-1b16cd0976fe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -42,11 +36,11 @@
     <ClCompile Include="Input\Input.cpp">
       <Filter>ソース ファイル\Input</Filter>
     </ClCompile>
-    <ClCompile Include="WinApp\WinApp.cpp">
-      <Filter>ソース ファイル\WinApp</Filter>
+    <ClCompile Include="platform\DirectXCommon.cpp">
+      <Filter>ソース ファイル\Platform</Filter>
     </ClCompile>
-    <ClCompile Include="DirectXCommon\DirectXCommon.cpp">
-      <Filter>ソース ファイル\DirectXCommon</Filter>
+    <ClCompile Include="platform\WinApp.cpp">
+      <Filter>ソース ファイル\Platform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -66,11 +60,11 @@
     <ClInclude Include="Input\Input.h">
       <Filter>ヘッダー ファイル\Input</Filter>
     </ClInclude>
-    <ClInclude Include="WinApp\WinApp.h">
-      <Filter>ヘッダー ファイル\WInApp</Filter>
+    <ClInclude Include="platform\DirectXCommon.h">
+      <Filter>ヘッダー ファイル\Platform</Filter>
     </ClInclude>
-    <ClInclude Include="DirectXCommon\DirectXCommon.h">
-      <Filter>ヘッダー ファイル\DirectXCommon</Filter>
+    <ClInclude Include="platform\WinApp.h">
+      <Filter>ヘッダー ファイル\Platform</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

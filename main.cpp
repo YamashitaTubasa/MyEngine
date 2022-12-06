@@ -8,8 +8,8 @@ using namespace DirectX;
 #include <d3dcompiler.h>
 #include <DirectXTex.h>
 #include "Input/Input.h"
-#include "WinApp/WinApp.h"
-#include "DirectXCommon/DirectXCommon.h"
+#include "Platform/WinApp.h"
+#include "Platform/DirectXCommon.h"
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
@@ -1038,6 +1038,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//// 定数バッファに転送
 		//constMapTransform1->mat = matWorld1 * matView * matProjection;
 
+		// 描画前処理
+		dXCommon->PreDraw();
+
 		//バックバッファの番号取得(２つなので0番か1番)
 		//UINT bbIndex = swapChain->GetCurrentBackBufferIndex();
 
@@ -1158,7 +1161,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//// 再びコマンドリストを貯める準備
 		//result = commandList->Reset(cmdAllocator, nullptr);
 		//assert(SUCCEEDED(result));
-
+		
+		// 描画後処理
+		dXCommon->PostDraw();
+		
 		// DirectX毎フレーム処理　ここまで
 	}
 
