@@ -338,18 +338,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	}
 
 	// 単位行列を代入
-	//constMapTransform0->mat = XMMatrixIdentity();
-	//constMapTransform0->mat.r[0].m128_f32[0] = 2.0f / 1280;
-	//constMapTransform0->mat.r[1].m128_f32[1] = -2.0f / 720;
-	//constMapTransform0->mat.r[3].m128_f32[0] = -1.0f;
-	//constMapTransform0->mat.r[3].m128_f32[1] = 1.0f;
+	constMapTransform0->mat = XMMatrixIdentity();
+	constMapTransform0->mat.r[0].m128_f32[0] = 2.0f / 1280;
+	constMapTransform0->mat.r[1].m128_f32[1] = -2.0f / 720;
+	constMapTransform0->mat.r[3].m128_f32[0] = -1.0f;
+	constMapTransform0->mat.r[3].m128_f32[1] = 1.0f;
 
-	//// 並行投影行列の計算
-	//constMapTransform0->mat = XMMatrixOrthographicOffCenterLH(
-	//	0, 1280,
-	//	720, 0,
-	//	0.0f, 1.0f
-	//);
+	// 並行投影行列の計算
+	constMapTransform0->mat = XMMatrixOrthographicOffCenterLH(
+		0, 1280,
+		720, 0,
+		0.0f, 1.0f
+	);
 
 
 	// 透視投影行列の変換
@@ -394,7 +394,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	matWorld += matTrans; // ワールド行列に平行移動を反映
 
 
-		// ワールド変換行列
+	// ワールド変換行列
 	XMMATRIX matWorld1;
 	matWorld1 = XMMatrixIdentity();
 	// 各種変形行列を計算
@@ -749,7 +749,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	result = dXCommon->GetDevice()->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
 	assert(SUCCEEDED(result));
 
-	//int isGradationflag = 0;
+	int isGradationflag = 0;
 
 	while (true) {
 		// Windowsのメッセージ処理
@@ -808,10 +808,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		matWorld += matTrans; // ワールド行列に平行移動を反映
 
 		// 定数バッファに転送
-		//constMapTransform0->mat = matWorld * matView * matProjection;
+		constMapTransform0->mat = matWorld * matView * matProjection;
 
-		//// 定数バッファに転送
-		//constMapTransform1->mat = matWorld1 * matView * matProjection;
+		// 定数バッファに転送
+		constMapTransform1->mat = matWorld1 * matView * matProjection;
 
 		// 描画前処理
 		dXCommon->PreDraw();
