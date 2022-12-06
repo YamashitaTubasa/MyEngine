@@ -5,6 +5,7 @@
 #include <d3dx12.h>
 
 #include "Platform/WinApp.h"
+//#include "Input/Input.h"
 
 using namespace Microsoft::WRL;
 
@@ -31,9 +32,17 @@ public: // メンバ関数
 	// 描画後処理
 	void PostDraw();
 
+public: // Getter
+	// デバイスの取得
+	ID3D12Device* GetDevice() const { return device.Get(); }
+	// コマンドリスト取得
+	ID3D12GraphicsCommandList* GetCommandList() const { return commandList.Get(); }
+
 private: 
 	// WindowsAPI
 	WinApp* winApp = nullptr;
+	// Input
+	/*Input* input = nullptr;*/
 
 	HRESULT result;
 	// DirectX12デバイス
