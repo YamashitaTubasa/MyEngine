@@ -3,6 +3,8 @@
 #include <dxgi1_6.h>
 #include <wrl.h>
 #include <d3dx12.h>
+#include <chrono>
+#include <thread>
 
 #include "Platform/WinApp.h"
 //#include "Input/Input.h"
@@ -31,6 +33,14 @@ public: // メンバ関数
 	void PreDraw();
 	// 描画後処理
 	void PostDraw();
+
+private: // メンバ関数
+	// FPS固定初期化
+	void InitializeFixFPS();
+	// FPS固定更新
+	void UpdateFixFPS();
+	// 記録時間(FPS固定用)
+	std::chrono::steady_clock::time_point reference_;
 
 public: // Getter
 	// デバイスの取得
