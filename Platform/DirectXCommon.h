@@ -6,10 +6,16 @@
 #include <chrono>
 #include <thread>
 
+#include <DirectXMath.h>
+#include <d3dcompiler.h>
+#include <DirectXTex.h>
+
 #include "Platform/WinApp.h"
 //#include "Input/Input.h"
+#include "Platform/FPSFixed.h"
 
 using namespace Microsoft::WRL;
+using namespace DirectX;
 
 // DirectX基盤
 class DirectXCommon
@@ -53,6 +59,8 @@ private:
 	WinApp* winApp = nullptr;
 	// Input
 	/*Input* input = nullptr;*/
+	// FPS
+	/*FPSFixed* fpsFixed = nullptr;*/
 
 	HRESULT result;
 	// DirectX12デバイス

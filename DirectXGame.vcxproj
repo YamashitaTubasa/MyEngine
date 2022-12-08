@@ -145,7 +145,10 @@
   <ItemGroup>
     <ClCompile Include="Input\Input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Math\Matrix4.cpp" />
+    <ClCompile Include="Math\Vector3.cpp" />
     <ClCompile Include="platform\DirectXCommon.cpp" />
+    <ClCompile Include="Platform\FPSFixed.cpp" />
     <ClCompile Include="platform\WinApp.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -172,7 +175,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input\Input.h" />
+    <ClInclude Include="Math\Matrix4.h" />
+    <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="platform\DirectXCommon.h" />
+    <ClInclude Include="Platform\FPSFixed.h" />
     <ClInclude Include="platform\WinApp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

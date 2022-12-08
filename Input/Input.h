@@ -1,13 +1,35 @@
 #pragma once
 #include <windows.h>
 #include <wrl.h>
-#define DIRECTINPUT_VERSION 0x0800 // DirectInputのバージョン指定
 #include <dinput.h>
 #include "Platform/WinApp.h"
+#include <dwrite.h>
+#include <wchar.h>
+#include <wrl/client.h>
+#include <random>
+#include <xinput.h>
+
+#pragma comment(lib,"d3d11.lib")
+#pragma comment(lib,"d2d1.lib")
+#pragma comment(lib,"dwrite.lib")
+#pragma comment (lib, "xinput.lib")
+
+#define MaxCountrollers 4  
+#define MaxVibration 65535
+#define DIRECTINPUT_VERSION 0x0800 // DirectInputのバージョン指定
 
 // 入力
 class Input
 {
+public:
+	struct CountrolerState
+	{
+		XINPUT_STATE state; // コントローラーの状態の取得
+		XINPUT_VIBRATION vibration;  // バイブレーション
+		//bool Connected;
+	};
+	CountrolerState GamePad;
+
 public:
 	// namespace
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -45,4 +67,3 @@ private: // メンバ変数
 	// WindowsAPI
 	WinApp* winApp = nullptr;
 };
-
