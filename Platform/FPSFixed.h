@@ -10,6 +10,7 @@ public: // メンバ関数
 	void InitializeFixFPS();
 	// FPS固定更新
 	void UpdateFixFPS();
+
 	// 記録時間(FPS固定用)
 	std::chrono::steady_clock::time_point reference_;
 };

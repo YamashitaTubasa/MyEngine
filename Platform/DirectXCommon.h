@@ -6,16 +6,12 @@
 #include <chrono>
 #include <thread>
 
-#include <DirectXMath.h>
-#include <d3dcompiler.h>
 #include <DirectXTex.h>
 
 #include "Platform/WinApp.h"
-//#include "Input/Input.h"
 #include "Platform/FPSFixed.h"
 
 using namespace Microsoft::WRL;
-using namespace DirectX;
 
 // DirectX基盤
 class DirectXCommon
@@ -39,14 +35,16 @@ public: // メンバ関数
 	void PreDraw();
 	// 描画後処理
 	void PostDraw();
+	// 終了処理
+	void fpsFixedFinalize();
 
 private: // メンバ関数
-	// FPS固定初期化
-	void InitializeFixFPS();
-	// FPS固定更新
-	void UpdateFixFPS();
-	// 記録時間(FPS固定用)
-	std::chrono::steady_clock::time_point reference_;
+	template <class T>
+	inline void safe_delete(T*& p) {
+		delete p;
+		p = nullptr;
+	}
+	
 
 public: // Getter
 	// デバイスの取得
@@ -57,10 +55,8 @@ public: // Getter
 private: 
 	// WindowsAPI
 	WinApp* winApp = nullptr;
-	// Input
-	/*Input* input = nullptr;*/
 	// FPS
-	/*FPSFixed* fpsFixed = nullptr;*/
+	FPSFixed* fpsFixed = nullptr;
 
 	HRESULT result;
 	// DirectX12デバイス
@@ -88,6 +84,7 @@ private:
 	std::vector<ComPtr<ID3D12Resource>> backBuffers;
 	// フェンスの生成
 	ComPtr<ID3D12Fence> fence;
+
 	UINT rtvHD;
 	UINT64 fenceVal = 0;
 };
