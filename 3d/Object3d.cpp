@@ -37,12 +37,6 @@ void Object3d::StaticInitialize(ID3D12Device * device, int window_width, int win
 	// パイプライン初期化
 	InitializeGraphicsPipeline();
 
-	// テクスチャ読み込み
-	/*LoadTexture(directoryPath, material.textureFilename);*/
-
-	// モデル生成
-	//CreateModel(model);
-
 	// モデルにデバイスをセット
 	Model::SetDevice(device);
 }
@@ -263,10 +257,6 @@ void Object3d::InitializeGraphicsPipeline()
 	CD3DX12_DESCRIPTOR_RANGE descRangeSRV;
 	descRangeSRV.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0); // t0 レジスタ
 
-	// ルートパラメータ
-	//CD3DX12_ROOT_PARAMETER rootparams[2];
-	//rootparams[0].InitAsConstantBufferView(0, 0, D3D12_SHADER_VISIBILITY_ALL);
-	//rootparams[1].InitAsDescriptorTable(1, &descRangeSRV, D3D12_SHADER_VISIBILITY_ALL);
 	// ルートパラメータ
 	CD3DX12_ROOT_PARAMETER rootparams[3];
 	rootparams[0].InitAsConstantBufferView(0, 0, D3D12_SHADER_VISIBILITY_ALL);

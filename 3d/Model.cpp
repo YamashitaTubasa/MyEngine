@@ -112,11 +112,6 @@ void Model::LoadTexture(const std::string& directoryPath, const std::string& fil
 	wchar_t wfilepath[128];
 	int iBufferSize = MultiByteToWideChar(CP_ACP, 0, filepath.c_str(), -1, wfilepath, _countof(wfilepath));
 
-	// WICテクスチャのロード
-	/*result = LoadFromWICFile(
-	L"Resources/tex1.png",
-	WIC_FLAGS_NONE, &metadata, scratchImg);*/
-
 	result = LoadFromWICFile(
 		wfilepath, WIC_FLAGS_NONE,
 		&metadata, scratchImg

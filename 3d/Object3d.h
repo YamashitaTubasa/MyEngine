@@ -32,13 +32,6 @@ public: // サブクラス
 		XMMATRIX mat;	// ３Ｄ変換行列
 	};
 
-private: // 定数
-	static const int division = 50; // 分割数
-	static const float radius; // 底面の半径
-	static const float prizmHeight; // 柱の高さ
-	static const int planeCount = division * 2 + division * 2; // 面の数
-	static const int vertexCount = planeCount * 3; // 頂点数
-
 public: // 静的メンバ関数
 	/// <summary>
 	/// 静的初期化
@@ -147,20 +140,16 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
-	/// <summary>
-	/// 座標の取得
-	/// </summary>
-	/// <returns>座標</returns>
-	const XMFLOAT3& GetPosition() const { return position; }
+	// モデルの設定
+	void SetModel(Model* model) { this->model = model; }
 
-	/// <summary>
-	/// 座標の設定
-	/// </summary>
-	/// <param name="position">座標</param>
+	// オブジェクトの座標
+	const XMFLOAT3& GetPosition() const { return position; }
 	void SetPosition(const XMFLOAT3& position) { this->position = position; }
+	// オブジェクトの大きさ
 	void SetScale(const XMFLOAT3& scale) { this->scale = scale; }
 	const XMFLOAT3& GetScale() const { return scale; }
-	void SetModel(Model* model) { this->model = model; }
+	// オブジェクトの回転
 	void SetRotation(const XMFLOAT3& rotation) { this->rotation = rotation; }
 	const XMFLOAT3& GetRotation() const { return rotation; }
 
