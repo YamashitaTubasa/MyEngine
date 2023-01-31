@@ -51,11 +51,11 @@ void GameScene::Update()
 			if (time >= 1000) {
 				scene = GameClear;
 			}
-			ImGui::Text("Hello%d", 123);
+			/*ImGui::Text("Hello%d", 123);
 			if (ImGui::Button("Save"))
 				imGuiManager->MySaveFunction();
 			ImGui::InputText("string", buf, IM_ARRAYSIZE(buf));
-			ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
+			ImGui::SliderFloat("float", &f, 0.0f, 1.0f);*/
 			// オブジェクトの更新
 			ObjectUpdate();
 			// スプライトの更新
@@ -283,16 +283,17 @@ void GameScene::SpriteInitialize(DirectXCommon* dXCommon, SpriteCommon& spriteCo
 	spriteCommon_ = sprite->SpriteCommonCreate(dXCommon->GetDevice(), 1280, 720);
 
 	// タイトルの設定
-	title.SpriteCommonLoadTexture(spriteCommon_, 0, L"Resources/gametitle.png", dXCommon->GetDevice());
+	title.LoadTexture(spriteCommon_, 0, L"Resources/gametitle.png", dXCommon->GetDevice());
+	title.SetColor(XMFLOAT4(1, 1, 1, 1));
 	title.SpriteCreate(dXCommon->GetDevice(), 1280, 720, 0 , spriteCommon, XMFLOAT2(0.0f, 0.0f), false, false);
 	title.SetPosition(XMFLOAT3(0, 0, 0));
 	title.SetScale(XMFLOAT2(1280 * 1, 720 * 1));
-	title.SetRotation(XMFLOAT3(0, 0, 0));
+	title.SetRotation(0.0f);
 	title.SpriteTransferVertexBuffer(title, spriteCommon, 0);
 	title.SpriteUpdate(title, spriteCommon_);
 
 	// ゲームクリアの設定
-	gameClear.SpriteCommonLoadTexture(spriteCommon_, 1, L"Resources/gameclear.png", dXCommon->GetDevice());
+	gameClear.LoadTexture(spriteCommon_, 1, L"Resources/gameclear.png", dXCommon->GetDevice());
 	gameClear.SpriteCreate(dXCommon->GetDevice(), 1280, 720, 1, spriteCommon, XMFLOAT2(0.0f, 0.0f), false, false);
 	gameClear.SetPosition(XMFLOAT3(0, 0, 0));
 	gameClear.SetScale(XMFLOAT2(1280 * 1, 720 * 1));
@@ -300,11 +301,11 @@ void GameScene::SpriteInitialize(DirectXCommon* dXCommon, SpriteCommon& spriteCo
 	gameClear.SpriteUpdate(gameClear, spriteCommon_);
 
 	// ゲームオーバーの設定
-	gameOver.SpriteCommonLoadTexture(spriteCommon_, 2, L"Resources/gameover.png", dXCommon->GetDevice());
+	gameOver.LoadTexture(spriteCommon_, 2, L"Resources/gameover.png", dXCommon->GetDevice());
 	gameOver.SpriteCreate(dXCommon->GetDevice(), 1280, 720, 2, spriteCommon, XMFLOAT2(0.0f, 0.0f), false, false);
 	gameOver.SetPosition(XMFLOAT3(0, 0, 0));
 	gameOver.SetScale(XMFLOAT2(1280 * 1, 720 * 1));
-	gameOver.SpriteTransferVertexBuffer(gameOver, spriteCommon, 1);
+	gameOver.SpriteTransferVertexBuffer(gameOver, spriteCommon, 2);
 	gameOver.SpriteUpdate(gameOver, spriteCommon_);
 
 	// スプライト用パイプライン生成呼び出し
@@ -317,20 +318,29 @@ void GameScene::SpriteUpdate()
 
 void GameScene::TitleDraw(DirectXCommon* dXCommon)
 {
-	sprite->SpriteCommonBeginDraw(dXCommon->GetCommandList(), spriteCommon_);
+	sprite->PreDraw(dXCommon->GetCommandList(), spriteCommon_);
+
 	title.SpriteDraw(dXCommon->GetCommandList(), spriteCommon_, dXCommon->GetDevice(), title.vbView);
+
+	sprite->PostDraw();
 }
 
 void GameScene::GameClearDraw(DirectXCommon* dXCommon)
 {
-	sprite->SpriteCommonBeginDraw(dXCommon->GetCommandList(), spriteCommon_);
+	sprite->PreDraw(dXCommon->GetCommandList(), spriteCommon_);
+
 	gameClear.SpriteDraw(dXCommon->GetCommandList(), spriteCommon_, dXCommon->GetDevice(), gameClear.vbView);
+
+	sprite->PostDraw();
 }
 
 void GameScene::GameOverDraw(DirectXCommon* dXCommon)
 {
-	sprite->SpriteCommonBeginDraw(dXCommon->GetCommandList(), spriteCommon_);
+	sprite->PreDraw(dXCommon->GetCommandList(), spriteCommon_);
+
 	gameOver.SpriteDraw(dXCommon->GetCommandList(), spriteCommon_, dXCommon->GetDevice(), gameOver.vbView);
+
+	sprite->PostDraw();
 }
 
 
