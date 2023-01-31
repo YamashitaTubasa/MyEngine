@@ -74,13 +74,14 @@ private: // 定数
 public: // 静的メンバ関数
 	
 	// OBJファイルから3Dモデルを読み込む
-	static Model* LoadFromOBJ(const std::string& modelname);
+	static Model* LoadFromOBJ(const std::string& modelname, const std::string& texname = "Resources");
 
 	// マテリアル読み込み
 	void LoadMaterial(const std::string& directoryPath, const std::string& filename);
 
 	// テクスチャ読み込み
 	void LoadTexture(const std::string& directoryPath, const std::string& filename);
+	void LoadTexture(const std::string& filename = "Resources");
 
 	// 描画
 	/// <param name="cmdList">描画コマンドリスト</param>
@@ -123,7 +124,7 @@ private: // 静的メンバ変数
 
 private:// 静的メンバ関数
 	// OBJファイルから3Dモデルを読み込む(非公開)
-	void LoadFromOBJInternal(const std:: string& modelname);
+	void LoadFromOBJInternal(const std::string& modelname);
 
 	// デスクリプタヒープの初期化
 	void InitializeDescriptorHeap();

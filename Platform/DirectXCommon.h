@@ -51,6 +51,8 @@ public: // Getter
 	ID3D12Device* GetDevice() const { return device.Get(); }
 	// コマンドリスト取得
 	ID3D12GraphicsCommandList* GetCommandList() const { return commandList.Get(); }
+	// バックバッファの数を取得
+	size_t GetBackBufferCount() const { return backBuffers.size(); }
 
 private: 
 	// WindowsAPI

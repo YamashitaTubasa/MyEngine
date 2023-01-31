@@ -102,7 +102,7 @@ void DirectXCommon::InitializeDevice()
 	}
 
 #ifdef _DEBUG
-	ID3D12InfoQueue* infoQueue;
+	ComPtr<ID3D12InfoQueue> infoQueue;
 	if (SUCCEEDED(device->QueryInterface(IID_PPV_ARGS(&infoQueue)))) {
 		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
 		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true); // エラー時に止まる
@@ -125,7 +125,7 @@ void DirectXCommon::InitializeDevice()
 		// 指定したエラーの表示を抑制
 		infoQueue->PushStorageFilter(&filter);
 
-		infoQueue->Release();
+		//infoQueue->Release();
 	}
 #endif
 }

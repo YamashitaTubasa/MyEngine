@@ -1,21 +1,45 @@
 #include "GameScene.h"
 
-void GameScene::Initialize(DirectXCommon* dXCommon, WinApp* winApp)
+GameScene::GameScene()
 {
+}
+
+GameScene::~GameScene()
+{
+	delete particleMan;
+}
+
+void GameScene::Initialize(DirectXCommon* dXCommon, WinApp* winApp, SpriteCommon& spriteCommon)
+{
+	// 3Dオブジェクト生成
+	particleMan = ParticleManager::Create();
+	particleMan->Update();
+
 	// 入力の初期化
 	input = new Input();
 	input->Initialize(winApp);
+
+	// ImGuiの初期化
+	imGuiManager = new ImGuiManager();
+	imGuiManager->Initialize(dXCommon, winApp);
+	
 	// オブジェクトの初期化
 	ObjectInitialize(dXCommon);
 	// スプライトの初期化
-	SpriteInitialize(dXCommon);
+	SpriteInitialize(dXCommon, spriteCommon);
+	// パーティクルの初期化
+	ParticleInitialize();
 }
 
 void GameScene::Update()
 {
+	// ImGui受付開始
+	imGuiManager->Begin();
+
 	// 入力の更新
 	input->Update();
-
+	static char buf[256]{};
+	static float f = 0.0f;
 	switch (scene) {
 		case Title:
 			if (input->TriggerKey(DIK_SPACE)) {
@@ -27,10 +51,17 @@ void GameScene::Update()
 			if (time >= 1000) {
 				scene = GameClear;
 			}
+			ImGui::Text("Hello%d", 123);
+			if (ImGui::Button("Save"))
+				imGuiManager->MySaveFunction();
+			ImGui::InputText("string", buf, IM_ARRAYSIZE(buf));
+			ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
 			// オブジェクトの更新
 			ObjectUpdate();
 			// スプライトの更新
 			SpriteUpdate();
+			// パーティクルの更新
+			ParticleUpdate();
 			break;
 		case GameClear:
 			if (input->TriggerKey(DIK_SPACE)) {
@@ -45,6 +76,9 @@ void GameScene::Update()
 			}
 			break;
 	}
+
+	// ImGui受付終了
+	imGuiManager->End();
 }
 
 void GameScene::Draw(DirectXCommon* dXCommon)
@@ -54,21 +88,14 @@ void GameScene::Draw(DirectXCommon* dXCommon)
 
 	switch (scene) {
 		case Title:
-			#pragma region スプライトの描画
-
 			// タイトルの描画
 			TitleDraw(dXCommon);
-
-			#pragma endregion スプライトの描画
 			break;
 		case Scene_1:
-			#pragma region 3Dオブジェクト描画
-
 			// 3Dオブジェクトの描画
 			ObjectDraw(dXCommon);
-
-			#pragma endregion 3Dオブジェクト描画
-
+			// パーティクルの描画
+			ParticleDraw(dXCommon);
 			break;
 		case GameClear:
 			// ゲームクリアの描画
@@ -80,29 +107,40 @@ void GameScene::Draw(DirectXCommon* dXCommon)
 			break;
 	}
 
+	// ImGui描画
+	imGuiManager->Draw(dXCommon);
+	
 	// 描画後処理
 	dXCommon->PostDraw();
 }
 
 void GameScene::Finalize()
 {
+
 	// 入力開放
 	delete input;
 	input = nullptr;
+
+	// imguiの終了処理
+	imGuiManager->Finalize();
+	// imguiの解放
+	delete imGuiManager;
+	imGuiManager = nullptr;
+
 	// オブジェクトの解放
 	ObjectFinalize();
+
 	// スプライトの解放
 	SpriteFinalize();
 }
 
-void GameScene::ObjectInitialize(DirectXCommon* dXCommon) {
-
-	// 3Dオブジェクト静的初期化
-	Object3d::StaticInitialize(dXCommon->GetDevice(), WinApp::window_width, WinApp::window_height);
+void GameScene::ObjectInitialize(DirectXCommon* dXCommon) 
+{
 	// OBJからモデルデータを読み込む
-	Model[0] = Model::LoadFromOBJ("fighter");
-	Model[1] = Model::LoadFromOBJ("ironSphere");
-	Model[2] = Model::LoadFromOBJ("skydome");
+	Model[0] = Model::LoadFromOBJ("fighter", "effect1.png");
+	//Model[0]->LoadTexture("effect1.png");
+	Model[1] = Model::LoadFromOBJ("ironSphere", "ironShpere/ironSphere.png");
+	Model[2] = Model::LoadFromOBJ("skydome", "skydome/skydome.jpg");
 	// 3Dオブジェクト生成
 	for (int i = 0; i < 5; i++) {
 		object3d[i] = Object3d::Create();
@@ -238,37 +276,35 @@ void GameScene::ObjectFinalize()
 	}
 }
 
-void GameScene::SpriteInitialize(DirectXCommon* dXCommon)
+void GameScene::SpriteInitialize(DirectXCommon* dXCommon, SpriteCommon& spriteCommon)
 {
 	// スプライト
 	sprite = new Sprite();
 	spriteCommon_ = sprite->SpriteCommonCreate(dXCommon->GetDevice(), 1280, 720);
-	sprite->SpriteCommonLoadTexture(spriteCommon_, 0, L"Resources/gametitle.png", dXCommon->GetDevice());
-	sprite->SpriteCommonLoadTexture(spriteCommon_, 1, L"Resources/gameclear.png", dXCommon->GetDevice());
-	sprite->SpriteCommonLoadTexture(spriteCommon_, 2, L"Resources/gameover.png", dXCommon->GetDevice());
 
-	// タイトルの大きさの設定
-	title.SpriteCreate(dXCommon->GetDevice(), 1280, 720);
-	title.SetTexNumber(0);
+	// タイトルの設定
+	title.SpriteCommonLoadTexture(spriteCommon_, 0, L"Resources/gametitle.png", dXCommon->GetDevice());
+	title.SpriteCreate(dXCommon->GetDevice(), 1280, 720, 0 , spriteCommon, XMFLOAT2(0.0f, 0.0f), false, false);
 	title.SetPosition(XMFLOAT3(0, 0, 0));
 	title.SetScale(XMFLOAT2(1280 * 1, 720 * 1));
-	title.SpriteTransferVertexBuffer(title);
+	title.SetRotation(XMFLOAT3(0, 0, 0));
+	title.SpriteTransferVertexBuffer(title, spriteCommon, 0);
 	title.SpriteUpdate(title, spriteCommon_);
 
-	// ゲームクリアの大きさの設定
-	gameClear.SpriteCreate(dXCommon->GetDevice(), 1280, 720);
-	gameClear.SetTexNumber(1);
+	// ゲームクリアの設定
+	gameClear.SpriteCommonLoadTexture(spriteCommon_, 1, L"Resources/gameclear.png", dXCommon->GetDevice());
+	gameClear.SpriteCreate(dXCommon->GetDevice(), 1280, 720, 1, spriteCommon, XMFLOAT2(0.0f, 0.0f), false, false);
 	gameClear.SetPosition(XMFLOAT3(0, 0, 0));
 	gameClear.SetScale(XMFLOAT2(1280 * 1, 720 * 1));
-	gameClear.SpriteTransferVertexBuffer(gameClear);
+	gameClear.SpriteTransferVertexBuffer(gameClear, spriteCommon, 1);
 	gameClear.SpriteUpdate(gameClear, spriteCommon_);
 
-	// ゲームオーバーの大きさの設定
-	gameOver.SpriteCreate(dXCommon->GetDevice(), 1280, 720);
-	gameOver.SetTexNumber(2);
+	// ゲームオーバーの設定
+	gameOver.SpriteCommonLoadTexture(spriteCommon_, 2, L"Resources/gameover.png", dXCommon->GetDevice());
+	gameOver.SpriteCreate(dXCommon->GetDevice(), 1280, 720, 2, spriteCommon, XMFLOAT2(0.0f, 0.0f), false, false);
 	gameOver.SetPosition(XMFLOAT3(0, 0, 0));
 	gameOver.SetScale(XMFLOAT2(1280 * 1, 720 * 1));
-	gameOver.SpriteTransferVertexBuffer(gameOver);
+	gameOver.SpriteTransferVertexBuffer(gameOver, spriteCommon, 1);
 	gameOver.SpriteUpdate(gameOver, spriteCommon_);
 
 	// スプライト用パイプライン生成呼び出し
@@ -303,6 +339,64 @@ void GameScene::SpriteFinalize()
 	// スプライト解放
 	delete sprite;
 	sprite = nullptr;
+}
+
+void GameScene::ParticleInitialize()
+{
+	for (int i = 0; i < 100; i++) {
+		// X,Y,Zすべて[-5.0f,+5.0f]でランダムに分布
+		const float md_pos = 10.0f;
+		XMFLOAT3 pos{};
+		pos.x = (float)rand() / RAND_MAX * md_pos - md_pos / 2.0f;
+		pos.y = (float)rand() / RAND_MAX * md_pos - md_pos / 2.0f;
+		pos.z = (float)rand() / RAND_MAX * md_pos - md_pos / 2.0f;
+		// X,Y,Z全て[-0.05f,+0.05f]でランダム分布
+		const float md_vel = 0.1f;
+		XMFLOAT3 vel{};
+		vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+		vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+		vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+		// 重力に見立ててYのみ[-0.001f,0]でランダム分布
+		XMFLOAT3 acc{};
+		const float md_acc = 0.001f;
+		acc.y = (float)rand() / RAND_MAX * md_acc;
+
+		// 追加
+		particleMan->Add(60, pos, vel, acc, 1.0f, 0.0);
+	}
+}
+
+void GameScene::ParticleUpdate()
+{
+	// カメラ移動
+	if (input->PushKey(DIK_W) || input->PushKey(DIK_S) || input->PushKey(DIK_D) || input->PushKey(DIK_A))
+	{
+		if (input->PushKey(DIK_W)) { ParticleManager::CameraMoveEyeVector({ 0.0f,+1.0f,0.0f }); }
+		else if (input->PushKey(DIK_S)) { ParticleManager::CameraMoveEyeVector({ 0.0f,-1.0f,0.0f }); }
+		if (input->PushKey(DIK_D)) { ParticleManager::CameraMoveEyeVector({ +1.0f,0.0f,0.0f }); }
+		else if (input->PushKey(DIK_A)) { ParticleManager::CameraMoveEyeVector({ -1.0f,0.0f,0.0f }); }
+	}
+
+	particleMan->Update();
+}
+
+void GameScene::ParticleDraw(DirectXCommon* dXCommon)
+{
+	// コマンドリストの取得
+	//ID3D12GraphicsCommandList* cmdList = dXCommon->GetCommandList();
+
+	// 3Dオブジェクト描画前処理
+	ParticleManager::PreDraw(dXCommon->GetCommandList());
+
+	// 3Dオブクジェクトの描画
+	particleMan->Draw();
+
+	/// <summary>
+	/// ここに3Dオブジェクトの描画処理を追加できる
+	/// </summary>
+
+	// 3Dオブジェクト描画後処理
+	ParticleManager::PostDraw();
 }
 
 void GameScene::GameReset()

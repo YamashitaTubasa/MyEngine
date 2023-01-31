@@ -24,16 +24,24 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	dXCommon = new DirectXCommon();
 	dXCommon->Initialize(winApp);
 
+	// スプライト
+	SpriteCommon spriteCommon;
+
+	// 3Dオブジェクト静的初期化
+	Object3d::StaticInitialize(dXCommon->GetDevice(), WinApp::window_width, WinApp::window_height);
+	// パーティクル静的初期化
+	ParticleManager::StaticInitialize(dXCommon->GetDevice(), WinApp::window_width, WinApp::window_height);
+
 	// ゲームシーンの初期化
 	GameScene* gameScene = new GameScene();
 
 #pragma endregion 基盤システムの初期化
 
-#pragma region 最初のシーンの初期化
+#pragma region シーンの初期化
 
-	gameScene->Initialize(dXCommon, winApp);
+	gameScene->Initialize(dXCommon, winApp, spriteCommon);
 	
-#pragma endregion 最初のシーンの初期化
+#pragma endregion シーンの初期化
 
 	while (true) {
 
@@ -47,33 +55,32 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	#pragma endregion 基盤システムの更新
 
-	#pragma region 最初のシーンの更新
+	#pragma region シーンの更新
 
 		// ゲームシーンの更新
 		gameScene->Update();
 		
-	#pragma endregion 最初のシーンの更新
+	#pragma endregion シーンの更新
 
-	#pragma region 最初のシーンの描画
+	#pragma region シーンの描画
 
 		// ゲームシーンの描画
 		gameScene->Draw(dXCommon);
 
-	#pragma endregion 最初のシーンの描画
+	#pragma endregion シーンの描画
 
 	}
-#pragma region 最初のシーンの終了
+#pragma region シーンの終了
 
 	// ゲームシーンの解放
 	gameScene->Finalize();
 	
-#pragma endregion 最初のシーンの終了
+#pragma endregion シーンの終了
 
 #pragma region 基盤システムの終了
 
 	// WindowsAPIの終了処理
 	winApp->Finalize();
-
 	// WindowsAPI解放
 	delete winApp;
 	winApp = nullptr;
@@ -82,7 +89,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	dXCommon->fpsFixedFinalize();
 	delete dXCommon;
 	dXCommon = nullptr;
-
 
 #pragma endregion 基盤システムの終了
 

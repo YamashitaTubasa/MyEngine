@@ -6,12 +6,15 @@
 #include "3d/Object3d.h"
 #include "3d/Model.h"
 #include "2d/Sprite.h"
+#include "Effect/ParticleManager.h"
+#include "ImGui/ImGuiManager.h"
+#include "Math/Vector3.h"
 
 class GameScene
 {
-private: 
+private:
 	enum Scene {
-		Title, 
+		Title,
 		Scene_1,
 		GameClear,
 		GameOver
@@ -19,11 +22,15 @@ private:
 	Scene scene;
 
 public:
+	GameScene();
+	~GameScene();
+
+public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
 	/// <param name="dXCommon"></param>
-	void Initialize(DirectXCommon* dXCommon, WinApp* winApp);
+	void Initialize(DirectXCommon* dXCommon, WinApp* winApp, SpriteCommon& spriteCommon);
 
 	/// <summary>
 	/// 更新
@@ -64,7 +71,7 @@ public:
 	/// <summary>
 	/// スプライト初期化
 	/// </summary>
-	void SpriteInitialize(DirectXCommon* dXCommon);
+	void SpriteInitialize(DirectXCommon* dXCommon, SpriteCommon& spriteCommon);
 
 	/// <summary>
 	/// スプライトの更新
@@ -82,6 +89,13 @@ public:
 	/// スプライトの解放
 	/// </summary>
 	void SpriteFinalize();
+
+	// パーティクルの初期化
+	void ParticleInitialize();
+
+	void ParticleUpdate();
+
+	void ParticleDraw(DirectXCommon* dXCommon);
 
 	/// <summary>
 	/// ゲームのリセット
@@ -107,9 +121,16 @@ private:
 	Sprite gameOver;
 	SpriteCommon spriteCommon_;
 
-	XMFLOAT3 position[5];
-	XMFLOAT3 rotation[5];
-	XMFLOAT3 scale[5];
+	// パーティクル
+	ParticleManager* particleMan = nullptr;
+
+	DirectXCommon* dXCommon = nullptr;
+
+	ImGuiManager* imGuiManager = nullptr;
+
+	XMFLOAT3 position[5]{};
+	XMFLOAT3 rotation[5]{};
+	XMFLOAT3 scale[5]{};
 
 	bool isPush_D = false;
 	bool isPush_A = false;
