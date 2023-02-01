@@ -330,6 +330,7 @@ void GameScene::SpriteInitialize(DirectXCommon* dXCommon, SpriteCommon& spriteCo
 
 	// スプライト用パイプライン生成呼び出し
 	PipelineSet spritePipelineSet = sprite->SpriteCreateGraphicsPipeline(dXCommon->GetDevice());
+
 }
 
 void GameScene::SpriteUpdate()
