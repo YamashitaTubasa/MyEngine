@@ -96,6 +96,8 @@ void GameScene::Draw(DirectXCommon* dXCommon)
 			ObjectDraw(dXCommon);
 			// パーティクルの描画
 			ParticleDraw(dXCommon);
+			// HP描画
+			GameDraw(dXCommon);
 			break;
 		case GameClear:
 			// ゲームクリアの描画
@@ -140,7 +142,7 @@ void GameScene::ObjectInitialize(DirectXCommon* dXCommon)
 	Model[0] = Model::LoadFromOBJ("fighter", "effect1.png");
 	//Model[0]->LoadTexture("effect1.png");
 	Model[1] = Model::LoadFromOBJ("ironSphere", "ironShpere/ironSphere.png");
-	Model[2] = Model::LoadFromOBJ("skydome", "skydome/skydome.jpg");
+	//Model[2] = Model::LoadFromOBJ("skydome", "skydome/skydome.jpg");
 	// 3Dオブジェクト生成
 	for (int i = 0; i < 5; i++) {
 		object3d[i] = Object3d::Create();
@@ -308,6 +310,24 @@ void GameScene::SpriteInitialize(DirectXCommon* dXCommon, SpriteCommon& spriteCo
 	gameOver.SpriteTransferVertexBuffer(gameOver, spriteCommon, 2);
 	gameOver.SpriteUpdate(gameOver, spriteCommon_);
 
+	// HP
+	hP.LoadTexture(spriteCommon_, 3, L"Resources/hp.png", dXCommon->GetDevice());
+	hP.SetColor(XMFLOAT4(1, 1, 1, 1));
+	hP.SpriteCreate(dXCommon->GetDevice(), 50, 50, 3, spriteCommon, XMFLOAT2(0.0f, 0.0f), false, false);
+	hP.SetPosition(XMFLOAT3(0, 0, 0));
+	hP.SetScale(XMFLOAT2(50 * 1, 50 * 1));
+	hP.SetRotation(0.0f);
+	hP.SpriteTransferVertexBuffer(hP, spriteCommon, 3);
+	hP.SpriteUpdate(hP, spriteCommon_);
+	hP1.LoadTexture(spriteCommon_, 4, L"Resources/hp.png", dXCommon->GetDevice());
+	hP1.SetColor(XMFLOAT4(1, 1, 1, 1));
+	hP1.SpriteCreate(dXCommon->GetDevice(), 50, 50, 4, spriteCommon, XMFLOAT2(0.0f, 0.0f), false, false);
+	hP1.SetPosition(XMFLOAT3(50, 0, 0));
+	hP1.SetScale(XMFLOAT2(50 * 1, 50 * 1));
+	hP1.SetRotation(0.0f);
+	hP1.SpriteTransferVertexBuffer(hP1, spriteCommon, 4);
+	hP1.SpriteUpdate(hP1, spriteCommon_);
+
 	// スプライト用パイプライン生成呼び出し
 	PipelineSet spritePipelineSet = sprite->SpriteCreateGraphicsPipeline(dXCommon->GetDevice());
 }
@@ -321,6 +341,16 @@ void GameScene::TitleDraw(DirectXCommon* dXCommon)
 	sprite->PreDraw(dXCommon->GetCommandList(), spriteCommon_);
 
 	title.SpriteDraw(dXCommon->GetCommandList(), spriteCommon_, dXCommon->GetDevice(), title.vbView);
+
+	sprite->PostDraw();
+}
+
+void GameScene::GameDraw(DirectXCommon* dXCommon)
+{
+	sprite->PreDraw(dXCommon->GetCommandList(), spriteCommon_);
+
+	hP.SpriteDraw(dXCommon->GetCommandList(), spriteCommon_, dXCommon->GetDevice(), hP.vbView);
+	hP1.SpriteDraw(dXCommon->GetCommandList(), spriteCommon_, dXCommon->GetDevice(), hP1.vbView);
 
 	sprite->PostDraw();
 }
@@ -399,7 +429,7 @@ void GameScene::ParticleDraw(DirectXCommon* dXCommon)
 	ParticleManager::PreDraw(dXCommon->GetCommandList());
 
 	// 3Dオブクジェクトの描画
-	particleMan->Draw();
+	//particleMan->Draw();
 
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる

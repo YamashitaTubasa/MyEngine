@@ -126,9 +126,6 @@
     <ClCompile Include="Math\Vector3.cpp">
       <Filter>ソース ファイル\Math</Filter>
     </ClCompile>
-    <ClCompile Include="2d\SpriteCommon.cpp">
-      <Filter>ソース ファイル\2d</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Basic.hlsli">
@@ -215,9 +212,6 @@
     </ClInclude>
     <ClInclude Include="Math\Vector3.h">
       <Filter>ヘッダー ファイル\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="2d\SpriteCommon.h">
-      <Filter>ヘッダー ファイル\2d</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

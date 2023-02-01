@@ -82,6 +82,7 @@ public:
 	/// スプライトの描画
 	/// </summary>
 	void TitleDraw(DirectXCommon* dXCommon);
+	void GameDraw(DirectXCommon* dXCommon);
 	void GameClearDraw(DirectXCommon* dXCommon);
 	void GameOverDraw(DirectXCommon* dXCommon);
 
@@ -119,6 +120,8 @@ private:
 	Sprite title;
 	Sprite gameClear;
 	Sprite gameOver;
+	Sprite hP;
+	Sprite hP1;
 	SpriteCommon spriteCommon_;
 
 	// パーティクル
