@@ -8,8 +8,8 @@
 
 #include <DirectXTex.h>
 
-#include "Platform/WinApp.h"
-#include "Platform/FPSFixed.h"
+#include "WinApp.h"
+#include "FPSFixed.h"
 
 using namespace Microsoft::WRL;
 

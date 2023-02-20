@@ -7,7 +7,7 @@
 #include <d3dx12.h>
 #include <string>
 
-#include "3d/Model.h"
+#include "Model.h"
 
 /// <summary>
 /// 3Dオブジェクト

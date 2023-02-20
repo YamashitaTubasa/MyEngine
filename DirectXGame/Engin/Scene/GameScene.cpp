@@ -51,11 +51,13 @@ void GameScene::Update()
 			if (time >= 1000) {
 				scene = GameClear;
 			}
-			/*ImGui::Text("Hello%d", 123);
-			if (ImGui::Button("Save"))
+			ImGui::Text("Hello%d", 123);
+			if (ImGui::Button("Save")) {
 				imGuiManager->MySaveFunction();
-			ImGui::InputText("string", buf, IM_ARRAYSIZE(buf));
-			ImGui::SliderFloat("float", &f, 0.0f, 1.0f);*/
+
+				ImGui::InputText("string", buf, IM_ARRAYSIZE(buf));
+				ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
+			}
 			// オブジェクトの更新
 			ObjectUpdate();
 			// スプライトの更新
@@ -429,7 +431,7 @@ void GameScene::ParticleDraw(DirectXCommon* dXCommon)
 	ParticleManager::PreDraw(dXCommon->GetCommandList());
 
 	// 3Dオブクジェクトの描画
-	//particleMan->Draw();
+	particleMan->Draw();
 
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる

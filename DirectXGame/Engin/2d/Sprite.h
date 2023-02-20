@@ -9,7 +9,7 @@
 #include <wrl.h>
 #include <array>
 
-#include "Platform/DirectXCommon.h"
+#include "DirectXCommon.h"
 
 #pragma comment(lib, "d3dcompiler.lib")
 

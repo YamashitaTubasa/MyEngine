@@ -78,11 +78,15 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)DirectXTex;$(SolutionDir)imgui;$(IncludePath)</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)External\DirectXTex;$(SolutionDir)External\imgui;$(IncludePath)</IncludePath>
+    <IntDir>$(SolutionDir)..\Generated\Obj\(ProjecName)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)..\Generated\Outputs\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)DirectXTex;$(SolutionDir)imgui;$(IncludePath)</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)External\DirectXTex;$(SolutionDir)External\imgui;$(IncludePath)</IncludePath>
+    <IntDir>$(SolutionDir)..\Generated\Obj\(ProjecName)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)..\Generated\Outputs\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -118,7 +122,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)DirectXGame\Engin\2d;$(ProjectDir)DirectXGame\Engin\3d;$(ProjectDir)DirectXGame\Engin\Audio;$(ProjectDir)DirectXGame\Engin\Effect;$(ProjectDir)DirectXGame\Engin\Input;$(ProjectDir)DirectXGame\Engin\Math;$(ProjectDir)DirectXGame\Engin\Platform;$(ProjectDir)DirectXGame\Engin\Scene;$(ProjectDir)External\ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -134,7 +138,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)DirectXGame\Engin\2d;$(ProjectDir)DirectXGame\Engin\3d;$(ProjectDir)DirectXGame\Engin\Audio;$(ProjectDir)DirectXGame\Engin\Effect;$(ProjectDir)DirectXGame\Engin\Input;$(ProjectDir)DirectXGame\Engin\Math;$(ProjectDir)DirectXGame\Engin\Platform;$(ProjectDir)DirectXGame\Engin\Scene;$(ProjectDir)External\ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -146,29 +150,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="2d\Sprite.cpp" />
-    <ClCompile Include="3d\Model.cpp" />
-    <ClCompile Include="3d\Object3d.cpp" />
-    <ClCompile Include="Audio\Audio.cpp" />
-    <ClCompile Include="Effect\ParticleManager.cpp" />
-    <ClCompile Include="imgui\ImGuiManager.cpp" />
-    <ClCompile Include="Input\Input.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Math\Matrix4.cpp" />
-    <ClCompile Include="Math\Vector2.cpp" />
-    <ClCompile Include="Math\Vector3.cpp" />
-    <ClCompile Include="platform\DirectXCommon.cpp" />
-    <ClCompile Include="Platform\FPSFixed.cpp" />
-    <ClCompile Include="platform\WinApp.cpp" />
-    <ClCompile Include="Scene\GameScene.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
-      <Project>{371b9fa9-4c90-4ac6-a123-aced756d6c77}</Project>
-    </ProjectReference>
-    <ProjectReference Include="imgui\imgui.vcxproj">
-      <Project>{cd99125b-568b-46ff-be3c-c634f670a06d}</Project>
-    </ProjectReference>
+    <ClCompile Include="DirectXGame\Engin\2d\Sprite.cpp" />
+    <ClCompile Include="DirectXGame\Engin\3d\Model.cpp" />
+    <ClCompile Include="DirectXGame\Engin\3d\Object3d.cpp" />
+    <ClCompile Include="DirectXGame\Engin\Audio\Audio.cpp" />
+    <ClCompile Include="DirectXGame\Engin\Effect\ParticleManager.cpp" />
+    <ClCompile Include="DirectXGame\Engin\Input\Input.cpp" />
+    <ClCompile Include="DirectXGame\main.cpp" />
+    <ClCompile Include="External\ImGui\ImGuiManager.cpp" />
+    <ClCompile Include="DirectXGame\Engin\Math\Matrix4.cpp" />
+    <ClCompile Include="DirectXGame\Engin\Math\Vector2.cpp" />
+    <ClCompile Include="DirectXGame\Engin\Math\Vector3.cpp" />
+    <ClCompile Include="DirectXGame\Engin\Platform\DirectXCommon.cpp" />
+    <ClCompile Include="DirectXGame\Engin\Platform\FPSFixed.cpp" />
+    <ClCompile Include="DirectXGame\Engin\Platform\WinApp.cpp" />
+    <ClCompile Include="DirectXGame\Engin\Scene\GameScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Basic.hlsli" />
@@ -237,20 +233,28 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="2d\Sprite.h" />
-    <ClInclude Include="3d\Model.h" />
-    <ClInclude Include="3d\Object3d.h" />
-    <ClInclude Include="Audio\Audio.h" />
-    <ClInclude Include="Effect\ParticleManager.h" />
-    <ClInclude Include="imgui\ImGuiManager.h" />
-    <ClInclude Include="Input\Input.h" />
-    <ClInclude Include="Math\Matrix4.h" />
-    <ClInclude Include="Math\Vector2.h" />
-    <ClInclude Include="Math\Vector3.h" />
-    <ClInclude Include="platform\DirectXCommon.h" />
-    <ClInclude Include="Platform\FPSFixed.h" />
-    <ClInclude Include="platform\WinApp.h" />
-    <ClInclude Include="Scene\GameScene.h" />
+    <ClInclude Include="DirectXGame\Engin\2d\Sprite.h" />
+    <ClInclude Include="DirectXGame\Engin\3d\Model.h" />
+    <ClInclude Include="DirectXGame\Engin\3d\Object3d.h" />
+    <ClInclude Include="DirectXGame\Engin\Audio\Audio.h" />
+    <ClInclude Include="DirectXGame\Engin\Effect\ParticleManager.h" />
+    <ClInclude Include="DirectXGame\Engin\Input\Input.h" />
+    <ClInclude Include="DirectXGame\Engin\Math\Matrix4.h" />
+    <ClInclude Include="DirectXGame\Engin\Math\Vector2.h" />
+    <ClInclude Include="DirectXGame\Engin\Math\Vector3.h" />
+    <ClInclude Include="DirectXGame\Engin\Platform\DirectXCommon.h" />
+    <ClInclude Include="DirectXGame\Engin\Platform\FPSFixed.h" />
+    <ClInclude Include="DirectXGame\Engin\Platform\WinApp.h" />
+    <ClInclude Include="DirectXGame\Engin\Scene\GameScene.h" />
+    <ClInclude Include="External\ImGui\ImGuiManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="External\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
+      <Project>{371b9fa9-4c90-4ac6-a123-aced756d6c77}</Project>
+    </ProjectReference>
+    <ProjectReference Include="External\ImGui\imgui.vcxproj">
+      <Project>{cd99125b-568b-46ff-be3c-c634f670a06d}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

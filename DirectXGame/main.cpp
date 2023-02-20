@@ -1,10 +1,10 @@
-#include "Input/Input.h"
-#include "Platform/WinApp.h"
-#include "Platform/DirectXCommon.h"
-#include "2d/Sprite.h"
-#include "3d/Model.h"
-#include "3d/Object3d.h"
-#include "Scene/GameScene.h"
+#include "Input.h"
+#include "WinApp.h"
+#include "DirectXCommon.h"
+#include "Sprite.h"
+#include "Model.h"
+#include "Object3d.h"
+#include "GameScene.h"
 
 // windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {

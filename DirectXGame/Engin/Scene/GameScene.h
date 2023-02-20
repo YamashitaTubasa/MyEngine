@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Input/Input.h"
-#include "Platform/WinApp.h"
-#include "Platform/DirectXCommon.h"
-#include "3d/Object3d.h"
-#include "3d/Model.h"
-#include "2d/Sprite.h"
-#include "Effect/ParticleManager.h"
-#include "ImGui/ImGuiManager.h"
-#include "Math/Vector3.h"
+#include "Input.h"
+#include "WinApp.h"
+#include "DirectXCommon.h"
+#include "Object3d.h"
+#include "Model.h"
+#include "Sprite.h"
+#include "ParticleManager.h"
+#include "ImGuiManager.h"
+#include "Vector3.h"
 
 class GameScene
 {

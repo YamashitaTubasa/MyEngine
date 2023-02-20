@@ -2,7 +2,7 @@
 #include <windows.h>
 #include <wrl.h>
 #include <dinput.h>
-#include "Platform/WinApp.h"
+#include "WinApp.h"
 #include <dwrite.h>
 #include <wchar.h>
 #include <wrl/client.h>

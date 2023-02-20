@@ -1,4 +1,4 @@
-#include "Platform/FPSFixed.h"
+#include "FPSFixed.h"
 
 void FPSFixed::InitializeFixFPS() {
 	// Œ»İŠÔ‚ğ‹L˜^‚·‚é
