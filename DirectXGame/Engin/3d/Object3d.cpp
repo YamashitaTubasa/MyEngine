@@ -24,7 +24,7 @@ XMFLOAT3 Object3d::eye = { 0, 0, -50.0f };
 XMFLOAT3 Object3d::target = { 0, 0, 0 };
 XMFLOAT3 Object3d::up = { 0, 1, 0 };
 
-void Object3d::StaticInitialize(ID3D12Device * device, int window_width, int window_height)
+void Object3d::StaticInitialize(ID3D12Device * device, int window_width, int window_height, Camera* camera)
 {
 	// nullptrチェック
 	assert(device);
@@ -65,7 +65,6 @@ void Object3d::PostDraw()
 
 Object3d * Object3d::Create()
 {
-
 	// 3Dオブジェクトのインスタンスを生成
 	Object3d* object3d = new Object3d();
 	if (object3d == nullptr) {
@@ -134,7 +133,8 @@ void Object3d::InitializeCamera(int window_width, int window_height)
 	matProjection = XMMatrixPerspectiveFovLH(
 		XMConvertToRadians(60.0f),
 		(float)window_width / window_height,
-		0.1f, 1000.0f
+		0.1f, 
+		1000.0f
 	);
 }
 

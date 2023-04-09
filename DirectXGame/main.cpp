@@ -5,6 +5,7 @@
 #include "Model.h"
 #include "Object3d.h"
 #include "GameScene.h"
+#include "Camera.h"
 
 // windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -24,16 +25,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	dXCommon = new DirectXCommon();
 	dXCommon->Initialize(winApp);
 
+	// Cameraの初期化
+	Camera* camera = nullptr;
+	camera = new Camera();
+	camera->Initialize();
+
 	// スプライト
 	SpriteCommon spriteCommon;
 
 	// 3Dオブジェクト静的初期化
-	Object3d::StaticInitialize(dXCommon->GetDevice(), WinApp::window_width, WinApp::window_height);
+	Object3d::StaticInitialize(dXCommon->GetDevice(), WinApp::window_width, WinApp::window_height,camera);
 	// パーティクル静的初期化
 	ParticleManager::StaticInitialize(dXCommon->GetDevice(), WinApp::window_width, WinApp::window_height);
 
 	// ゲームシーンの初期化
-	GameScene* gameScene = new GameScene();
+	GameScene* gameScene = nullptr;
+	gameScene = new GameScene();
 
 #pragma endregion 基盤システムの初期化
 

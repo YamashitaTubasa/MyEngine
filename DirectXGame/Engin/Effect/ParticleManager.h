@@ -193,10 +193,10 @@ private:// 静的メンバ関数
 	/// <returns>成否</returns>
 	static void InitializeGraphicsPipeline();
 
-	/// <summary>
+	/*/// <summary>
 	/// テクスチャ読み込み
 	/// </summary>
-	static void LoadTexture();
+	static void LoadTexture(const wchar_t* filename);*/
 
 	/// <summary>
 	/// モデル作成
@@ -229,6 +229,11 @@ public: // メンバ関数
 	/// <param name = "accel">加速度</param>
 	void Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel,
 		float start_scale, float end_scale);
+
+	/// <summary>
+	/// テクスチャ読み込み
+	/// </summary>
+	static void LoadTexture(const wchar_t* filename);
 
 private: // メンバ変数
 	// 定数バッファ

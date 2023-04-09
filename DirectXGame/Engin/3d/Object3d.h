@@ -8,6 +8,7 @@
 #include <string>
 
 #include "Model.h"
+#include "Camera.h"
 
 /// <summary>
 /// 3Dオブジェクト
@@ -39,7 +40,7 @@ public: // 静的メンバ関数
 	/// <param name="device">デバイス</param>
 	/// <param name="window_width">画面幅</param>
 	/// <param name="window_height">画面高さ</param>
-	static void StaticInitialize(ID3D12Device* device, int window_width, int window_height);
+	static void StaticInitialize(ID3D12Device* device, int window_width, int window_height, Camera* camera);
 
 	/// <summary>
 	/// 描画前処理
@@ -156,6 +157,8 @@ public: // メンバ関数
 private: // メンバ変数
 	// モデル
 	Model* model = nullptr;
+	//カメラ
+	Camera* camera = nullptr;
 	// 定数バッファ
 	ComPtr<ID3D12Resource> constBuffB0; 
 	// 色
