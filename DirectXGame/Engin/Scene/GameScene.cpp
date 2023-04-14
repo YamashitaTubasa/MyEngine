@@ -109,6 +109,7 @@ void GameScene::Update()
 
 	// ImGuiŽó•tI—¹
 	imGuiManager->End();
+
 }
 
 void GameScene::Draw(DirectXCommon* dXCommon)
