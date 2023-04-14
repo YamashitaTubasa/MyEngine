@@ -101,8 +101,8 @@ void GameScene::Update()
 
 	if (input->TriggerKey(DIK_U)) {
 	}
-		particleMan->Execution(particle, -5.0f);
-		particleMan1->Execution(particle, 5.0f);
+		//particleMan->Execution(particle, -5.0f);
+		//particleMan1->Execution(particle, 5.0f);
 
 	particleMan->Update();
 	particleMan1->Update();
@@ -401,8 +401,8 @@ void GameScene::ParticleDraw(DirectXCommon* dXCommon)
 	ParticleManager::PreDraw(dXCommon->GetCommandList());
 
 	// 3Dオブクジェクトの描画
-	particleMan->Draw();
-	particleMan1->Draw();
+	//particleMan->Draw();
+	//particleMan1->Draw();
 
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
