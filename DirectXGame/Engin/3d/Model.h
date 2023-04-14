@@ -7,7 +7,6 @@
 #include <d3dx12.h>
 #include <string>
 
-
 class Model 
 {
 private: // エイリアス
@@ -131,5 +130,4 @@ private:// 静的メンバ関数
 
 	// 各種バッファ生成
 	void CreateBuffers();
-
 };

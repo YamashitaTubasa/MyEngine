@@ -6,9 +6,12 @@
 #include <DirectXMath.h>
 #include <d3dx12.h>
 #include <forward_list>
+#include <string>
+
+#include "ParticleM.h"
 
 /// <summary>
-/// 3Dオブジェクト
+/// パーティクル
 /// </summary>
 class ParticleManager
 {
@@ -22,14 +25,6 @@ private: // エイリアス
 	using XMMATRIX = DirectX::XMMATRIX;
 
 public: // サブクラス
-
-	// 頂点データ構造体
-	struct VertexPos
-	{
-		XMFLOAT3 pos; // xyz座標
-		float scale; // スケール
-	};
-
 	// 定数バッファ用データ構造体
 	struct ConstBufferData
 	{
@@ -38,36 +33,11 @@ public: // サブクラス
 		XMMATRIX matBillboard; // ビルボード行列
 	};
 
-	// パーティクル1粒
-	struct Particle 
-	{
-		// DirectX::を省略
-		using XNFLOAT3 = DirectX::XMFLOAT3;
-
-		// 座標
-		XMFLOAT3 position = {};
-		// 速度
-		XMFLOAT3 velocity = {};
-		// 加速度
-		XMFLOAT3 accel = {};
-		// 現在フレーム
-		int frame = 0;
-		// 終了フレーム
-		int num_frame = 0;
-		// スケール
-		float scale = 1.0f;
-		// 初期値
-		float s_scale = 1.0f;
-		// 最終値
-		float e_scale = 0.0f;
-	};
-
 private: // 定数
-	static const int division = 50;					// 分割数
-	static const float radius;				// 底面の半径
-	static const float prizmHeight;			// 柱の高さ
-	static const int planeCount = division * 2 + division * 2;		// 面の数
-	/*static const int vertexCount = planeCount * 3*/	// 頂点数
+	static const int division = 50; // 分割数
+	static const float radius; // 底面の半径
+	static const float prizmHeight; // 柱の高さ
+	static const int planeCount = division * 2 + division * 2; // 面の数
 	static const int vertexCount = 1024; // 頂点数
 
 public: // 静的メンバ関数
@@ -143,18 +113,6 @@ private: // 静的メンバ変数
 	static ComPtr<ID3D12RootSignature> rootsignature;
 	// パイプラインステートオブジェクト
 	static ComPtr<ID3D12PipelineState> pipelinestate;
-	// デスクリプタヒープ
-	static ComPtr<ID3D12DescriptorHeap> descHeap;
-	// 頂点バッファ
-	static ComPtr<ID3D12Resource> vertBuff;
-	// インデックスバッファ
-	//static ComPtr<ID3D12Resource> indexBuff;
-	// テクスチャバッファ
-	static ComPtr<ID3D12Resource> texbuff;
-	// シェーダリソースビューのハンドル(CPU)
-	static CD3DX12_CPU_DESCRIPTOR_HANDLE cpuDescHandleSRV;
-	// シェーダリソースビューのハンドル(CPU)
-	static CD3DX12_GPU_DESCRIPTOR_HANDLE gpuDescHandleSRV;
 	// ビュー行列
 	static XMMATRIX matView;
 	// 射影行列
@@ -166,20 +124,13 @@ private: // 静的メンバ変数
 	// 上方向ベクトル
 	static XMFLOAT3 up;
 	// 頂点バッファビュー
-	static D3D12_VERTEX_BUFFER_VIEW vbView;
-	// 頂点データ配列
-	static VertexPos vertices[vertexCount];
+	//static D3D12_VERTEX_BUFFER_VIEW vbView;
 	// ビルボード行列
 	static XMMATRIX matBillboard;
 	// Y軸回りビルボード行列
 	static XMMATRIX matBillboardY;
 
 private:// 静的メンバ関数
-	/// <summary>
-	/// デスクリプタヒープの初期化
-	/// </summary>
-	static void InitializeDescriptorHeap();
-
 	/// <summary>
 	/// カメラ初期化
 	/// </summary>
@@ -193,23 +144,18 @@ private:// 静的メンバ関数
 	/// <returns>成否</returns>
 	static void InitializeGraphicsPipeline();
 
-	/*/// <summary>
-	/// テクスチャ読み込み
-	/// </summary>
-	static void LoadTexture(const wchar_t* filename);*/
-
-	/// <summary>
-	/// モデル作成
-	/// </summary>
-	static void CreateModel();
-
 	/// <summary>
 	/// ビュー行列を更新
 	/// </summary>
 	static void UpdateViewMatrix();
 
 public: // メンバ関数
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <returns></returns>
 	bool Initialize();
+
 	/// <summary>
 	/// 毎フレーム処理
 	/// </summary>
@@ -221,26 +167,21 @@ public: // メンバ関数
 	void Draw();
 
 	/// <summary>
-	/// パーティクルの追加
+	/// モデルの設定
 	/// </summary>
-	/// <param name = "life">生存時期</param>
-	/// <param name = "position">初期座標</param>
-	/// <param name = "velocity">速度</param>
-	/// <param name = "accel">加速度</param>
-	void Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel,
-		float start_scale, float end_scale);
+	/// <param name="particle"></param>
+	void SetModel(ParticleM* particle) { this->particle = particle; }
 
 	/// <summary>
-	/// テクスチャ読み込み
+	/// パーティクル実装
 	/// </summary>
-	static void LoadTexture(const wchar_t* filename);
+	void Execution(ParticleM* particle, const float& posx);
 
 private: // メンバ変数
 	// 定数バッファ
 	ComPtr<ID3D12Resource> constBuff; 
 	// スケール
 	XMFLOAT3 scale = { 1,1,1 };
-	// 親オブジェクト
-	std::forward_list<Particle> particles;
+	ParticleM* particle = nullptr;
 };
 

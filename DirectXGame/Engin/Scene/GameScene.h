@@ -119,15 +119,15 @@ private:
 	Object3d* object3d[5];
 	// スプライト
 	Sprite* sprite = nullptr;
-	Sprite title;
-	Sprite gameClear;
-	Sprite gameOver;
 	Sprite hP;
 	Sprite hP1;
 	SpriteCommon spriteCommon_;
 
 	// パーティクル
 	ParticleManager* particleMan = nullptr;
+	ParticleManager* particleMan1 = nullptr;
+	ParticleM* particle = nullptr;
+	ParticleM* particle1 = nullptr;
 	//ParticleManager* particleMan1 = nullptr;
 
 	DirectXCommon* dXCommon = nullptr;
@@ -146,4 +146,6 @@ private:
 
 	int playerHp = 3;
 	int time = 0;
+	float particleTime = 0;
+	bool particl = false;
 };

@@ -12,14 +12,15 @@ GameScene::~GameScene()
 
 void GameScene::Initialize(DirectXCommon* dXCommon, WinApp* winApp, SpriteCommon& spriteCommon)
 {
-	// パーティクル生成
+	// OBJの名前を指定してモデルデータを読み込む
+	particle = ParticleM::LoadFromOBJ("Resources/effect1.png");
+	particle1 = ParticleM::LoadFromOBJ("Resources/effect2.png");
+	// パーティクルの生成
 	particleMan = ParticleManager::Create();
-	particleMan->LoadTexture(L"Resources/effect2.png");
-	particleMan->Update();
-
-	/*particleMan1 = ParticleManager::Create();
-	particleMan1->LoadTexture(L"Resources/effect1.png");
-	particleMan1->Update();*/
+	particleMan1 = ParticleManager::Create();
+	// パーティクルマネージャーにパーティクルを割り当てる
+	particleMan->SetModel(particle);
+	particleMan1->SetModel(particle1);
 
 	// 入力の初期化
 	input = new Input();
@@ -32,15 +33,15 @@ void GameScene::Initialize(DirectXCommon* dXCommon, WinApp* winApp, SpriteCommon
 	camera = new Camera();
 
 	// gTs
-	gTS = new GameTitleScene();
-	gTS->Initialize();
+	/*gTS = new GameTitleScene();
+	gTS->Initialize();*/
 	
 	// オブジェクトの初期化
 	ObjectInitialize(dXCommon);
 	// スプライトの初期化
 	SpriteInitialize(dXCommon, spriteCommon);
-	// パーティクルの初期化
-	ParticleInitialize();
+	//// パーティクルの初期化
+	//ParticleInitialize();
 }
 
 void GameScene::Update()
@@ -52,7 +53,7 @@ void GameScene::Update()
 	input->Update();
 
 	// gTSの更新
-	gTS->Update();
+	//gTS->Update();
 
 	static char buf[256]{};
 	static float f = 0.0f;
@@ -72,14 +73,40 @@ void GameScene::Update()
 	if (input->PushKey(DIK_LEFT)) {
 		eye[0].x -= 0.5;
 	}
+	if (input->PushKey(DIK_UP)) {
+		eye[0].y += 0.5;
+	}
+	if (input->PushKey(DIK_DOWN)) {
+		eye[0].y -= 0.5;
+	}
 
 	// オブジェクトの更新
 	ObjectUpdate();
 	// スプライトの更新
 	SpriteUpdate();
+	
+	if (input->TriggerKey(DIK_U)) {
+		particl = true;
+	}
+	if (particl == true) {
+		particleTime++;
+	}
+	if (particleTime >= 10) { particl = false; particleTime = 0; }
+	if (particl == true) {
+		// パーティクルの初期化
+		ParticleInitialize();
+	}
 	// パーティクルの更新
 	ParticleUpdate();
-			
+
+	if (input->TriggerKey(DIK_U)) {
+	}
+		particleMan->Execution(particle, -5.0f);
+		particleMan1->Execution(particle, 5.0f);
+
+	particleMan->Update();
+	particleMan1->Update();
+
 	// ImGui受付終了
 	imGuiManager->End();
 }
@@ -95,7 +122,7 @@ void GameScene::Draw(DirectXCommon* dXCommon)
 	ParticleDraw(dXCommon);
 	// HP描画
 	GameDraw(dXCommon);
-	gTS->Draw(dXCommon);
+	//gTS->Draw(dXCommon);
 			
 	// ImGui描画
 	imGuiManager->Draw(dXCommon);
@@ -327,41 +354,42 @@ void GameScene::SpriteFinalize()
 
 void GameScene::ParticleInitialize()
 {
-	for (int i = 0; i < 100; i++) {
-		// X,Y,Zすべて[-5.0f,+5.0f]でランダムに分布
-		const float md_pos = 10.0f;
-		XMFLOAT3 pos{};
-		pos.x = (float)rand() / RAND_MAX * md_pos - md_pos / 2.0f;
-		pos.y = (float)rand() / RAND_MAX * md_pos - md_pos / 2.0f;
-		pos.z = (float)rand() / RAND_MAX * md_pos - md_pos / 2.0f;
-		// X,Y,Z全て[-0.05f,+0.05f]でランダム分布
-		const float md_vel = 0.1f;
-		XMFLOAT3 vel{};
-		vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-		vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-		vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-		// 重力に見立ててYのみ[-0.001f,0]でランダム分布
-		XMFLOAT3 acc{};
-		const float md_acc = 0.001f;
-		acc.y = (float)rand() / RAND_MAX * md_acc;
+	//for (int i = 0; i < 100; i++) {
+	//	// X,Y,Zすべて[-5.0f,+5.0f]でランダムに分布
+	//	const float md_pos = 10.0f;
+	//	XMFLOAT3 pos{};
+	//	float posx = -5;
+	//	pos.x = (float)rand() / RAND_MAX * md_pos - md_pos / 2.0f + posx;
+	//	pos.y = (float)rand() / RAND_MAX * md_pos - md_pos / 2.0f;
+	//	pos.z = (float)rand() / RAND_MAX * md_pos - md_pos / 2.0f;
+	//	// X,Y,Z全て[-0.05f,+0.05f]でランダム分布
+	//	const float md_vel = 0.1f;
+	//	XMFLOAT3 vel{};
+	//	vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+	//	vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+	//	vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+	//	// 重力に見立ててYのみ[-0.001f,0]でランダム分布
+	//	XMFLOAT3 acc{};
+	//	const float md_acc = 0.001f;
+	//	acc.y = (float)rand() / RAND_MAX * md_acc;
 
-		// 追加
-		particleMan->Add(100, pos, vel, acc, 1.0f, 0.0);
-	}
+	//	// 追加
+	//	particleMan->Add(20, pos, vel, acc, 1.0f, 0.0);
+	//}
 }
 
 void GameScene::ParticleUpdate()
 {
-	// カメラ移動
-	if (input->PushKey(DIK_W) || input->PushKey(DIK_S) || input->PushKey(DIK_D) || input->PushKey(DIK_A))
-	{
-		if (input->PushKey(DIK_W)) { ParticleManager::CameraMoveEyeVector({ 0.0f,+1.0f,0.0f }); }
-		else if (input->PushKey(DIK_S)) { ParticleManager::CameraMoveEyeVector({ 0.0f,-1.0f,0.0f }); }
-		if (input->PushKey(DIK_D)) { ParticleManager::CameraMoveEyeVector({ +1.0f,0.0f,0.0f }); }
-		else if (input->PushKey(DIK_A)) { ParticleManager::CameraMoveEyeVector({ -1.0f,0.0f,0.0f }); }
-	}
+	//// カメラ移動
+	//if (input->PushKey(DIK_W) || input->PushKey(DIK_S) || input->PushKey(DIK_D) || input->PushKey(DIK_A))
+	//{
+	//	if (input->PushKey(DIK_W)) { ParticleManager::CameraMoveEyeVector({ 0.0f,+1.0f,0.0f }); }
+	//	else if (input->PushKey(DIK_S)) { ParticleManager::CameraMoveEyeVector({ 0.0f,-1.0f,0.0f }); }
+	//	if (input->PushKey(DIK_D)) { ParticleManager::CameraMoveEyeVector({ +1.0f,0.0f,0.0f }); }
+	//	else if (input->PushKey(DIK_A)) { ParticleManager::CameraMoveEyeVector({ -1.0f,0.0f,0.0f }); }
+	//}
 
-	particleMan->Update();
+	//particleMan->Update();
 }
 
 void GameScene::ParticleDraw(DirectXCommon* dXCommon)
@@ -374,6 +402,7 @@ void GameScene::ParticleDraw(DirectXCommon* dXCommon)
 
 	// 3Dオブクジェクトの描画
 	particleMan->Draw();
+	particleMan1->Draw();
 
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
