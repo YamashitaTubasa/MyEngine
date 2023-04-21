@@ -42,6 +42,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	GameScene* gameScene = nullptr;
 	gameScene = new GameScene();
 
+
 #pragma endregion 基盤システムの初期化
 
 #pragma region シーンの初期化
