@@ -32,6 +32,9 @@ void GameScene::Initialize(DirectXCommon* dXCommon, WinApp* winApp, SpriteCommon
 
 	camera = new Camera();
 
+	// モデル名を指定してファイル読み込み
+	FbxLoader::GetInstance()->LoadModelFromFile("Cube");
+
 	// gTs
 	/*gTS = new GameTitleScene();
 	gTS->Initialize();*/

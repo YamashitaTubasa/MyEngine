@@ -147,6 +147,9 @@
     <ClCompile Include="DirectXGame\Engin\Effect\ParticleM.cpp">
       <Filter>ソース ファイル\Engin\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="DirectXGame\Engin\3d\FbxLoader.cpp">
+      <Filter>ソース ファイル\Engin\3d</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Basic.hlsli">
@@ -242,6 +245,9 @@
     </ClInclude>
     <ClInclude Include="DirectXGame\Engin\Effect\ParticleM.h">
       <Filter>ヘッダー ファイル\Engin\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXGame\Engin\3d\FbxLoader.h">
+      <Filter>ヘッダー ファイル\Engin\3d</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

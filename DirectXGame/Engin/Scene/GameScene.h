@@ -11,6 +11,7 @@
 #include "Vector3.h"
 #include "GameTitleScene.h"
 #include "Camera.h"
+#include "FbxLoader.h"
 
 class GameScene
 {

@@ -30,6 +30,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	camera = new Camera();
 	camera->Initialize();
 
+	// FBX
+	FbxLoader::GetInstance()->Initialize(dXCommon->GetDevice());
+
 	// スプライト
 	SpriteCommon spriteCommon;
 
@@ -86,6 +89,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma endregion シーンの終了
 
 #pragma region 基盤システムの終了
+
+	FbxLoader::GetInstance()->Finalize();
 
 	// WindowsAPIの終了処理
 	winApp->Finalize();

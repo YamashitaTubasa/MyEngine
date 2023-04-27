@@ -94,6 +94,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DirectXGame\Engin\2d\Sprite.cpp" />
+    <ClCompile Include="DirectXGame\Engin\3d\FbxLoader.cpp" />
     <ClCompile Include="DirectXGame\Engin\3d\Model.cpp" />
     <ClCompile Include="DirectXGame\Engin\3d\Object3d.cpp" />
     <ClCompile Include="DirectXGame\Engin\Audio\Audio.cpp" />
@@ -176,6 +177,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectXGame\Engin\2d\Sprite.h" />
+    <ClInclude Include="DirectXGame\Engin\3d\FbxLoader.h" />
     <ClInclude Include="DirectXGame\Engin\3d\Model.h" />
     <ClInclude Include="DirectXGame\Engin\3d\Object3d.h" />
     <ClInclude Include="DirectXGame\Engin\Audio\Audio.h" />
