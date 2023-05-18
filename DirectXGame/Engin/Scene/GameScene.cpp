@@ -157,7 +157,7 @@ void GameScene::Finalize()
 void GameScene::ObjectInitialize(DirectXCommon* dXCommon) 
 {
 	// OBJからモデルデータを読み込む
-	Model[0] = Model::LoadFromOBJ("fighter", "effect1.png");
+	Model[0] = Model::LoadFromOBJ("sphere", "blue1x1.png");
 	//Model[0]->LoadTexture("effect1.png");
 	Model[1] = Model::LoadFromOBJ("ironSphere", "ironShpere/ironSphere.png");
 	//Model[2] = Model::LoadFromOBJ("skydome", "skydome/skydome.jpg");
