@@ -42,7 +42,7 @@ public:
 	/// ファイルからFBXモデル読み込み
 	/// </summary>
 	/// <param name="modelName">モデル名</param>
-	void LoadModelFromFile(const string& modelName);
+	FbxModel* LoadModelFromFile(const string& modelName);
 
 	/// <summary>
 	/// 再帰的にノード構成を解析
@@ -57,6 +57,13 @@ public:
 	/// <param name="odel">読み込み先モデルオブジェクト</param>
 	/// <param name="fbxNode">解析対象のノード</param>
 	void ParseMesh(FbxModel* fbxModel, FbxNode* fbxNode);
+
+	/// <summary>
+	/// FBXの行列をXMMatrixに変換する
+	/// </summary>
+	/// <param name="dst">書き込み先</param>
+	/// <param name="src">元となるFBX行列</param>
+	static void ConvertMatrixFromFbx(DirectX::XMMATRIX* dst, const FbxAMatrix& src);
 
 public: // サブ関数
 	// 頂点座標読み取り

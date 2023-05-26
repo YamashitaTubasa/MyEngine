@@ -30,12 +30,15 @@ public:
 	const XMFLOAT3& GetEye() { return eye; }
 	const XMFLOAT3& GetTarget() { return target; }
 	const XMFLOAT3& GetUp() { return up; }
+	const float& GetDistance() { return distance; }
+	const XMMATRIX& GetViewProjectionMatrix() { return viewProjection; }
 
 	void SetMatView(const XMMATRIX& matView) { this->matView = matView; }
 	void SetMatProjection(const XMMATRIX& matProjection) { this->matProjection = matProjection; }
 	void SetEye(const XMFLOAT3& eye) { this->eye = eye; }
 	void SetTarget(const XMFLOAT3& target) { this->target = target; }
 	void SetUp(const XMFLOAT3& up) { this->up = up; }
+	void SetDistance(float distance) { this->distance = distance; }
 
 private:
 	XMMATRIX matView;
@@ -43,4 +46,6 @@ private:
 	XMFLOAT3 eye;
 	XMFLOAT3 target;
 	XMFLOAT3 up;
+	XMMATRIX viewProjection;
+	float distance = 50.0f;
 };

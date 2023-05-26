@@ -36,7 +36,7 @@ void FbxLoader::Finalize()
     fbxManager->Destroy();
 }
 
-void FbxLoader::LoadModelFromFile(const string& modelName)
+FbxModel* FbxLoader::LoadModelFromFile(const string& modelName)
 {
     // モデルと同じ名前のフォルダから読み込む
     const string directoryPath = baseDirectory + modelName + "/";
@@ -70,6 +70,8 @@ void FbxLoader::LoadModelFromFile(const string& modelName)
 
     // バッファ生成
     fbxModel->CreateBuffers(device);
+
+    return fbxModel;
 }
 
 void FbxLoader::ParseNodeRecursive(FbxModel* fbxModel, FbxNode* fbxNode, Node* parent)
@@ -146,6 +148,18 @@ void FbxLoader::ParseMesh(FbxModel* fbxModel, FbxNode* fbxNode)
     ParseMeshFaces(fbxModel, fbxMesh);
     // マテリアルの読み取り
     ParseMaterial(fbxModel, fbxNode);
+}
+
+void FbxLoader::ConvertMatrixFromFbx(DirectX::XMMATRIX* dst, const FbxAMatrix& src)
+{
+    // 行
+    for (int i = 0; i < 4; i++) {
+        // 列
+        for (int j = 0; j < 4; j++) {
+            // 1要素コピー
+            dst->r[i].m128_f32[j] = (float)src.Get(i, j);
+        }
+    }
 }
 
 void FbxLoader::ParseMeshVertices(FbxModel* fbxModel, FbxMesh* fbxMesh)

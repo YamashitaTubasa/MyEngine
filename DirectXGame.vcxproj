@@ -96,6 +96,7 @@
     <ClCompile Include="DirectXGame\Engin\2d\Sprite.cpp" />
     <ClCompile Include="DirectXGame\Engin\3d\FbxLoader.cpp" />
     <ClCompile Include="DirectXGame\Engin\3d\FbxModel.cpp" />
+    <ClCompile Include="DirectXGame\Engin\3d\FbxObject3d.cpp" />
     <ClCompile Include="DirectXGame\Engin\3d\Model.cpp" />
     <ClCompile Include="DirectXGame\Engin\3d\Object3d.cpp" />
     <ClCompile Include="DirectXGame\Engin\Audio\Audio.cpp" />
@@ -103,6 +104,8 @@
     <ClCompile Include="DirectXGame\Engin\Effect\ParticleM.cpp" />
     <ClCompile Include="DirectXGame\Engin\Effect\ParticleManager.cpp" />
     <ClCompile Include="DirectXGame\Engin\Input\Input.cpp" />
+    <ClCompile Include="DirectXGame\Engin\Math\Quaternion.cpp" />
+    <ClCompile Include="DirectXGame\Engin\Math\Vector4.cpp" />
     <ClCompile Include="DirectXGame\Engin\Scene\GameTitleScene.cpp" />
     <ClCompile Include="DirectXGame\main.cpp" />
     <ClCompile Include="External\ImGui\ImGuiManager.cpp" />
@@ -116,6 +119,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Basic.hlsli" />
+    <None Include="Resources\shaders\FBX.hlsli" />
     <None Include="Resources\shaders\OBJShaderHeader.hlsli" />
     <None Include="Resources\shaders\Particle.hlsli" />
     <None Include="Resources\shaders\Sprite.hlsli" />
@@ -130,6 +134,16 @@
     <FxCompile Include="Resources\shaders\BasicVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\FBXPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\FBXVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
@@ -180,6 +194,7 @@
     <ClInclude Include="DirectXGame\Engin\2d\Sprite.h" />
     <ClInclude Include="DirectXGame\Engin\3d\FbxLoader.h" />
     <ClInclude Include="DirectXGame\Engin\3d\FbxModel.h" />
+    <ClInclude Include="DirectXGame\Engin\3d\FbxObject3d.h" />
     <ClInclude Include="DirectXGame\Engin\3d\Model.h" />
     <ClInclude Include="DirectXGame\Engin\3d\Object3d.h" />
     <ClInclude Include="DirectXGame\Engin\Audio\Audio.h" />
@@ -188,8 +203,10 @@
     <ClInclude Include="DirectXGame\Engin\Effect\ParticleManager.h" />
     <ClInclude Include="DirectXGame\Engin\Input\Input.h" />
     <ClInclude Include="DirectXGame\Engin\Math\Matrix4.h" />
+    <ClInclude Include="DirectXGame\Engin\Math\Quaternion.h" />
     <ClInclude Include="DirectXGame\Engin\Math\Vector2.h" />
     <ClInclude Include="DirectXGame\Engin\Math\Vector3.h" />
+    <ClInclude Include="DirectXGame\Engin\Math\Vector4.h" />
     <ClInclude Include="DirectXGame\Engin\Platform\DirectXCommon.h" />
     <ClInclude Include="DirectXGame\Engin\Platform\FPSFixed.h" />
     <ClInclude Include="DirectXGame\Engin\Platform\WinApp.h" />

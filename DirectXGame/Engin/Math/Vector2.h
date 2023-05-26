@@ -1,4 +1,5 @@
 #pragma once
+
 class Vector2
 {
 public:
@@ -11,10 +12,10 @@ public:
 	Vector2(float x, float y);  // x成分 , y成分を指定しての生成
 
 	// メンバ変数
-	float length() const;
-	Vector2& normalize();
-	float dot(const Vector2& v) const;
-	float cross(const Vector2& v)const;
+	float Length() const;
+	Vector2& Normalize();
+	float Dot(const Vector2& v) const;
+	float Cross(const Vector2& v)const;
 
 	// 単項演算子オーバーロード
 	Vector2 operator+() const;

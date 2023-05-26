@@ -5,20 +5,22 @@ using namespace DirectX;
 
 void Camera::Initialize() 
 {
-	const float distance = 50.0f;
-
 	eye = { 0, 0, -distance }; // 視点座標
-	target = { 0, 0, 0 }; // 注視点座標
-	up = { 0, 1, 0 }; // 上方向ベクトル
+	target = { 0, 0, 0 };      // 注視点座標
+	up = { 0, 1, 0 };          // 上方向ベクトル
 
 	UpdateViewMatrix();
 	UpdateProjectionMatrix();
+
+	viewProjection = matView * matProjection;
 }
 
 void Camera::Update()
 {
 	UpdateViewMatrix();
 	UpdateProjectionMatrix();
+
+	viewProjection = matView * matProjection;
 }
 
 void Camera::UpdateViewMatrix()

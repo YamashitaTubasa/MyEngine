@@ -11,24 +11,24 @@ Vector3::Vector3(float x, float y, float z)
 	: x(x), y(y), z(z)
 {
 }
-float Vector3::length() const
+float Vector3::Length() const
 {
 	return std::sqrt(x * x + y * y + z * z);
 }
-Vector3& Vector3::normalize()
+Vector3& Vector3::Normalize()
 {
-	float len = length();
+	float len = Length();
 	if (len != 0)
 	{
 		return*this /= len;
 	}
 	return*this;
 }
-float Vector3::dot(const Vector3& v)const
+float Vector3::Dot(const Vector3& v)const
 {
 	return x * v.x + y * v.y + z * v.z;
 }
-Vector3 Vector3::cross(const Vector3& v)const
+Vector3 Vector3::Cross(const Vector3& v)const
 {
 	Vector3 temp;
 	temp.x = this->y * v.z - this->z * v.y;
@@ -98,7 +98,7 @@ const Vector3 operator/(const Vector3& v, float s)
 	Vector3 temp(v);
 	return temp /= s;
 }
-const Vector3 lerp(const Vector3& start, const Vector3& end, const float t) {
+const Vector3 Lerp(const Vector3& start, const Vector3& end, const float t) {
 	// float y = t;
 	// return start * ( 1.0f - y) + end * y;
 	return start * (1.0f - t) + end * t;

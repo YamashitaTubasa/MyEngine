@@ -6,7 +6,7 @@
 #include <cmath> // sin cos
 
 // 単位行列を求める
-Matrix4 identity()
+Matrix4 Identity()
 {
 	static const Matrix4 result
 	{
@@ -20,7 +20,7 @@ Matrix4 identity()
 }
 
 // 拡大縮小行列を求める
-Matrix4 scale(const Vector3& s) {
+Matrix4 Scale(const Vector3& s) {
 	Matrix4 result
 	{
 		s.x , 0.0f, 0.0f, 0.0f,
@@ -33,7 +33,7 @@ Matrix4 scale(const Vector3& s) {
 }
 
 // x軸まわりの回転行列を求める
-Matrix4 rotateX(float angle)
+Matrix4 RotateX(float angle)
 {
 	float sin = std::sin(angle);
 	float cos = std::cos(angle);
@@ -50,7 +50,7 @@ Matrix4 rotateX(float angle)
 }
 
 // y軸まわりの回転行列を求める
-Matrix4 rotateY(float angle)
+Matrix4 RotateY(float angle)
 {
 	float sin = std::sin(angle);
 	float cos = std::cos(angle);
@@ -67,7 +67,7 @@ Matrix4 rotateY(float angle)
 }
 
 // z軸まわりの回転を行列を求める
-Matrix4 rotateZ(float angle)
+Matrix4 RotateZ(float angle)
 {
 	float sin = std::sin(angle);
 	float cos = std::cos(angle);
@@ -84,7 +84,7 @@ Matrix4 rotateZ(float angle)
 }
 
 // 平行移動行列の設定
-Matrix4 translate(const Vector3& t)
+Matrix4 Translate(const Vector3& t)
 {
 	Matrix4 result
 	{
@@ -98,7 +98,7 @@ Matrix4 translate(const Vector3& t)
 }
 
 // 座標変換（ベクトルと行列の掛け算）を行うtransform関数を作成する。　（透視変換にも対応している）
-Vector3 transform(const Vector3& v, const Matrix4& m)
+Vector3 Transform(const Vector3& v, const Matrix4& m)
 {
 	float w = v.x * m.m[0][3] + v.y * m.m[1][3] + v.z * m.m[2][3] + m.m[3][3];
 
@@ -143,5 +143,5 @@ const Matrix4 operator *(const Matrix4& m1, const Matrix4& m2)
 // 2項演算子* のオーバーロード関数(ベクトルと行列の積)
 const Vector3 operator *(const Vector3& v, const Matrix4& m)
 {
-	return transform(v, m);
+	return Transform(v, m);
 }

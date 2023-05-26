@@ -91,6 +91,9 @@
     <Filter Include="ヘッダー ファイル\Engin\Camera">
       <UniqueIdentifier>{a3316664-3aae-41dc-8d69-84ea12527c10}</UniqueIdentifier>
     </Filter>
+    <Filter Include="シェーダーファイル\FBX">
+      <UniqueIdentifier>{985ce2bb-639f-46b4-a402-bb83ef2d39db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DirectXGame\Engin\Input\Input.cpp">
@@ -153,6 +156,15 @@
     <ClCompile Include="DirectXGame\Engin\3d\FbxModel.cpp">
       <Filter>ソース ファイル\Engin\3d</Filter>
     </ClCompile>
+    <ClCompile Include="DirectXGame\Engin\3d\FbxObject3d.cpp">
+      <Filter>ソース ファイル\Engin\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXGame\Engin\Math\Quaternion.cpp">
+      <Filter>ソース ファイル\Engin\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXGame\Engin\Math\Vector4.cpp">
+      <Filter>ソース ファイル\Engin\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Basic.hlsli">
@@ -166,6 +178,9 @@
     </None>
     <None Include="Resources\shaders\Particle.hlsli">
       <Filter>シェーダーファイル\Particle</Filter>
+    </None>
+    <None Include="Resources\shaders\FBX.hlsli">
+      <Filter>シェーダーファイル\FBX</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -195,6 +210,12 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\ParticleVS.hlsl">
       <Filter>シェーダーファイル\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\FBXPS.hlsl">
+      <Filter>シェーダーファイル\FBX</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\FBXVS.hlsl">
+      <Filter>シェーダーファイル\FBX</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
@@ -254,6 +275,15 @@
     </ClInclude>
     <ClInclude Include="DirectXGame\Engin\3d\FbxModel.h">
       <Filter>ヘッダー ファイル\Engin\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXGame\Engin\3d\FbxObject3d.h">
+      <Filter>ヘッダー ファイル\Engin\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXGame\Engin\Math\Quaternion.h">
+      <Filter>ヘッダー ファイル\Engin\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXGame\Engin\Math\Vector4.h">
+      <Filter>ヘッダー ファイル\Engin\Math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -12,6 +12,7 @@
 #include "GameTitleScene.h"
 #include "Camera.h"
 #include "FbxLoader.h"
+#include "FbxObject3d.h"
 
 class GameScene
 {
@@ -136,11 +137,14 @@ private:
 	ImGuiManager* imGuiManager = nullptr;
 	GameTitleScene* gTS = nullptr;
 	Camera* camera = nullptr;
+	FbxModel* fbxModel = nullptr;
+	FbxObject3d* fbxObject = nullptr;
 
 	XMFLOAT3 position[5]{};
 	XMFLOAT3 rotation[5]{};
 	XMFLOAT3 scale[5]{};
 	XMFLOAT3 eye[5]{};
+	XMFLOAT3 target[5]{};
 
 	bool isPush_D = false;
 	bool isPush_A = false;

@@ -1,5 +1,9 @@
 #pragma once
 
+#include "Vector3.h"
+#include "Vector4.h"
+#include "Matrix4.h"
+
 #include <string>
 #include <DirectXMath.h>
 #include <vector>
@@ -8,6 +12,7 @@
 #include <wrl.h>
 #include <d3d12.h>
 #include <d3dx12.h>
+#include <fbxsdk.h>
 
 struct Node
 {
@@ -47,13 +52,34 @@ private: // エイリアス
 	using string = std::string;
 	template <class T> using vector = std::vector<T>;
 
+public: // 定数
+	// ボーンインデックスの最大数
+	static const int MAX_BONE_INDICES = 4;
+
 public: // サブクラス
 	// 頂点デー構造体
 	struct VertexPosNormalUv 
 	{
-		DirectX::XMFLOAT3 pos; // xyz座標
-		DirectX::XMFLOAT3 normal; // 法線ベクトル
-		DirectX::XMFLOAT2 uv; // uv座標
+		DirectX::XMFLOAT3 pos;              // xyz座標
+		DirectX::XMFLOAT3 normal;           // 法線ベクトル
+		DirectX::XMFLOAT2 uv;               // uv座標
+		UINT boneIndex[MAX_BONE_INDICES];   // ボーン　番号
+		float boneWeight[MAX_BONE_INDICES]; // ボーン　重み
+	};
+
+	// ボーン構造体
+	struct Bone
+	{
+		// 名前
+		std::string name;
+		// 初期姿勢の逆行列
+		DirectX::XMMATRIX invInitialPose;
+		// クラスター(FBX側のボーン情報)
+		FbxCluster* fbxCluster;
+		// コンストラクタ
+		Bone(const std::string& name) {
+			this->name = name;
+		}
 	};
 
 public:
@@ -62,9 +88,11 @@ public:
 	// 描画
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 
-public:
+public: // getter
 	// モデルの変形行列取得
 	const XMMATRIX& GetModelTransform() { return meshNode->globalTransform; }
+	// bonesの取得
+	std::vector<Bone>& GetBones() { return bones; }
 
 private:
 	// 頂点バッファ
@@ -81,16 +109,18 @@ private:
 	ComPtr<ID3D12DescriptorHeap> descHeapSRV;
 
 private:
+	// メッシュを持つノード
+	Node* meshNode = nullptr;
 	// モデル名
 	std::string name;
 	// ノード配列
 	std::vector<Node> nodes;
-	// メッシュを持つノード
-	Node* meshNode = nullptr;
 	// 頂点データ配列
 	std::vector<VertexPosNormalUv> vertices;
 	// 頂点インデックス配列
 	std::vector<unsigned short> indices;
+	// ボーン配列
+	std::vector<Bone> bones;
 	// アンビエント係数
 	DirectX::XMFLOAT3 ambient = { 1,1,1 };
 	// ディフューズ係数

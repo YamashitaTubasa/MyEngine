@@ -7,11 +7,48 @@ GameScene::GameScene()
 GameScene::~GameScene()
 {
 	delete particleMan;
+	delete fbxModel;
+	delete fbxObject;
 	/*delete particleMan1;*/
 }
 
 void GameScene::Initialize(DirectXCommon* dXCommon, WinApp* winApp, SpriteCommon& spriteCommon)
 {
+	// 入力の初期化
+	input = new Input();
+	input->Initialize(winApp);
+
+	// ImGuiの初期化
+	imGuiManager = new ImGuiManager();
+	imGuiManager->Initialize(dXCommon, winApp);
+
+	// カメラ
+	camera = new Camera();
+	camera->Initialize();
+
+	// デバイスをセット
+	FbxObject3d::SetDevice(dXCommon->GetDevice());
+	// カメラをセット
+	FbxObject3d::SetCamera(camera);
+	// グラフィックスパイプライン生成
+	FbxObject3d::CreateGraphicsPipeline();
+
+	// FBXの3Dオブジェクト生成とモデルのセット
+	fbxObject = new FbxObject3d();
+	fbxModel = new FbxModel();
+	fbxObject->Initialize();
+	// モデル名を指定してファイル読み込み
+	fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("cube");
+	// FBXオブジェクトにFBXモデルを割り当てる
+	fbxObject->SetModel(fbxModel);
+
+	// カメラの注視点をセット
+	target[0] = { 0,30,0 };
+	camera->SetTarget(target[0]);
+	camera->SetDistance(100.0f);
+	eye[0] = { 10, 0, -20 };
+	camera->SetEye(eye[0]);
+
 	// OBJの名前を指定してモデルデータを読み込む
 	particle = ParticleM::LoadFromOBJ("Resources/effect1.png");
 	particle1 = ParticleM::LoadFromOBJ("Resources/effect2.png");
@@ -21,19 +58,6 @@ void GameScene::Initialize(DirectXCommon* dXCommon, WinApp* winApp, SpriteCommon
 	// パーティクルマネージャーにパーティクルを割り当てる
 	particleMan->SetModel(particle);
 	particleMan1->SetModel(particle1);
-
-	// 入力の初期化
-	input = new Input();
-	input->Initialize(winApp);
-
-	// ImGuiの初期化
-	imGuiManager = new ImGuiManager();
-	imGuiManager->Initialize(dXCommon, winApp);
-
-	camera = new Camera();
-
-	// モデル名を指定してファイル読み込み
-	FbxLoader::GetInstance()->LoadModelFromFile("Cube");
 
 	// gTs
 	/*gTS = new GameTitleScene();
@@ -55,6 +79,11 @@ void GameScene::Update()
 	// 入力の更新
 	input->Update();
 
+	// カメラの更新
+	camera->Update();
+
+	fbxObject->Update();
+
 	// gTSの更新
 	//gTS->Update();
 
@@ -69,7 +98,6 @@ void GameScene::Update()
 		ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
 	}*/
 
-	camera->SetEye(eye[0]);
 	if (input->PushKey(DIK_RIGHT)) {
 		eye[0].x += 0.5;
 	}
@@ -82,6 +110,7 @@ void GameScene::Update()
 	if (input->PushKey(DIK_DOWN)) {
 		eye[0].y -= 0.5;
 	}
+	camera->SetEye(eye[0]);
 
 	// オブジェクトの更新
 	ObjectUpdate();
@@ -123,9 +152,9 @@ void GameScene::Draw(DirectXCommon* dXCommon)
 	// 3Dオブジェクトの描画
 	ObjectDraw(dXCommon);
 	// パーティクルの描画
-	ParticleDraw(dXCommon);
+	//ParticleDraw(dXCommon);
 	// HP描画
-	GameDraw(dXCommon);
+	//GameDraw(dXCommon);
 	//gTS->Draw(dXCommon);
 			
 	// ImGui描画
@@ -172,11 +201,10 @@ void GameScene::ObjectInitialize(DirectXCommon* dXCommon)
 	// 3Dオブジェクトの位置を指定
 	position[0] = { -20,-5,0 };
 	rotation[0] = { 0,90,0 };
-	eye[0] = { 0, 0, -50 };
 	object3d[0]->SetPosition(position[0]);
 	object3d[0]->SetScale({ 5, 5, 5 });
 	object3d[0]->SetRotation(rotation[0]);
-	object3d[0]->SetEye(eye[0]);
+	//object3d[0]->SetEye(eye[0]);
 
 	position[1] = { 0,0,50 };
 	object3d[1]->SetPosition(position[1]);
@@ -197,7 +225,7 @@ void GameScene::ObjectUpdate()
 
 	object3d[0]->SetPosition(position[0]);
 	object3d[0]->SetRotation(rotation[0]);
-	object3d[0]->SetEye(eye[0]);
+	//object3d[0]->SetEye(eye[0]);
 	object3d[1]->SetPosition(position[1]);
 
 	/*if (input->PushKey(DIK_RIGHT)){
@@ -286,9 +314,12 @@ void GameScene::ObjectDraw(DirectXCommon* dXCommon)
 	Object3d::PreDraw(dXCommon->GetCommandList());
 
 	// 3Dオブジェクトの描画
-	for (int i = 0; i < 5; i++) {
+	/*for (int i = 0; i < 5; i++) {
 		object3d[i]->Draw();
-	}
+	}*/
+
+	// FBX3Dオブジェクトの描画
+	fbxObject->Draw(dXCommon->GetCommandList());
 
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();

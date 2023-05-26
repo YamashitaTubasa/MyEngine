@@ -27,8 +27,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// Camera‚Ì‰Šú‰»
 	Camera* camera = nullptr;
-	camera = new Camera();
-	camera->Initialize();
+	/*camera = new Camera();
+	camera->Initialize();*/
 
 	// FBX
 	FbxLoader::GetInstance()->Initialize(dXCommon->GetDevice());
