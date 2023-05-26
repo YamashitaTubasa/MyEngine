@@ -38,15 +38,15 @@ void GameScene::Initialize(DirectXCommon* dXCommon, WinApp* winApp, SpriteCommon
 	fbxModel = new FbxModel();
 	fbxObject->Initialize();
 	// モデル名を指定してファイル読み込み
-	fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("cube");
+	fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
 	// FBXオブジェクトにFBXモデルを割り当てる
 	fbxObject->SetModel(fbxModel);
 
 	// カメラの注視点をセット
-	target[0] = { 0,30,0 };
+	target[0] = { 0,0,0 };
 	camera->SetTarget(target[0]);
 	camera->SetDistance(100.0f);
-	eye[0] = { 10, 0, -20 };
+	eye[0] = { 0, 0, -20 };
 	camera->SetEye(eye[0]);
 
 	// OBJの名前を指定してモデルデータを読み込む

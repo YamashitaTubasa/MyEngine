@@ -58,7 +58,7 @@ public: // 定数
 
 public: // サブクラス
 	// 頂点デー構造体
-	struct VertexPosNormalUv 
+	struct VertexPosNormalUvSkin 
 	{
 		DirectX::XMFLOAT3 pos;              // xyz座標
 		DirectX::XMFLOAT3 normal;           // 法線ベクトル
@@ -83,6 +83,10 @@ public: // サブクラス
 	};
 
 public:
+	// デストラクタ
+	~FbxModel();
+
+public:
 	// バッファ生成
 	void CreateBuffers(ID3D12Device* device);
 	// 描画
@@ -93,6 +97,8 @@ public: // getter
 	const XMMATRIX& GetModelTransform() { return meshNode->globalTransform; }
 	// bonesの取得
 	std::vector<Bone>& GetBones() { return bones; }
+	// fbxSceneの取得
+	FbxScene* GetFbxScene() { return fbxScene; }
 
 private:
 	// 頂点バッファ
@@ -111,12 +117,14 @@ private:
 private:
 	// メッシュを持つノード
 	Node* meshNode = nullptr;
+	// FBXシーン
+	FbxScene* fbxScene = nullptr;
 	// モデル名
 	std::string name;
 	// ノード配列
 	std::vector<Node> nodes;
 	// 頂点データ配列
-	std::vector<VertexPosNormalUv> vertices;
+	std::vector<VertexPosNormalUvSkin> vertices;
 	// 頂点インデックス配列
 	std::vector<unsigned short> indices;
 	// ボーン配列
