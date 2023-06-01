@@ -1,6 +1,7 @@
 #pragma once
 
 #include "FbxModel.h"
+#include "FbxLoader.h"
 #include "Camera.h"
 
 #include <Windows.h>
@@ -21,6 +22,10 @@ protected: // エイリアス
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 
+public: // 定数
+	// ボーンの最大数
+	static const int MAX_BONES = 32;
+
 public: // サブクラス
 	// 定数バッファ用データ構造体（座標変換行列）
 	struct ConstBufferDataTransform
@@ -30,11 +35,22 @@ public: // サブクラス
 		XMFLOAT3 cameraPos; // カメラ座標（ワールド座標）
 	};
 
+	// 定数バッファ用データ構造体(スキニング)
+	struct ConstBufferDataSkin
+	{
+		XMMATRIX bones[MAX_BONES];
+	};
+
 public: // メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
 	void Initialize();
+
+	/// <summary>
+	/// スキニング情報定数バッファ生成
+	/// </summary>
+	void GeneratSkinConstBuff();
 
 	/// <summary>
 	/// 毎フレーム処理
@@ -78,6 +94,8 @@ private: // 静的メンバ変数
 protected: // メンバ変数
 	// 定数バッファ
 	ComPtr<ID3D12Resource> constBuffTransform;
+	// 定数バッファ(スキン)
+	ComPtr<ID3D12Resource> constBuffSkin;
 	// ローカルスケール
 	XMFLOAT3 scale = { 1,1,1 };
 	// X,Y,Z軸周りのローカル回転角

@@ -2,7 +2,8 @@
 
 #include <cmath>
 
-class Vector3 {
+class Vector3 
+{
 public:
 	float x; // x¬•ª
 	float y; // y¬•ª

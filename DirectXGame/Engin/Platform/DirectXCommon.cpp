@@ -105,8 +105,8 @@ void DirectXCommon::InitializeDevice()
 	ComPtr<ID3D12InfoQueue> infoQueue;
 	if (SUCCEEDED(device->QueryInterface(IID_PPV_ARGS(&infoQueue)))) {
 		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true); // やばいエラー時に止まる
-		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true); // エラー時に止まる
-		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, true); // 警告時に止まる
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);      // エラー時に止まる
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, true);    // 警告時に止まる
 
 		// 抑制するエラー
 		D3D12_MESSAGE_ID denyIds[] = {
@@ -160,11 +160,11 @@ void DirectXCommon::InitializeSwapchain()
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
 	swapChainDesc.Width = 1280;
 	swapChainDesc.Height = 720;
-	swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;//色情報の書式
-	swapChainDesc.SampleDesc.Count = 1;//マルチサンプルしない
-	swapChainDesc.BufferUsage = DXGI_USAGE_BACK_BUFFER;//バックバッファ用
-	swapChainDesc.BufferCount = 2;//バッファ数を2つに設定
-	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;// フリップ用は破棄
+	swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;           // 色情報の書式
+	swapChainDesc.SampleDesc.Count = 1;                          // マルチサンプルしない
+	swapChainDesc.BufferUsage = DXGI_USAGE_BACK_BUFFER;          // バックバッファ用
+	swapChainDesc.BufferCount = 2;                               // バッファ数を2つに設定
+	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;    // フリップ用は破棄
 	swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
 	// IDXGISwapChain1のComptrを用意
@@ -175,7 +175,7 @@ void DirectXCommon::InitializeSwapchain()
 		commandQueue.Get(), winApp->GetHwnd(), &swapChainDesc, nullptr, nullptr,
 		&swapChain1
 	);
-	//生成したIDXGISwapChain1のオブジェクトをIDXGISwapChain4に変換する
+	// 生成したIDXGISwapChain1のオブジェクトをIDXGISwapChain4に変換する
 	swapChain1.As(&swapChain);
 	assert(SUCCEEDED(result));
 }
@@ -190,17 +190,17 @@ void DirectXCommon::InitializeRenderTargetView()
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
 	swapChainDesc.Width = 1280;
 	swapChainDesc.Height = 720;
-	swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;// 色情報の書式
-	swapChainDesc.SampleDesc.Count = 1;// マルチサンプルしない
-	swapChainDesc.BufferUsage = DXGI_USAGE_BACK_BUFFER;// バックバッファ用
-	swapChainDesc.BufferCount = 2;// バッファ数を2つに設定
-	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;// フリップ用は破棄
+	swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;            // 色情報の書式
+	swapChainDesc.SampleDesc.Count = 1;                           // マルチサンプルしない
+	swapChainDesc.BufferUsage = DXGI_USAGE_BACK_BUFFER;           // バックバッファ用
+	swapChainDesc.BufferCount = 2;                                // バッファ数を2つに設定
+	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;     // フリップ用は破棄
 	swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
 	// デスクリプタヒープの設定
 	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc{};
-	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;//レンゲーターゲットレビュー
-	rtvHeapDesc.NumDescriptors = swapChainDesc.BufferCount;//裏表の2つ
+	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;      // レンゲーターゲットレビュー
+	rtvHeapDesc.NumDescriptors = swapChainDesc.BufferCount; // 裏表の2つ
 
 	rtvHD = device->GetDescriptorHandleIncrementSize(rtvHeapDesc.Type);
 
@@ -236,19 +236,19 @@ void DirectXCommon::InitializeDepthBuffer()
 	// リソース設定
 	D3D12_RESOURCE_DESC depthResourceDesc{};
 	depthResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-	depthResourceDesc.Width = WinApp::window_width;// レンダーターゲットに合わせる
-	depthResourceDesc.Height = WinApp::window_height;// レンダーターゲットに合わせる
+	depthResourceDesc.Width = WinApp::window_width;                    // レンダーターゲットに合わせる
+	depthResourceDesc.Height = WinApp::window_height;                  // レンダーターゲットに合わせる
 	depthResourceDesc.DepthOrArraySize = 1;
-	depthResourceDesc.Format = DXGI_FORMAT_D32_FLOAT;//深度フォーマット
+	depthResourceDesc.Format = DXGI_FORMAT_D32_FLOAT;                  // 深度フォーマット
 	depthResourceDesc.SampleDesc.Count = 1;
-	depthResourceDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;//テプスステンシル
+	depthResourceDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL; // テプスステンシル
 
 	// 深度値用ヒーププロパティ
 	D3D12_HEAP_PROPERTIES depthHeapProp{};
 	depthHeapProp.Type = D3D12_HEAP_TYPE_DEFAULT;
 	// 深度値のクリア設定
-	D3D12_CLEAR_VALUE depthClearValue{};//深度値1.0f(最大値)でクリア
-	depthClearValue.Format = DXGI_FORMAT_D32_FLOAT; //深度値フォーマット
+	D3D12_CLEAR_VALUE depthClearValue{};            // 深度値1.0f(最大値)でクリア
+	depthClearValue.Format = DXGI_FORMAT_D32_FLOAT; // 深度値フォーマット
 	depthClearValue.DepthStencil.Depth = 1.0f;
 
 	// リソース設定
@@ -263,7 +263,7 @@ void DirectXCommon::InitializeDepthBuffer()
 
 	// 深度ビュー用デスクリプタヒープ作成
 	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc{};
-	dsvHeapDesc.NumDescriptors = 1;//深度ビューは1つ
+	dsvHeapDesc.NumDescriptors = 1;// 深度ビューは1つ
 	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
 	/*ID3D12DescriptorHeap* dsvHeap = nullptr;*/
 	result = device->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&dsvHeap));
@@ -328,7 +328,7 @@ void DirectXCommon::PreDraw()
 	bool キーを押した瞬間か(uint8_t キー番号);
 	bool キーを離した瞬間か(uint8_t キー番号);
 
-	//4.描画コマンドはここから
+	// 4.描画コマンドはここから
 	// ビューポート設定コマンド
 	D3D12_VIEWPORT viewport{};
 	viewport.Width = WinApp::window_width;
@@ -359,9 +359,9 @@ void DirectXCommon::PostDraw()
 
 	// 5.リソースバリアを戻す
 	D3D12_RESOURCE_BARRIER barrierDesc{};
-	barrierDesc.Transition.pResource = backBuffers[bbIndex].Get();// バックバッファを指定
+	barrierDesc.Transition.pResource = backBuffers[bbIndex].Get();           // バックバッファを指定
 	barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET; // 表示状態から
-	barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT; // 描画状態へ
+	barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;        // 描画状態へ
 	commandList->ResourceBarrier(1, &barrierDesc);
 
 	// 命令のクローズ

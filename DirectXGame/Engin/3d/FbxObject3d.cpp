@@ -31,6 +31,27 @@ void FbxObject3d::Initialize()
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&constBuffTransform));
+
+	GeneratSkinConstBuff();
+}
+
+void FbxObject3d::GeneratSkinConstBuff()
+{
+	HRESULT result;
+
+	// ヒープ設定
+	CD3DX12_HEAP_PROPERTIES heapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+	// リソース設定
+	CD3DX12_RESOURCE_DESC resDesc = CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataSkin) + 0xff) & ~0xff);
+
+	// 定数バッファの生成
+	result = device->CreateCommittedResource(
+		&heapProp,
+		D3D12_HEAP_FLAG_NONE,
+		&resDesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&constBuffSkin));
 }
 
 void FbxObject3d::Update()
@@ -68,6 +89,24 @@ void FbxObject3d::Update()
 		constMap->cameraPos = cameraPos;
 		constBuffTransform->Unmap(0, nullptr);
 	}
+
+	// ボーン配列
+	std::vector<FbxModel::Bone>& bones = fbxModel->GetBones();
+
+	// 定数バッファへのデータ転送
+	ConstBufferDataSkin* constMapSkin = nullptr;
+	result = constBuffSkin->Map(0, nullptr, (void**)&constMapSkin);
+	for (int i = 0; i < bones.size(); i++) {
+		// 今の姿勢行列
+		XMMATRIX matCurrentPose;
+		// 今の姿勢行列を取得
+		FbxAMatrix fbxCurrentPose = bones[i].fbxCluster->GetLink()->EvaluateGlobalTransform(0);
+		// XMMATRIXに変換
+		FbxLoader::ConvertMatrixFromFbx(&matCurrentPose, fbxCurrentPose);
+		// 合成してスキニング行列に
+		constMapSkin->bones[i] = bones[i].invInitialPose * matCurrentPose;
+	}
+	constBuffSkin->Unmap(0, nullptr);
 }
 
 void FbxObject3d::Draw(ID3D12GraphicsCommandList* cmdList) 
@@ -84,6 +123,8 @@ void FbxObject3d::Draw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	// 定数バッファビューをセット
 	cmdList->SetGraphicsRootConstantBufferView(0, constBuffTransform->GetGPUVirtualAddress());
+	// 定数バッファビューをセット
+	cmdList->SetGraphicsRootConstantBufferView(2, constBuffSkin->GetGPUVirtualAddress());
 
 	// モデル描画
 	fbxModel->Draw(cmdList);
@@ -92,7 +133,7 @@ void FbxObject3d::Draw(ID3D12GraphicsCommandList* cmdList)
 void FbxObject3d::CreateGraphicsPipeline()
 {
 	HRESULT result = S_FALSE;
-	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
+	ComPtr<ID3DBlob> vsBlob;    // 頂点シェーダオブジェクト
 	ComPtr<ID3DBlob> psBlob;    // ピクセルシェーダオブジェクト
 	ComPtr<ID3DBlob> errorBlob; // エラーオブジェクト
 
@@ -100,10 +141,10 @@ void FbxObject3d::CreateGraphicsPipeline()
 
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/shaders/FBXVS.hlsl",    // シェーダファイル名
+		L"Resources/shaders/FBXVS.hlsl",                 // シェーダファイル名
 		nullptr,
-		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
-		"main", "vs_5_0",    // エントリーポイント名、シェーダーモデル指定
+		D3D_COMPILE_STANDARD_FILE_INCLUDE,               // インクルード可能にする
+		"main", "vs_5_0",                                // エントリーポイント名、シェーダーモデル指定
 		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
 		0,
 		&vsBlob, &errorBlob);
@@ -123,10 +164,10 @@ void FbxObject3d::CreateGraphicsPipeline()
 
 	// ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/shaders/FBXPS.hlsl",    // シェーダファイル名
+		L"Resources/shaders/FBXPS.hlsl",                 // シェーダファイル名
 		nullptr,
-		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
-		"main", "ps_5_0",    // エントリーポイント名、シェーダーモデル指定
+		D3D_COMPILE_STANDARD_FILE_INCLUDE,               // インクルード可能にする
+		"main", "ps_5_0",                                // エントリーポイント名、シェーダーモデル指定
 		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
 		0,
 		&psBlob, &errorBlob);
@@ -158,6 +199,16 @@ void FbxObject3d::CreateGraphicsPipeline()
 		},
 		{ // uv座標(1行で書いたほうが見やすい)
 			"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
+		},
+		{ // 影響を受けるボーン番号(4つ)
+			"BONEINDICES", 0, DXGI_FORMAT_R32G32B32A32_UINT, 0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
+		},
+		{ // ボーンスキンウェイト(4つ)
+			"BONEWEIGHTS", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
@@ -211,11 +262,13 @@ void FbxObject3d::CreateGraphicsPipeline()
 	descRangeSRV.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0); // t0 レジスタ
 
 	// ルートパラメータ
-	CD3DX12_ROOT_PARAMETER rootparams[2];
+	CD3DX12_ROOT_PARAMETER rootparams[3];
 	// CBV（座標変換行列用）
 	rootparams[0].InitAsConstantBufferView(0, 0, D3D12_SHADER_VISIBILITY_ALL);
 	// SRV（テクスチャ）
 	rootparams[1].InitAsDescriptorTable(1, &descRangeSRV, D3D12_SHADER_VISIBILITY_ALL);
+	// CBV(スキニング用)
+	rootparams[2].InitAsConstantBufferView(3, 0, D3D12_SHADER_VISIBILITY_ALL);
 
 	// スタティックサンプラー
 	CD3DX12_STATIC_SAMPLER_DESC samplerDesc = CD3DX12_STATIC_SAMPLER_DESC(0);
