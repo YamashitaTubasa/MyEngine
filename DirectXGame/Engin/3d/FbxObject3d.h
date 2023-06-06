@@ -63,6 +63,11 @@ public: // メンバ関数
 	/// <param name="cmdList">コマンドリスト</param>
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 
+	/// <summary>
+	/// アニメーション開始
+	/// </summary>
+	void PlayAnimation();
+
 public: // 静的メンバ関数
 	/// <summary>
 	/// グラフィックスパイプラインの生成
@@ -106,5 +111,15 @@ protected: // メンバ変数
 	XMMATRIX matWorld;
 	// モデル
 	FbxModel* fbxModel = nullptr;
+	// 1フレームの時間
+	FbxTime frameTime;
+	// アニメーション開始時間
+	FbxTime startTime;
+	// アニメーション終了時間
+	FbxTime endTime;
+	// 現在時間(アニメーション)
+	FbxTime currentTime;
+	// アニメーション再生中
+	bool isPlay = false;
 };
 

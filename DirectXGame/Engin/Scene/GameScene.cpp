@@ -83,6 +83,7 @@ void GameScene::Update()
 	camera->Update();
 
 	fbxObject->Update();
+	fbxObject->PlayAnimation();
 
 	// gTSの更新
 	//gTS->Update();
@@ -126,22 +127,14 @@ void GameScene::Update()
 	if (particleTime >= 10) { particl = false; particleTime = 0; }
 	if (particl == true) {
 		// パーティクルの初期化
-		ParticleInitialize();
+		particleMan->Execution(particle, 0);
 	}
+
 	// パーティクルの更新
-	ParticleUpdate();
-
-	if (input->TriggerKey(DIK_U)) {
-	}
-		//particleMan->Execution(particle, -5.0f);
-		//particleMan1->Execution(particle, 5.0f);
-
 	particleMan->Update();
-	particleMan1->Update();
 
 	// ImGui受付終了
 	imGuiManager->End();
-
 }
 
 void GameScene::Draw(DirectXCommon* dXCommon)
@@ -152,7 +145,7 @@ void GameScene::Draw(DirectXCommon* dXCommon)
 	// 3Dオブジェクトの描画
 	ObjectDraw(dXCommon);
 	// パーティクルの描画
-	//ParticleDraw(dXCommon);
+	ParticleDraw(dXCommon);
 	// HP描画
 	//GameDraw(dXCommon);
 	//gTS->Draw(dXCommon);
@@ -436,7 +429,7 @@ void GameScene::ParticleDraw(DirectXCommon* dXCommon)
 	ParticleManager::PreDraw(dXCommon->GetCommandList());
 
 	// 3Dオブクジェクトの描画
-	//particleMan->Draw();
+	particleMan->Draw();
 	//particleMan1->Draw();
 
 	/// <summary>
