@@ -12,15 +12,11 @@ GameScene::~GameScene()
 	/*delete particleMan1;*/
 }
 
-void GameScene::Initialize(DirectXCommon* dXCommon, WinApp* winApp, SpriteCommon& spriteCommon)
+void GameScene::Initialize(SpriteCommon& spriteCommon)
 {
-	// 入力の初期化
-	input = new Input();
-	input->Initialize(winApp);
-
-	// ImGuiの初期化
-	imGuiManager = new ImGuiManager();
-	imGuiManager->Initialize(dXCommon, winApp);
+	winApp = WinApp::GetInstance();
+	input = Input::GetInstance();
+	dXCommon = DirectXCommon::GetInstance();
 
 	// カメラ
 	camera = new Camera();
@@ -64,9 +60,25 @@ void GameScene::Initialize(DirectXCommon* dXCommon, WinApp* winApp, SpriteCommon
 	gTS->Initialize();*/
 	
 	// オブジェクトの初期化
-	ObjectInitialize(dXCommon);
+	ObjectInitialize();
 	// スプライトの初期化
-	SpriteInitialize(dXCommon, spriteCommon);
+	//SpriteInitialize(spriteCommon);
+	// スプライト
+	sprite = new Sprite();
+	spriteCommon_ = sprite->SpriteCommonCreate(dXCommon->GetDevice(), 1280, 720);
+	// スプライト用パイプライン生成呼び出し
+	PipelineSet spritePipelineSet = sprite->SpriteCreateGraphicsPipeline(dXCommon->GetDevice());
+
+	// HP
+	hP.LoadTexture(spriteCommon_, 3, L"Resources/hp.png", dXCommon->GetDevice());
+	hP.SetColor(XMFLOAT4(1, 1, 1, 1));
+	hP.SpriteCreate(dXCommon->GetDevice(), 50, 50, 3, spriteCommon, XMFLOAT2(0.0f, 0.0f), false, false);
+	hP.SetPosition(XMFLOAT3(0, 0, 0));
+	hP.SetScale(XMFLOAT2(50 * 1, 50 * 1));
+	hP.SetRotation(0.0f);
+	hP.SpriteTransferVertexBuffer(hP, spriteCommon, 3);
+	hP.SpriteUpdate(hP, spriteCommon_);
+
 	//// パーティクルの初期化
 	//ParticleInitialize();
 }
@@ -137,38 +149,59 @@ void GameScene::Update()
 	imGuiManager->End();
 }
 
-void GameScene::Draw(DirectXCommon* dXCommon)
+void GameScene::Draw(SpriteCommon& spriteCommon)
 {
-	// 描画前処理
-	dXCommon->PreDraw();
+#pragma region 3Dオブジェクトの描画
+
+	// 3Dオブジェクト描画前処理
+	Object3d::PreDraw(dXCommon->GetCommandList());
 
 	// 3Dオブジェクトの描画
-	ObjectDraw(dXCommon);
-	// パーティクルの描画
-	ParticleDraw(dXCommon);
-	// HP描画
-	//GameDraw(dXCommon);
-	//gTS->Draw(dXCommon);
-			
-	// ImGui描画
-	imGuiManager->Draw(dXCommon);
-	
-	// 描画後処理
-	dXCommon->PostDraw();
+	/*for (int i = 0; i < 5; i++) {
+		object3d[i]->Draw();
+	}*/
+
+	// FBX3Dオブジェクトの描画
+	fbxObject->Draw(dXCommon->GetCommandList());
+
+	// 3Dオブジェクト描画後処理
+	Object3d::PostDraw();
+#pragma endregion 
+
+#pragma region パーティクルの描画
+
+	// コマンドリストの取得
+	//ID3D12GraphicsCommandList* cmdList = dXCommon->GetCommandList();
+
+	// 3Dオブジェクト描画前処理
+	ParticleManager::PreDraw(dXCommon->GetCommandList());
+
+	// 3Dオブクジェクトの描画
+	particleMan->Draw();
+	//particleMan1->Draw();
+
+	/// <summary>
+	/// ここに3Dオブジェクトの描画処理を追加できる
+	/// </summary>
+
+	// 3Dオブジェクト描画後処理
+	ParticleManager::PostDraw();
+
+#pragma endregion
+
+#pragma region スプライト描画
+
+	Sprite::PreDraw(dXCommon->GetCommandList(), spriteCommon_);
+
+	//hP.SpriteDraw(dXCommon->GetCommandList(), spriteCommon_, dXCommon->GetDevice(), hP.vbView);
+
+	Sprite::PostDraw();
+
+#pragma endregion
 }
 
 void GameScene::Finalize()
 {
-	// 入力開放
-	delete input;
-	input = nullptr;
-
-	// imguiの終了処理
-	imGuiManager->Finalize();
-	// imguiの解放
-	delete imGuiManager;
-	imGuiManager = nullptr;
-
 	// オブジェクトの解放
 	ObjectFinalize();
 
@@ -176,7 +209,7 @@ void GameScene::Finalize()
 	SpriteFinalize();
 }
 
-void GameScene::ObjectInitialize(DirectXCommon* dXCommon) 
+void GameScene::ObjectInitialize() 
 {
 	// OBJからモデルデータを読み込む
 	Model[0] = Model::LoadFromOBJ("fighter", "effect1.png");
@@ -231,60 +264,14 @@ void GameScene::ObjectUpdate()
 	if (input->PushKey(DIK_W)) {
 		position[0].y += 0.4;
 	}
-
 	if (input->PushKey(DIK_A)) {
 		position[0].x -= 0.4;
-		isPush_A = true;
 	}
-	else {
-		isPush_A = false;
-	}
-	if (isPush_D == false) {
-		if (isPush_A == true) {
-			if (rotation[0].x >= -20) {
-				rotation[0].x -= 1;
-			}
-			if (rotation[0].x <= -20) {
-				rotation[0].x = -20;
-			}
-		}
-		else {
-			if (rotation[0].x >= -20) {
-				rotation[0].x += 1;
-			}
-			if (rotation[0].x >= 0) {
-				rotation[0].x = 0;
-			}
-		}
-	}
-
 	if (input->PushKey(DIK_S)) {
 		position[0].y -= 0.4;
 	}
-
 	if (input->PushKey(DIK_D)) {
 		position[0].x += 0.4;
-		isPush_D = true;
-	}else {
-		isPush_D = false;
-	}
-	if (isPush_A == false) {
-		if (isPush_D == true) {
-			if (rotation[0].x <= 20) {
-				rotation[0].x += 1;
-			}
-			if (rotation[0].x >= 20) {
-				rotation[0].x = 20;
-			}
-		}
-		else {
-			if (rotation[0].x <= 20) {
-				rotation[0].x -= 1;
-			}
-			if (rotation[0].x <= 0) {
-				rotation[0].x = 0;
-			}
-		}
 	}
 
 	position[1].z -= 1;
@@ -301,23 +288,6 @@ void GameScene::ObjectUpdate()
 	}*/
 }
 
-void GameScene::ObjectDraw(DirectXCommon* dXCommon)
-{
-	// 3Dオブジェクト描画前処理
-	Object3d::PreDraw(dXCommon->GetCommandList());
-
-	// 3Dオブジェクトの描画
-	/*for (int i = 0; i < 5; i++) {
-		object3d[i]->Draw();
-	}*/
-
-	// FBX3Dオブジェクトの描画
-	fbxObject->Draw(dXCommon->GetCommandList());
-
-	// 3Dオブジェクト描画後処理
-	Object3d::PostDraw();
-}
-
 void GameScene::ObjectFinalize()
 {
 	// 3Dオブジェクト解放
@@ -330,47 +300,13 @@ void GameScene::ObjectFinalize()
 	}
 }
 
-void GameScene::SpriteInitialize(DirectXCommon* dXCommon, SpriteCommon& spriteCommon)
+void GameScene::SpriteInitialize(SpriteCommon& spriteCommon)
 {
-	// スプライト
-	sprite = new Sprite();
-	spriteCommon_ = sprite->SpriteCommonCreate(dXCommon->GetDevice(), 1280, 720);
-
-	// HP
-	hP.LoadTexture(spriteCommon_, 3, L"Resources/hp.png", dXCommon->GetDevice());
-	hP.SetColor(XMFLOAT4(1, 1, 1, 1));
-	hP.SpriteCreate(dXCommon->GetDevice(), 50, 50, 3, spriteCommon, XMFLOAT2(0.0f, 0.0f), false, false);
-	hP.SetPosition(XMFLOAT3(0, 0, 0));
-	hP.SetScale(XMFLOAT2(50 * 1, 50 * 1));
-	hP.SetRotation(0.0f);
-	hP.SpriteTransferVertexBuffer(hP, spriteCommon, 3);
-	hP.SpriteUpdate(hP, spriteCommon_);
-	// HP1
-	hP1.LoadTexture(spriteCommon_, 4, L"Resources/hp.png", dXCommon->GetDevice());
-	hP1.SetColor(XMFLOAT4(1, 1, 1, 1));
-	hP1.SpriteCreate(dXCommon->GetDevice(), 50, 50, 4, spriteCommon, XMFLOAT2(0.0f, 0.0f), false, false);
-	hP1.SetPosition(XMFLOAT3(50, 0, 0));
-	hP1.SetScale(XMFLOAT2(50 * 1, 50 * 1));
-	hP1.SetRotation(0.0f);
-	hP1.SpriteTransferVertexBuffer(hP1, spriteCommon, 4);
-	hP1.SpriteUpdate(hP1, spriteCommon_);
-
-	// スプライト用パイプライン生成呼び出し
-	PipelineSet spritePipelineSet = sprite->SpriteCreateGraphicsPipeline(dXCommon->GetDevice());
+	
 }
 
 void GameScene::SpriteUpdate()
 {
-}
-
-void GameScene::GameDraw(DirectXCommon* dXCommon)
-{
-	sprite->PreDraw(dXCommon->GetCommandList(), spriteCommon_);
-
-	hP.SpriteDraw(dXCommon->GetCommandList(), spriteCommon_, dXCommon->GetDevice(), hP.vbView);
-	hP1.SpriteDraw(dXCommon->GetCommandList(), spriteCommon_, dXCommon->GetDevice(), hP1.vbView);
-
-	sprite->PostDraw();
 }
 
 void GameScene::SpriteFinalize()
@@ -418,26 +354,6 @@ void GameScene::ParticleUpdate()
 	//}
 
 	//particleMan->Update();
-}
-
-void GameScene::ParticleDraw(DirectXCommon* dXCommon)
-{
-	// コマンドリストの取得
-	//ID3D12GraphicsCommandList* cmdList = dXCommon->GetCommandList();
-
-	// 3Dオブジェクト描画前処理
-	ParticleManager::PreDraw(dXCommon->GetCommandList());
-
-	// 3Dオブクジェクトの描画
-	particleMan->Draw();
-	//particleMan1->Draw();
-
-	/// <summary>
-	/// ここに3Dオブジェクトの描画処理を追加できる
-	/// </summary>
-
-	// 3Dオブジェクト描画後処理
-	ParticleManager::PostDraw();
 }
 
 void GameScene::GameReset()

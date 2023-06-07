@@ -114,7 +114,7 @@
     <ClCompile Include="DirectXGame\Engin\3d\Object3d.cpp">
       <Filter>ソース ファイル\Engin\3d</Filter>
     </ClCompile>
-    <ClCompile Include="DirectXGame\Engin\Scene\GameScene.cpp">
+    <ClCompile Include="DirectXGame\Application\Scene\GameScene.cpp">
       <Filter>ソース ファイル\Engin\Scene</Filter>
     </ClCompile>
     <ClCompile Include="DirectXGame\Engin\3d\Model.cpp">
@@ -144,7 +144,7 @@
     <ClCompile Include="DirectXGame\Engin\Camera\Camera.cpp">
       <Filter>ソース ファイル\Engin\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="DirectXGame\Engin\Scene\GameTitleScene.cpp">
+    <ClCompile Include="DirectXGame\Application\Scene\GameTitleScene.cpp">
       <Filter>ソース ファイル\Engin\Scene</Filter>
     </ClCompile>
     <ClCompile Include="DirectXGame\Engin\Effect\ParticleM.cpp">
@@ -164,6 +164,12 @@
     </ClCompile>
     <ClCompile Include="DirectXGame\Engin\Math\Vector4.cpp">
       <Filter>ソース ファイル\Engin\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXGame\Application\Scene\MyGame.cpp">
+      <Filter>ソース ファイル\Engin\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXGame\Engin\Scene\TYFramework.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -237,7 +243,7 @@
     <ClInclude Include="DirectXGame\Engin\3d\Object3d.h">
       <Filter>ヘッダー ファイル\Engin\3d</Filter>
     </ClInclude>
-    <ClInclude Include="DirectXGame\Engin\Scene\GameScene.h">
+    <ClInclude Include="DirectXGame\Application\Scene\GameScene.h">
       <Filter>ヘッダー ファイル\Engin\Scene</Filter>
     </ClInclude>
     <ClInclude Include="DirectXGame\Engin\3d\Model.h">
@@ -264,7 +270,7 @@
     <ClInclude Include="DirectXGame\Engin\Camera\Camera.h">
       <Filter>ヘッダー ファイル\Engin\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="DirectXGame\Engin\Scene\GameTitleScene.h">
+    <ClInclude Include="DirectXGame\Application\Scene\GameTitleScene.h">
       <Filter>ヘッダー ファイル\Engin\Scene</Filter>
     </ClInclude>
     <ClInclude Include="DirectXGame\Engin\Effect\ParticleM.h">
@@ -284,6 +290,12 @@
     </ClInclude>
     <ClInclude Include="DirectXGame\Engin\Math\Vector4.h">
       <Filter>ヘッダー ファイル\Engin\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXGame\Application\Scene\MyGame.h">
+      <Filter>ヘッダー ファイル\Engin\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXGame\Engin\Scene\TYFramework.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
