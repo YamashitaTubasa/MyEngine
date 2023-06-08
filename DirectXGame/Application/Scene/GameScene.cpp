@@ -31,7 +31,6 @@ void GameScene::Initialize(SpriteCommon& spriteCommon)
 
 	// FBXの3Dオブジェクト生成とモデルのセット
 	fbxObject = new FbxObject3d();
-	fbxModel = new FbxModel();
 	fbxObject->Initialize();
 	// モデル名を指定してファイル読み込み
 	fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
