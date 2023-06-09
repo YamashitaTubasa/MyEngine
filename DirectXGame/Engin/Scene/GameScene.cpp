@@ -7,7 +7,6 @@ GameScene::GameScene()
 GameScene::~GameScene()
 {
 	delete particleMan;
-	delete fbxModel;
 	delete fbxObject;
 	/*delete particleMan1;*/
 }
@@ -35,7 +34,6 @@ void GameScene::Initialize(DirectXCommon* dXCommon, WinApp* winApp, SpriteCommon
 
 	// FBXの3Dオブジェクト生成とモデルのセット
 	fbxObject = new FbxObject3d();
-	fbxModel = new FbxModel();
 	fbxObject->Initialize();
 	// モデル名を指定してファイル読み込み
 	fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
@@ -43,11 +41,11 @@ void GameScene::Initialize(DirectXCommon* dXCommon, WinApp* winApp, SpriteCommon
 	fbxObject->SetModel(fbxModel);
 
 	// カメラの注視点をセット
-	target[0] = { 0,0,0 };
+	target[0] = { 0,3,0 };
+	eye[0] = { 5, 10, -10 };
 	camera->SetTarget(target[0]);
-	camera->SetDistance(100.0f);
-	eye[0] = { 0, 0, -20 };
 	camera->SetEye(eye[0]);
+	camera->SetDistance(100.0f);
 
 	// OBJの名前を指定してモデルデータを読み込む
 	particle = ParticleM::LoadFromOBJ("Resources/effect1.png");
@@ -69,6 +67,8 @@ void GameScene::Initialize(DirectXCommon* dXCommon, WinApp* winApp, SpriteCommon
 	SpriteInitialize(dXCommon, spriteCommon);
 	//// パーティクルの初期化
 	//ParticleInitialize();
+	// FBXアニメーションの実行
+	fbxObject->PlayAnimation();
 }
 
 void GameScene::Update()
@@ -82,8 +82,9 @@ void GameScene::Update()
 	// カメラの更新
 	camera->Update();
 
+	// FBXオブジェクトの更新
 	fbxObject->Update();
-	fbxObject->PlayAnimation();
+	
 
 	// gTSの更新
 	//gTS->Update();
