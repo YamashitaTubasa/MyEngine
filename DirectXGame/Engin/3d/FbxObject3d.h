@@ -86,6 +86,10 @@ public: // setter
 	/// <param name="model">モデル</param>
 	void SetModel(FbxModel* fbxModel) { this->fbxModel = fbxModel; }
 
+public: // getter
+	XMFLOAT3& GetPosition() { return position; }
+
+
 private: // 静的メンバ変数
 	// デバイス
 	static ID3D12Device* device;
