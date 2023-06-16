@@ -1,6 +1,10 @@
 #include "Sprite.h"
 
-Sprite::Sprite() {
+using namespace DirectX;
+using namespace Microsoft::WRL;
+using namespace std;
+
+Sprite::Sprite(UINT texNumber, XMFLOAT2 pos, XMFLOAT2 size, XMFLOAT4 color, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY) {
 
 }
 

@@ -39,7 +39,7 @@ void MyGame::Draw()
 	dXCommon->PreDraw();
 
 	// ƒQ[ƒ€ƒV[ƒ“‚Ì•`‰æ
-	gameScene->Draw(spriteCommon);
+	//gameScene->Draw(spriteCommon);
 
 	// ImGui•`‰æ
 	//imGuiManager->Draw(dXCommon);

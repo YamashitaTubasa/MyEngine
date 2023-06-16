@@ -1,5 +1,8 @@
 #include "GameScene.h"
 
+using namespace DirectX;
+using namespace std;
+
 GameScene::GameScene()
 {
 }
@@ -37,17 +40,19 @@ void GameScene::Initialize(SpriteCommon& spriteCommon)
 	fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
 	// FBXオブジェクトにFBXモデルを割り当てる
 	fbxObject->SetModel(fbxModel);
+	// スケール、回転、座標
+	fbxObject->SetRotation({ 0,90,0 });
 
 	// カメラの注視点をセット
-	target[0] = { 0,3,0 };
-	eye[0] = { 5, 10, -10 };
+	target[0] = { 0,2.5f,0 };
+	eye[0] = { 0,0,-10 };
 	camera->SetTarget(target[0]);
 	camera->SetEye(eye[0]);
-	camera->SetDistance(100.0f);
+	camera->SetDistance(8.0f);
 
 	// OBJの名前を指定してモデルデータを読み込む
-	particle = ParticleM::LoadFromOBJ("Resources/effect1.png");
-	particle1 = ParticleM::LoadFromOBJ("Resources/effect2.png");
+	particle = ParticleM::LoadFromOBJ("Resources/Image/effect1.png");
+	particle1 = ParticleM::LoadFromOBJ("Resources/Image/effect2.png");
 	// パーティクルの生成
 	particleMan = ParticleManager::Create();
 	particleMan1 = ParticleManager::Create();
@@ -65,12 +70,13 @@ void GameScene::Initialize(SpriteCommon& spriteCommon)
 	//SpriteInitialize(spriteCommon);
 	// スプライト
 	sprite = new Sprite();
+	//sprite = make_shared<Sprite>(100, { 0.0f,0.0f }, { 500.0f,500.0f }, { 1,1,1,1 }, { 0.0f,0.0f }, false, false);
 	spriteCommon_ = sprite->SpriteCommonCreate(dXCommon->GetDevice(), 1280, 720);
 	// スプライト用パイプライン生成呼び出し
 	PipelineSet spritePipelineSet = sprite->SpriteCreateGraphicsPipeline(dXCommon->GetDevice());
 
 	// HP
-	hP.LoadTexture(spriteCommon_, 3, L"Resources/hp.png", dXCommon->GetDevice());
+	hP.LoadTexture(spriteCommon_, 3, L"Resources/Image/hp.png", dXCommon->GetDevice());
 	hP.SetColor(XMFLOAT4(1, 1, 1, 1));
 	hP.SpriteCreate(dXCommon->GetDevice(), 50, 50, 3, spriteCommon, XMFLOAT2(0.0f, 0.0f), false, false);
 	hP.SetPosition(XMFLOAT3(0, 0, 0));

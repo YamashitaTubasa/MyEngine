@@ -110,7 +110,7 @@ public:
 	/// <summary>
 	/// 当たり判定
 	/// </summary>
-	int CheckCollision(XMFLOAT3 object, XMFLOAT3 scale);
+	int CheckCollision(DirectX::XMFLOAT3 object, DirectX::XMFLOAT3 scale);
 
 private:
 	WinApp* winApp = nullptr;
@@ -122,6 +122,7 @@ private:
 	Object3d* object3d[5];
 	// スプライト
 	Sprite* sprite = nullptr;
+	//std::shared_ptr<Sprite> sprite;
 	Sprite hP;
 	Sprite hP1;
 	SpriteCommon spriteCommon_;
@@ -141,11 +142,11 @@ private:
 	FbxModel* fbxModel = nullptr;
 	FbxObject3d* fbxObject = nullptr;
 
-	XMFLOAT3 position[5]{};
-	XMFLOAT3 rotation[5]{};
-	XMFLOAT3 scale[5]{};
-	XMFLOAT3 eye[5]{};
-	XMFLOAT3 target[5]{};
+	DirectX::XMFLOAT3 position[5]{};
+	DirectX::XMFLOAT3 rotation[5]{};
+	DirectX::XMFLOAT3 scale[5]{};
+	DirectX::XMFLOAT3 eye[5]{};
+	DirectX::XMFLOAT3 target[5]{};
 
 	bool isPush_D = false;
 	bool isPush_A = false;

@@ -13,14 +13,10 @@
 
 #pragma comment(lib, "d3dcompiler.lib")
 
-using namespace DirectX;
-using namespace Microsoft::WRL;
-using namespace std;
-
 // 頂点データ
 struct VertexPosUv {
-	XMFLOAT3 pos;
-	XMFLOAT2 uv;
+	DirectX::XMFLOAT3 pos;
+	DirectX::XMFLOAT2 uv;
 };
 
 // パイプラインセット
@@ -36,7 +32,7 @@ struct SpriteCommon {
 	// パイプラインセット
 	PipelineSet pipelineSet;
 	// 射影行列
-	XMMATRIX matProjection{};
+	DirectX::XMMATRIX matProjection{};
 	// テクスチャ用デスクリプタヒープの生成
 	ComPtr<ID3D12DescriptorHeap> descHeap;
 	// SRVの最大枚数
@@ -49,8 +45,22 @@ struct SpriteCommon {
 
 class Sprite
 {
+private: // エイリアス
+	// Microsoft::WRL::を省略
+	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	// DirectX::を省略
+	using XMFLOAT2 = DirectX::XMFLOAT2;
+	using XMFLOAT3 = DirectX::XMFLOAT3;
+	using XMFLOAT4 = DirectX::XMFLOAT4;
+	using XMMATRIX = DirectX::XMMATRIX;
+	using TexMetadata = DirectX::TexMetadata;
+	using ScratchImage = DirectX::ScratchImage;
+	// std::を省略
+	using string = std::string;
+	template <class T> using vector = std::vector<T>;
+
 public:
-	Sprite();
+	Sprite(UINT texNumber, XMFLOAT2 pos, XMFLOAT2 size, XMFLOAT4 color, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY);
 	~Sprite();
 
 private:
@@ -160,7 +170,7 @@ public:
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
 	D3D12_RESOURCE_DESC resDesc;
 
-private:
+protected:
 	// DirectXCommonのインスタンス
 	DirectXCommon* dXCommon = nullptr;
 	SpriteCommon spriteCommon_;
