@@ -517,5 +517,4 @@ void Sprite::SpriteTransferVertexBuffer(const Sprite& sprite, const SpriteCommon
 
 void Sprite::Finalize()
 {
-	delete dXCommon;
 }

@@ -19,7 +19,7 @@
 #define DIRECTINPUT_VERSION 0x0800 // DirectInputのバージョン指定
 
 // 入力
-class Input
+class Input final
 {
 public:
 	struct CountrolerState
@@ -54,6 +54,15 @@ public: // メンバ関数
 	/// </param name="keyNumber">キー番号( DIK_0 等)</param>
 	/// <reutrns>トリガーか</params>
 	bool TriggerKey(BYTE keyNumber);
+
+public:
+	static Input* GetInstance();
+
+private:
+	Input() = default;
+	~Input() = default;
+	Input(const Input&) = delete;
+	Input& operator=(const Input&) = delete;
 
 private: // メンバ変数
 	// キーボードのデバイス

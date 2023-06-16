@@ -14,7 +14,7 @@
 using namespace Microsoft::WRL;
 
 // DirectX基盤
-class DirectXCommon
+class DirectXCommon final
 {
 public: // メンバ関数
 	// 初期化
@@ -38,6 +38,15 @@ public: // メンバ関数
 	// 終了処理
 	void fpsFixedFinalize();
 
+public:
+	static DirectXCommon* GetInstance();
+
+private:
+	DirectXCommon() = default;
+	~DirectXCommon() = default;
+	DirectXCommon(const DirectXCommon&) = delete;
+	DirectXCommon& operator=(const DirectXCommon&) = delete;
+
 private: // メンバ関数
 	template <class T>
 	inline void safe_delete(T*& p) {
@@ -45,7 +54,6 @@ private: // メンバ関数
 		p = nullptr;
 	}
 	
-
 public: // Getter
 	// デバイスの取得
 	ID3D12Device* GetDevice() const { return device.Get(); }

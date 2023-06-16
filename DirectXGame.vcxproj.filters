@@ -94,6 +94,24 @@
     <Filter Include="シェーダーファイル\FBX">
       <UniqueIdentifier>{985ce2bb-639f-46b4-a402-bb83ef2d39db}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Application">
+      <UniqueIdentifier>{f7f5757a-8081-45f3-b7f1-ac9fb54b00fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Application\Platform">
+      <UniqueIdentifier>{631320e3-dfec-435e-be58-ac1a9033933d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Application\Scene">
+      <UniqueIdentifier>{ce7e8b24-9f13-45ef-acf2-79a93dfc6d35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Application">
+      <UniqueIdentifier>{feffb27e-ea0c-4376-9716-4e78d479a698}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Application\Scene">
+      <UniqueIdentifier>{c1ce2f60-a012-40cb-9615-59d871189da0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Application\Platform">
+      <UniqueIdentifier>{ef587848-3dab-4a6e-981a-24533f81c150}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DirectXGame\Engin\Input\Input.cpp">
@@ -113,9 +131,6 @@
     </ClCompile>
     <ClCompile Include="DirectXGame\Engin\3d\Object3d.cpp">
       <Filter>ソース ファイル\Engin\3d</Filter>
-    </ClCompile>
-    <ClCompile Include="DirectXGame\Engin\Scene\GameScene.cpp">
-      <Filter>ソース ファイル\Engin\Scene</Filter>
     </ClCompile>
     <ClCompile Include="DirectXGame\Engin\3d\Model.cpp">
       <Filter>ソース ファイル\Engin\3d</Filter>
@@ -144,9 +159,6 @@
     <ClCompile Include="DirectXGame\Engin\Camera\Camera.cpp">
       <Filter>ソース ファイル\Engin\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="DirectXGame\Engin\Scene\GameTitleScene.cpp">
-      <Filter>ソース ファイル\Engin\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="DirectXGame\Engin\Effect\ParticleM.cpp">
       <Filter>ソース ファイル\Engin\Effect</Filter>
     </ClCompile>
@@ -164,6 +176,18 @@
     </ClCompile>
     <ClCompile Include="DirectXGame\Engin\Math\Vector4.cpp">
       <Filter>ソース ファイル\Engin\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXGame\Application\Scene\GameScene.cpp">
+      <Filter>ソース ファイル\Application\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXGame\Application\Scene\GameTitleScene.cpp">
+      <Filter>ソース ファイル\Application\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXGame\Application\Scene\MyGame.cpp">
+      <Filter>ソース ファイル\Application\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXGame\Engin\Scene\TYFramework.cpp">
+      <Filter>ソース ファイル\Engin\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -237,9 +261,6 @@
     <ClInclude Include="DirectXGame\Engin\3d\Object3d.h">
       <Filter>ヘッダー ファイル\Engin\3d</Filter>
     </ClInclude>
-    <ClInclude Include="DirectXGame\Engin\Scene\GameScene.h">
-      <Filter>ヘッダー ファイル\Engin\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="DirectXGame\Engin\3d\Model.h">
       <Filter>ヘッダー ファイル\Engin\3d</Filter>
     </ClInclude>
@@ -264,9 +285,6 @@
     <ClInclude Include="DirectXGame\Engin\Camera\Camera.h">
       <Filter>ヘッダー ファイル\Engin\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="DirectXGame\Engin\Scene\GameTitleScene.h">
-      <Filter>ヘッダー ファイル\Engin\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="DirectXGame\Engin\Effect\ParticleM.h">
       <Filter>ヘッダー ファイル\Engin\Effect</Filter>
     </ClInclude>
@@ -284,6 +302,18 @@
     </ClInclude>
     <ClInclude Include="DirectXGame\Engin\Math\Vector4.h">
       <Filter>ヘッダー ファイル\Engin\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXGame\Application\Scene\GameScene.h">
+      <Filter>ヘッダー ファイル\Application\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXGame\Application\Scene\GameTitleScene.h">
+      <Filter>ヘッダー ファイル\Application\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXGame\Application\Scene\MyGame.h">
+      <Filter>ヘッダー ファイル\Application\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXGame\Engin\Scene\TYFramework.h">
+      <Filter>ヘッダー ファイル\Engin\Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

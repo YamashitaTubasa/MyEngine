@@ -34,7 +34,7 @@ public:
 	/// 初期化
 	/// </summary>
 	/// <param name="dXCommon"></param>
-	void Initialize(DirectXCommon* dXCommon, WinApp* winApp, SpriteCommon& spriteCommon);
+	void Initialize(SpriteCommon& spriteCommon);
 
 	/// <summary>
 	/// 更新
@@ -44,7 +44,7 @@ public:
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw(DirectXCommon* dXCommon);
+	void Draw(SpriteCommon& spriteCommon);
 
 	/// <summary>
 	/// 解放
@@ -55,7 +55,7 @@ public:
 	/// オブジェクトの初期化
 	/// </summary>
 	/// <param name="dXCommon"></param>
-	void ObjectInitialize(DirectXCommon* dXCommon);
+	void ObjectInitialize();
 
 	/// <summary>
 	/// オブジェクトの更新
@@ -65,7 +65,7 @@ public:
 	/// <summary>
 	/// オブジェクトの描画
 	/// </summary>
-	void ObjectDraw(DirectXCommon* dXCommon);
+	void ObjectDraw();
 
 	/// <summary>
 	/// オブジェクトの解放
@@ -75,7 +75,7 @@ public:
 	/// <summary>
 	/// スプライト初期化
 	/// </summary>
-	void SpriteInitialize(DirectXCommon* dXCommon, SpriteCommon& spriteCommon);
+	void SpriteInitialize(SpriteCommon& spriteCommon);
 
 	/// <summary>
 	/// スプライトの更新
@@ -85,10 +85,10 @@ public:
 	/// <summary>
 	/// スプライトの描画
 	/// </summary>
-	void TitleDraw(DirectXCommon* dXCommon);
-	void GameDraw(DirectXCommon* dXCommon);
-	void GameClearDraw(DirectXCommon* dXCommon);
-	void GameOverDraw(DirectXCommon* dXCommon);
+	void TitleDraw();
+	void GameDraw();
+	void GameClearDraw();
+	void GameOverDraw();
 
 	/// <summary>
 	/// スプライトの解放
@@ -100,7 +100,7 @@ public:
 
 	void ParticleUpdate();
 
-	void ParticleDraw(DirectXCommon* dXCommon);
+	void ParticleDraw();
 
 	/// <summary>
 	/// ゲームのリセット
@@ -113,6 +113,7 @@ public:
 	int CheckCollision(XMFLOAT3 object, XMFLOAT3 scale);
 
 private:
+	WinApp* winApp = nullptr;
 	// 入力
 	Input* input = nullptr;
 	// モデル

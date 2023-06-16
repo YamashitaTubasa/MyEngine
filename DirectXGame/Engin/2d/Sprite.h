@@ -97,12 +97,12 @@ public:
 	/// <summary>
 	/// 描画前処理
 	/// </summary>
-	void PreDraw(ID3D12GraphicsCommandList* cmdList, const SpriteCommon& spriteCommon);
+	static void PreDraw(ID3D12GraphicsCommandList* cmdList, const SpriteCommon& spriteCommon);
 
 	/// <summary>
 	/// 描画後処理
 	/// </summary>
-	void PostDraw();
+	static void PostDraw();
 
 	/// <summary>
 	/// スプライト単体描画
