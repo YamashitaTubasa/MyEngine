@@ -66,6 +66,7 @@ Quaternion Quaternion::Normalize()
 
 		return temp;
 	}
+	return temp;
 }
 
 Quaternion Quaternion::Inverse()

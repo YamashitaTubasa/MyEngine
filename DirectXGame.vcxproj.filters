@@ -189,6 +189,9 @@
     <ClCompile Include="DirectXGame\Engin\Scene\TYFramework.cpp">
       <Filter>ソース ファイル\Engin\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="DirectXGame\Engin\2d\PostEffect.cpp">
+      <Filter>ソース ファイル\Engin\2d</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Basic.hlsli">
@@ -314,6 +317,9 @@
     </ClInclude>
     <ClInclude Include="DirectXGame\Engin\Scene\TYFramework.h">
       <Filter>ヘッダー ファイル\Engin\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXGame\Engin\2d\PostEffect.h">
+      <Filter>ヘッダー ファイル\Engin\2d</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

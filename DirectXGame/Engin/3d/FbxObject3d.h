@@ -86,8 +86,20 @@ public: // setter
 	/// <param name="model">モデル</param>
 	void SetModel(FbxModel* fbxModel) { this->fbxModel = fbxModel; }
 
+	// 座標
+	void SetPosition(const XMFLOAT3& position) { this->position = position; }
+	// 回転
+	void SetRotation(const XMFLOAT3& rotation) { this->rotation = rotation; }
+	// スケール
+	void SetScale(const XMFLOAT3& scale) { this->scale = scale; }
+
 public: // getter
+	// 座標
 	XMFLOAT3& GetPosition() { return position; }
+	// 回転
+	XMFLOAT3& GetRotation() { return rotation; }
+	// スケール
+	XMFLOAT3& GetScale() { return scale; }
 
 private: // 静的メンバ変数
 	// デバイス

@@ -70,6 +70,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>libfbxsdk-md.lib;libxml2-md.lib;zlib-md.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -90,9 +91,11 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>libfbxsdk-mt.lib;libxml2-mt.lib;zlib-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DirectXGame\Engin\2d\PostEffect.cpp" />
     <ClCompile Include="DirectXGame\Engin\2d\Sprite.cpp" />
     <ClCompile Include="DirectXGame\Engin\3d\FbxLoader.cpp" />
     <ClCompile Include="DirectXGame\Engin\3d\FbxModel.cpp" />
@@ -195,6 +198,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DirectXGame\Engin\2d\PostEffect.h" />
     <ClInclude Include="DirectXGame\Engin\2d\Sprite.h" />
     <ClInclude Include="DirectXGame\Engin\3d\FbxLoader.h" />
     <ClInclude Include="DirectXGame\Engin\3d\FbxModel.h" />
