@@ -129,7 +129,7 @@ Matrix4& operator *=(Matrix4& m1, const Matrix4& m2)
 	}
 
 	m1 = result;
-	return result;
+	return m1;
 }
 
 // 2項演算子* のオーバーロード関数(行列と行列の積)

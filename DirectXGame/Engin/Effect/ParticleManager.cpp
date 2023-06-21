@@ -482,7 +482,7 @@ bool ParticleManager::Initialize()
 void ParticleManager::Update()
 {
 	HRESULT result;
-	XMMATRIX matScale, matRot, matTrans;
+	XMMATRIX matScale, matRot;
 
 	particle->Update();
 

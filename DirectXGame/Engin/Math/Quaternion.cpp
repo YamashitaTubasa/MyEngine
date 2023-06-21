@@ -231,7 +231,7 @@ Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t)
 
 	if (dot >= 1.0f - EPSILON)
 	{
-		return (1.0 - t) * temp0 + t * temp1;
+		return (1.0f - t) * temp0 + t * temp1;
 	}
 
 	// ‚»‚ê‚¼‚ê‚Ì•âŠÔŒW”‚ğ—˜—p‚µ‚Ä•âŠÔŒã‚ÌQuaternion‚ğ‹‚ß‚é

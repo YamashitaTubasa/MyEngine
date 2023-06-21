@@ -201,7 +201,7 @@ PipelineSet Sprite::SpriteCreateGraphicsPipeline(ID3D12Device* device)
 	return pipelineSet;
 }
 
-void Sprite::SpriteCreate(ID3D12Device* dev, int window_width, int window_height, 
+void Sprite::SpriteCreate(ID3D12Device* dev, float window_width, float window_height, 
 	UINT texNumber, const SpriteCommon& spriteCommon, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY) {
 
 	HRESULT result = S_FALSE;

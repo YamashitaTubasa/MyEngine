@@ -91,7 +91,7 @@ public:
 	/// <summary>
 	/// スプライト生成
 	/// </summary>
-	void SpriteCreate(ID3D12Device* dev, int window_width, int window_height, 
+	void SpriteCreate(ID3D12Device* dev, float window_width, float window_height, 
 		UINT texNumber, const SpriteCommon& spriteCommon, XMFLOAT2 anchorpoint, bool isFlipX, bool FlipY);
 
 	/// <summary>

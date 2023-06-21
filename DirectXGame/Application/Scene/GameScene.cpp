@@ -291,9 +291,9 @@ void GameScene::ObjectUpdate()
 	}
 
 	// プレイヤーと鉄球の当たり判定
-	if (CheckCollision(object3d[1]->GetPosition(), object3d[1]->GetScale()) == true) {
+	/*if (CheckCollision(object3d[1]->GetPosition(), object3d[1]->GetScale()) == true) {
 		playerHp -= 1;
-	}
+	}*/
 	/*if (playerHp == 0) {
 		scene = GameOver;
 	}*/
@@ -385,26 +385,27 @@ void GameScene::GameReset()
 }
 
 int GameScene::CheckCollision(XMFLOAT3 position, XMFLOAT3 scale) {
-	//オブジェクトの座標
-	float objLeftX = position.x - scale.x;
-	float objRightX = position.x + scale.x;
-	float objTopY = position.y + scale.y;
-	float objBottomY = position.y - scale.y;
-	float objFrontZ = position.z - scale.z;
-	float objBZ = position.z + scale.z;
-	//プレイヤーの座標
-	float playerLeftX = object3d[0]->GetPosition().x - object3d[0]->GetScale().x;
-	float playerRightX = object3d[0]->GetPosition().x + object3d[0]->GetScale().x;
-	float playerTopY = object3d[0]->GetPosition().y + object3d[0]->GetScale().y;
-	float playerBottomY = object3d[0]->GetPosition().y - object3d[0]->GetScale().y;
-	float playerFrontZ = object3d[0]->GetPosition().z - object3d[0]->GetScale().z;
-	float playerBZ = object3d[0]->GetPosition().z + object3d[0]->GetScale().z;
+	////オブジェクトの座標
+	//float objLeftX = position.x - scale.x;
+	//float objRightX = position.x + scale.x;
+	//float objTopY = position.y + scale.y;
+	//float objBottomY = position.y - scale.y;
+	//float objFrontZ = position.z - scale.z;
+	//float objBZ = position.z + scale.z;
+	////プレイヤーの座標
+	//float playerLeftX = object3d[0]->GetPosition().x - object3d[0]->GetScale().x;
+	//float playerRightX = object3d[0]->GetPosition().x + object3d[0]->GetScale().x;
+	//float playerTopY = object3d[0]->GetPosition().y + object3d[0]->GetScale().y;
+	//float playerBottomY = object3d[0]->GetPosition().y - object3d[0]->GetScale().y;
+	//float playerFrontZ = object3d[0]->GetPosition().z - object3d[0]->GetScale().z;
+	//float playerBZ = object3d[0]->GetPosition().z + object3d[0]->GetScale().z;
 
-	if (objLeftX < playerRightX && playerLeftX < objRightX) {
-		if (objBottomY < playerTopY && playerBottomY < objTopY) {
-			if (objFrontZ < playerBZ && playerFrontZ < objBZ) {
-				return true;
-			}
-		}
-	}
+	//if (objLeftX < playerRightX && playerLeftX < objRightX) {
+	//	if (objBottomY < playerTopY && playerBottomY < objTopY) {
+	//		if (objFrontZ < playerBZ && playerFrontZ < objBZ) {
+	//			return true;
+	//		}
+	//	}
+	//}
+	return true;
 }
