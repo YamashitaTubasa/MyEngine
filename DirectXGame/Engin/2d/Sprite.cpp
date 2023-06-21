@@ -366,20 +366,20 @@ SpriteCommon Sprite::SpriteCommonCreate(ID3D12Device* dev, int window_width, int
 	return spriteCommon;
 }
 
-void Sprite::SpriteUpdate(Sprite& sprite, const SpriteCommon& spriteCommon) 
+void Sprite::SpriteUpdate(Sprite* sprite, const SpriteCommon& spriteCommon) 
 {
 	// ワールド行列の更新
-	sprite.matWorld = XMMatrixIdentity();
+	sprite->matWorld = XMMatrixIdentity();
 	// Z軸回転
-	sprite.matWorld *= XMMatrixRotationZ(XMConvertToRadians(sprite.rotation));
+	sprite->matWorld *= XMMatrixRotationZ(XMConvertToRadians(sprite->rotation));
 	// 平行移動
-	sprite.matWorld *= XMMatrixTranslation(sprite.position.x, sprite.position.y, 0.0f);
+	sprite->matWorld *= XMMatrixTranslation(sprite->position.x, sprite->position.y, 0.0f);
 
 	// 定数バッファの転送
 	ConstBufferData* constMap = nullptr;
-	HRESULT result = sprite.constBuff->Map(0, nullptr, (void**)&constMap);
-	constMap->mat = sprite.matWorld * spriteCommon.matProjection;
-	sprite.constBuff->Unmap(0, nullptr);
+	HRESULT result = sprite->constBuff->Map(0, nullptr, (void**)&constMap);
+	constMap->mat = sprite->matWorld * spriteCommon.matProjection;
+	sprite->constBuff->Unmap(0, nullptr);
 }
 
 void Sprite::LoadTexture(SpriteCommon& spriteCommon, UINT texnumber, const wchar_t* filename, ID3D12Device* dev) {
@@ -453,7 +453,7 @@ void Sprite::LoadTexture(SpriteCommon& spriteCommon, UINT texnumber, const wchar
 	);
 }
 
-void Sprite::SpriteTransferVertexBuffer(const Sprite& sprite, const SpriteCommon& spriteCommon, uint32_t texIndex)
+void Sprite::SpriteTransferVertexBuffer(const Sprite* sprite, const SpriteCommon& spriteCommon, uint32_t texIndex)
 {
 	HRESULT result = S_FALSE;
 
@@ -497,14 +497,14 @@ void Sprite::SpriteTransferVertexBuffer(const Sprite& sprite, const SpriteCommon
 
 	// UV計算
 	// 指定番号の画像が読み込み済みなら
-	if (spriteCommon.texBuff[sprite.texIndex_]) {
+	if (spriteCommon.texBuff[sprite->texIndex_]) {
 		// テクスチャ情報取得
-		resDesc = spriteCommon.texBuff[sprite.texIndex_]->GetDesc();
+		resDesc = spriteCommon.texBuff[sprite->texIndex_]->GetDesc();
 
-		float tex_left = sprite.texLeftTop_.x / resDesc.Width;
-		float tex_right = (sprite.texLeftTop_.x + sprite.texSize_.x) / resDesc.Width;
-		float tex_top = sprite.texLeftTop_.y / resDesc.Height;
-		float tex_bottom = (sprite.texLeftTop_.y + sprite.texSize_.y) / resDesc.Height;
+		float tex_left = sprite->texLeftTop_.x / resDesc.Width;
+		float tex_right = (sprite->texLeftTop_.x + sprite->texSize_.x) / resDesc.Width;
+		float tex_top = sprite->texLeftTop_.y / resDesc.Height;
+		float tex_bottom = (sprite->texLeftTop_.y + sprite->texSize_.y) / resDesc.Height;
 
 		vertices[LB].uv = { tex_left,  tex_bottom }; // 左下
 		vertices[LT].uv = { tex_left,     tex_top }; // 左上
@@ -514,9 +514,9 @@ void Sprite::SpriteTransferVertexBuffer(const Sprite& sprite, const SpriteCommon
 
 	// 頂点バッファへのデータ転送
 	VertexPosUv* vertMap = nullptr;
-	result = sprite.vertBuff->Map(0, nullptr, (void**)&vertMap);
+	result = sprite->vertBuff->Map(0, nullptr, (void**)&vertMap);
 	memcpy(vertMap, vertices, sizeof(vertices));
-	sprite.vertBuff->Unmap(0, nullptr);
+	sprite->vertBuff->Unmap(0, nullptr);
 }
 
 void Sprite::Finalize()

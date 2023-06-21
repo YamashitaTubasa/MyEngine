@@ -97,12 +97,12 @@ public:
 	/// <summary>
 	/// スプライト単体頂点バッファの転送
 	/// </summary>
-	void SpriteTransferVertexBuffer(const Sprite& sprite, const SpriteCommon& spriteCommon, uint32_t texIndex_ = UINT32_MAX);
+	void SpriteTransferVertexBuffer(const Sprite* sprite, const SpriteCommon& spriteCommon, uint32_t texIndex_ = UINT32_MAX);
 
 	/// <summary>
 	/// スプライト単体更新
 	/// </summary>
-	void SpriteUpdate(Sprite& sprite, const SpriteCommon& spriteCommon);
+	void SpriteUpdate(Sprite* sprite, const SpriteCommon& spriteCommon);
 
 	/// <summary>
 	/// 描画前処理

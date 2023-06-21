@@ -69,21 +69,22 @@ void GameScene::Initialize(SpriteCommon& spriteCommon)
 	// スプライトの初期化
 	//SpriteInitialize(spriteCommon);
 	// スプライト
-	sprite = new Sprite();
+	sprite = new Sprite(100, { 0.0f,0.0f }, { 500.0f,500.0f }, { 1,1,1,1 }, { 0.0f,0.0f }, false, false);
 	//sprite = make_shared<Sprite>(100, { 0.0f,0.0f }, { 500.0f,500.0f }, { 1,1,1,1 }, { 0.0f,0.0f }, false, false);
 	spriteCommon_ = sprite->SpriteCommonCreate(dXCommon->GetDevice(), 1280, 720);
 	// スプライト用パイプライン生成呼び出し
 	PipelineSet spritePipelineSet = sprite->SpriteCreateGraphicsPipeline(dXCommon->GetDevice());
 
 	// HP
-	hP.LoadTexture(spriteCommon_, 3, L"Resources/Image/hp.png", dXCommon->GetDevice());
-	hP.SetColor(XMFLOAT4(1, 1, 1, 1));
-	hP.SpriteCreate(dXCommon->GetDevice(), 50, 50, 3, spriteCommon, XMFLOAT2(0.0f, 0.0f), false, false);
-	hP.SetPosition(XMFLOAT3(0, 0, 0));
-	hP.SetScale(XMFLOAT2(50 * 1, 50 * 1));
-	hP.SetRotation(0.0f);
-	hP.SpriteTransferVertexBuffer(hP, spriteCommon, 3);
-	hP.SpriteUpdate(hP, spriteCommon_);
+	hp = new Sprite(100, { 0.0f,0.0f }, { 500.0f,500.0f }, { 1,1,1,1 }, { 0.0f,0.0f }, false, false);
+	hp->LoadTexture(spriteCommon_, 3, L"Resources/Image/hp.png", dXCommon->GetDevice());
+	hp->SetColor(XMFLOAT4(1, 1, 1, 1));
+	hp->SpriteCreate(dXCommon->GetDevice(), 50, 50, 3, spriteCommon, XMFLOAT2(0.0f, 0.0f), false, false);
+	hp->SetPosition(XMFLOAT3(0, 0, 0));
+	hp->SetScale(XMFLOAT2(50 * 1, 50 * 1));
+	hp->SetRotation(0.0f);
+	hp->SpriteTransferVertexBuffer(hp, spriteCommon, 3);
+	hp->SpriteUpdate(hp, spriteCommon_);
 
 	//// パーティクルの初期化
 	//ParticleInitialize();
@@ -169,9 +170,10 @@ void GameScene::Draw(SpriteCommon& spriteCommon)
 	/*for (int i = 0; i < 5; i++) {
 		object3d[i]->Draw();
 	}*/
+	object3d[0]->Draw();
 
 	// FBX3Dオブジェクトの描画
-	fbxObject->Draw(dXCommon->GetCommandList());
+	//fbxObject->Draw(dXCommon->GetCommandList());
 
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
@@ -202,7 +204,7 @@ void GameScene::Draw(SpriteCommon& spriteCommon)
 
 	Sprite::PreDraw(dXCommon->GetCommandList(), spriteCommon_);
 
-	//hP.SpriteDraw(dXCommon->GetCommandList(), spriteCommon_, dXCommon->GetDevice(), hP.vbView);
+	hp->SpriteDraw(dXCommon->GetCommandList(), spriteCommon_, dXCommon->GetDevice(), hp->vbView);
 
 	Sprite::PostDraw();
 
@@ -221,7 +223,7 @@ void GameScene::Finalize()
 void GameScene::ObjectInitialize() 
 {
 	// OBJからモデルデータを読み込む
-	Model[0] = Model::LoadFromOBJ("fighter", "effect1.png");
+	Model[0] = Model::LoadFromOBJ("fighter2", "effect1.png");
 	//Model[0]->LoadTexture("effect1.png");
 	Model[1] = Model::LoadFromOBJ("ironSphere", "ironShpere/ironSphere.png");
 	//Model[2] = Model::LoadFromOBJ("skydome", "skydome/skydome.jpg");
@@ -234,8 +236,8 @@ void GameScene::ObjectInitialize()
 	object3d[1]->SetModel(Model[1]);
 	object3d[2]->SetModel(Model[2]);
 	// 3Dオブジェクトの位置を指定
-	position[0] = { -20,-5,0 };
-	rotation[0] = { 0,90,0 };
+	position[0] = { 0,-5,-35 };
+	rotation[0] = { 0,0,0 };
 	object3d[0]->SetPosition(position[0]);
 	object3d[0]->SetScale({ 5, 5, 5 });
 	object3d[0]->SetRotation(rotation[0]);
@@ -271,16 +273,16 @@ void GameScene::ObjectUpdate()
 	}*/
 
 	if (input->PushKey(DIK_W)) {
-		position[0].y += 0.4;
+		position[0].y += 0.4f;
 	}
 	if (input->PushKey(DIK_A)) {
-		position[0].x -= 0.4;
+		position[0].x -= 0.4f;
 	}
 	if (input->PushKey(DIK_S)) {
-		position[0].y -= 0.4;
+		position[0].y -= 0.4f;
 	}
 	if (input->PushKey(DIK_D)) {
-		position[0].x += 0.4;
+		position[0].x += 0.4f;
 	}
 
 	position[1].z -= 1;

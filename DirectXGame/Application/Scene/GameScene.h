@@ -123,8 +123,7 @@ private:
 	// スプライト
 	Sprite* sprite = nullptr;
 	//std::shared_ptr<Sprite> sprite;
-	Sprite hP;
-	Sprite hP1;
+	Sprite* hp = nullptr;
 	SpriteCommon spriteCommon_;
 
 	// パーティクル
