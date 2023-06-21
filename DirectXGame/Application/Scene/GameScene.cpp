@@ -21,42 +21,42 @@ void GameScene::Initialize(SpriteCommon& spriteCommon)
 	input = Input::GetInstance();
 	dXCommon = DirectXCommon::GetInstance();
 
-	// ƒJƒƒ‰
+	// ã‚«ãƒ¡ãƒ©
 	camera = new Camera();
 	camera->Initialize();
 
-	// ƒfƒoƒCƒX‚ğƒZƒbƒg
+	// ãƒ‡ãƒã‚¤ã‚¹ã‚’ã‚»ãƒƒãƒˆ
 	FbxObject3d::SetDevice(dXCommon->GetDevice());
-	// ƒJƒƒ‰‚ğƒZƒbƒg
+	// ã‚«ãƒ¡ãƒ©ã‚’ã‚»ãƒƒãƒˆ
 	FbxObject3d::SetCamera(camera);
-	// ƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“¶¬
+	// ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ç”Ÿæˆ
 	FbxObject3d::CreateGraphicsPipeline();
 
-	// FBX‚Ì3DƒIƒuƒWƒFƒNƒg¶¬‚Æƒ‚ƒfƒ‹‚ÌƒZƒbƒg
+	// FBXã®3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆã¨ãƒ¢ãƒ‡ãƒ«ã®ã‚»ãƒƒãƒˆ
 	fbxObject = new FbxObject3d();
 	fbxModel = new FbxModel();
 	fbxObject->Initialize();
-	// ƒ‚ƒfƒ‹–¼‚ğw’è‚µ‚Äƒtƒ@ƒCƒ‹“Ç‚İ‚İ
+	// ãƒ¢ãƒ‡ãƒ«åã‚’æŒ‡å®šã—ã¦ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿
 	fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
-	// FBXƒIƒuƒWƒFƒNƒg‚ÉFBXƒ‚ƒfƒ‹‚ğŠ„‚è“–‚Ä‚é
+	// FBXã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«FBXãƒ¢ãƒ‡ãƒ«ã‚’å‰²ã‚Šå½“ã¦ã‚‹
 	fbxObject->SetModel(fbxModel);
-	// ƒXƒP[ƒ‹A‰ñ“]AÀ•W
+	// ã‚¹ã‚±ãƒ¼ãƒ«ã€å›è»¢ã€åº§æ¨™
 	fbxObject->SetRotation({ 0,90,0 });
 
-	// ƒJƒƒ‰‚Ì’‹“_‚ğƒZƒbƒg
+	// ã‚«ãƒ¡ãƒ©ã®æ³¨è¦–ç‚¹ã‚’ã‚»ãƒƒãƒˆ
 	target[0] = { 0,2.5f,0 };
 	eye[0] = { 0,0,-10 };
 	camera->SetTarget(target[0]);
 	camera->SetEye(eye[0]);
 	camera->SetDistance(8.0f);
 
-	// OBJ‚Ì–¼‘O‚ğw’è‚µ‚Äƒ‚ƒfƒ‹ƒf[ƒ^‚ğ“Ç‚İ‚Ş
+	// OBJã®åå‰ã‚’æŒ‡å®šã—ã¦ãƒ¢ãƒ‡ãƒ«ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€
 	particle = ParticleM::LoadFromOBJ("Resources/Image/effect1.png");
 	particle1 = ParticleM::LoadFromOBJ("Resources/Image/effect2.png");
-	// ƒp[ƒeƒBƒNƒ‹‚Ì¶¬
+	// ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã®ç”Ÿæˆ
 	particleMan = ParticleManager::Create();
 	particleMan1 = ParticleManager::Create();
-	// ƒp[ƒeƒBƒNƒ‹ƒ}ƒl[ƒWƒƒ[‚Éƒp[ƒeƒBƒNƒ‹‚ğŠ„‚è“–‚Ä‚é
+	// ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã«ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã‚’å‰²ã‚Šå½“ã¦ã‚‹
 	particleMan->SetModel(particle);
 	particleMan1->SetModel(particle1);
 
@@ -64,15 +64,15 @@ void GameScene::Initialize(SpriteCommon& spriteCommon)
 	/*gTS = new GameTitleScene();
 	gTS->Initialize();*/
 	
-	// ƒIƒuƒWƒFƒNƒg‚Ì‰Šú‰»
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®åˆæœŸåŒ–
 	ObjectInitialize();
-	// ƒXƒvƒ‰ƒCƒg‚Ì‰Šú‰»
+	// ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®åˆæœŸåŒ–
 	//SpriteInitialize(spriteCommon);
-	// ƒXƒvƒ‰ƒCƒg
+	// ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ
 	sprite = new Sprite(100, { 0.0f,0.0f }, { 500.0f,500.0f }, { 1,1,1,1 }, { 0.0f,0.0f }, false, false);
 	//sprite = make_shared<Sprite>(100, { 0.0f,0.0f }, { 500.0f,500.0f }, { 1,1,1,1 }, { 0.0f,0.0f }, false, false);
 	spriteCommon_ = sprite->SpriteCommonCreate(dXCommon->GetDevice(), 1280, 720);
-	// ƒXƒvƒ‰ƒCƒg—pƒpƒCƒvƒ‰ƒCƒ“¶¬ŒÄ‚Ño‚µ
+	// ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆç”¨ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ç”Ÿæˆå‘¼ã³å‡ºã—
 	PipelineSet spritePipelineSet = sprite->SpriteCreateGraphicsPipeline(dXCommon->GetDevice());
 
 	// HP
@@ -86,28 +86,28 @@ void GameScene::Initialize(SpriteCommon& spriteCommon)
 	hp->SpriteTransferVertexBuffer(hp, spriteCommon, 3);
 	hp->SpriteUpdate(hp, spriteCommon_);
 
-	//// ƒp[ƒeƒBƒNƒ‹‚Ì‰Šú‰»
+	//// ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã®åˆæœŸåŒ–
 	//ParticleInitialize();
 
-	// FBXƒAƒjƒ[ƒVƒ‡ƒ“‚ÌÀs
+	// FBXã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®å®Ÿè¡Œ
 	fbxObject->PlayAnimation();
 }
 
 void GameScene::Update()
 {
-	// ImGuió•tŠJn
+	// ImGuiå—ä»˜é–‹å§‹
 	imGuiManager->Begin();
 
-	// “ü—Í‚ÌXV
+	// å…¥åŠ›ã®æ›´æ–°
 	input->Update();
 
-	// ƒJƒƒ‰‚ÌXV
+	// ã‚«ãƒ¡ãƒ©ã®æ›´æ–°
 	camera->Update();
 
-	// FBXƒIƒuƒWƒFƒNƒg‚ÌXV
+	// FBXã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ›´æ–°
 	fbxObject->Update();
 
-	// gTS‚ÌXV
+	// gTSã®æ›´æ–°
 	//gTS->Update();
 
 	static char buf[256]{};
@@ -135,9 +135,9 @@ void GameScene::Update()
 	}
 	camera->SetEye(eye[0]);
 
-	// ƒIƒuƒWƒFƒNƒg‚ÌXV
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ›´æ–°
 	ObjectUpdate();
-	// ƒXƒvƒ‰ƒCƒg‚ÌXV
+	// ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®æ›´æ–°
 	SpriteUpdate();
 	
 	if (input->TriggerKey(DIK_U)) {
@@ -148,59 +148,59 @@ void GameScene::Update()
 	}
 	if (particleTime >= 10) { particl = false; particleTime = 0; }
 	if (particl == true) {
-		// ƒp[ƒeƒBƒNƒ‹‚Ì‰Šú‰»
+		// ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã®åˆæœŸåŒ–
 		particleMan->Execution(particle, 0);
 	}
 
-	// ƒp[ƒeƒBƒNƒ‹‚ÌXV
+	// ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã®æ›´æ–°
 	particleMan->Update();
 
-	// ImGuió•tI—¹
+	// ImGuiå—ä»˜çµ‚äº†
 	imGuiManager->End();
 }
 
 void GameScene::Draw(SpriteCommon& spriteCommon)
 {
-#pragma region 3DƒIƒuƒWƒFƒNƒg‚Ì•`‰æ
+#pragma region 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æç”»
 
-	// 3DƒIƒuƒWƒFƒNƒg•`‰æ‘Oˆ—
+	// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæç”»å‰å‡¦ç†
 	Object3d::PreDraw(dXCommon->GetCommandList());
 
-	// 3DƒIƒuƒWƒFƒNƒg‚Ì•`‰æ
+	// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æç”»
 	/*for (int i = 0; i < 5; i++) {
 		object3d[i]->Draw();
 	}*/
 	object3d[0]->Draw();
 
-	// FBX3DƒIƒuƒWƒFƒNƒg‚Ì•`‰æ
+	// FBX3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æç”»
 	//fbxObject->Draw(dXCommon->GetCommandList());
 
-	// 3DƒIƒuƒWƒFƒNƒg•`‰æŒãˆ—
+	// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæç”»å¾Œå‡¦ç†
 	Object3d::PostDraw();
 #pragma endregion 
 
-#pragma region ƒp[ƒeƒBƒNƒ‹‚Ì•`‰æ
+#pragma region ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã®æç”»
 
-	// ƒRƒ}ƒ“ƒhƒŠƒXƒg‚Ìæ“¾
+	// ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆã®å–å¾—
 	//ID3D12GraphicsCommandList* cmdList = dXCommon->GetCommandList();
 
-	// 3DƒIƒuƒWƒFƒNƒg•`‰æ‘Oˆ—
+	// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæç”»å‰å‡¦ç†
 	ParticleManager::PreDraw(dXCommon->GetCommandList());
 
-	// 3DƒIƒuƒNƒWƒFƒNƒg‚Ì•`‰æ
+	// 3Dã‚ªãƒ–ã‚¯ã‚¸ã‚§ã‚¯ãƒˆã®æç”»
 	particleMan->Draw();
 	//particleMan1->Draw();
 
 	/// <summary>
-	/// ‚±‚±‚É3DƒIƒuƒWƒFƒNƒg‚Ì•`‰æˆ—‚ğ’Ç‰Á‚Å‚«‚é
+	/// ã“ã“ã«3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æç”»å‡¦ç†ã‚’è¿½åŠ ã§ãã‚‹
 	/// </summary>
 
-	// 3DƒIƒuƒWƒFƒNƒg•`‰æŒãˆ—
+	// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæç”»å¾Œå‡¦ç†
 	ParticleManager::PostDraw();
 
 #pragma endregion
 
-#pragma region ƒXƒvƒ‰ƒCƒg•`‰æ
+#pragma region ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»
 
 	Sprite::PreDraw(dXCommon->GetCommandList(), spriteCommon_);
 
@@ -213,29 +213,29 @@ void GameScene::Draw(SpriteCommon& spriteCommon)
 
 void GameScene::Finalize()
 {
-	// ƒIƒuƒWƒFƒNƒg‚Ì‰ğ•ú
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è§£æ”¾
 	ObjectFinalize();
 
-	// ƒXƒvƒ‰ƒCƒg‚Ì‰ğ•ú
+	// ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®è§£æ”¾
 	SpriteFinalize();
 }
 
 void GameScene::ObjectInitialize() 
 {
-	// OBJ‚©‚çƒ‚ƒfƒ‹ƒf[ƒ^‚ğ“Ç‚İ‚Ş
+	// OBJã‹ã‚‰ãƒ¢ãƒ‡ãƒ«ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€
 	Model[0] = Model::LoadFromOBJ("fighter2", "effect1.png");
 	//Model[0]->LoadTexture("effect1.png");
 	Model[1] = Model::LoadFromOBJ("ironSphere", "ironShpere/ironSphere.png");
 	//Model[2] = Model::LoadFromOBJ("skydome", "skydome/skydome.jpg");
-	// 3DƒIƒuƒWƒFƒNƒg¶¬
+	// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆ
 	for (int i = 0; i < 5; i++) {
 		object3d[i] = Object3d::Create();
 	}
-	// ƒIƒuƒWƒFƒNƒg‚Éƒ‚ƒfƒ‹‚ğ‚Ğ‚à•t‚¯‚é
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ãƒ¢ãƒ‡ãƒ«ã‚’ã²ã‚‚ä»˜ã‘ã‚‹
 	object3d[0]->SetModel(Model[0]);
 	object3d[1]->SetModel(Model[1]);
 	object3d[2]->SetModel(Model[2]);
-	// 3DƒIƒuƒWƒFƒNƒg‚ÌˆÊ’u‚ğw’è
+	// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½ç½®ã‚’æŒ‡å®š
 	position[0] = { 0,-5,-35 };
 	rotation[0] = { 0,0,0 };
 	object3d[0]->SetPosition(position[0]);
@@ -255,7 +255,7 @@ void GameScene::ObjectInitialize()
 
 void GameScene::ObjectUpdate()
 {
-	// 3DƒIƒuƒWƒFƒNƒgXV
+	// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ›´æ–°
 	for (int i = 0; i < 5; i++) {
 		object3d[i]->Update();
 	}
@@ -290,7 +290,7 @@ void GameScene::ObjectUpdate()
 		position[1].z = 50;
 	}
 
-	// ƒvƒŒƒCƒ„[‚Æ“S‹…‚Ì“–‚½‚è”»’è
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨é‰„çƒã®å½“ãŸã‚Šåˆ¤å®š
 	/*if (CheckCollision(object3d[1]->GetPosition(), object3d[1]->GetScale()) == true) {
 		playerHp -= 1;
 	}*/
@@ -301,11 +301,11 @@ void GameScene::ObjectUpdate()
 
 void GameScene::ObjectFinalize()
 {
-	// 3DƒIƒuƒWƒFƒNƒg‰ğ•ú
+	// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè§£æ”¾
 	for (int i = 0; i < 5; i++) {
 		delete object3d[i];
 	}
-	// 3Dƒ‚ƒfƒ‹‰ğ•ú
+	// 3Dãƒ¢ãƒ‡ãƒ«è§£æ”¾
 	for (int i = 0; i < 5; i++) {
 		delete Model[i];
 	}
@@ -322,7 +322,7 @@ void GameScene::SpriteUpdate()
 
 void GameScene::SpriteFinalize()
 {
-	// ƒXƒvƒ‰ƒCƒg‰ğ•ú
+	// ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆè§£æ”¾
 	delete sprite;
 	sprite = nullptr;
 }
@@ -330,32 +330,32 @@ void GameScene::SpriteFinalize()
 void GameScene::ParticleInitialize()
 {
 	//for (int i = 0; i < 100; i++) {
-	//	// X,Y,Z‚·‚×‚Ä[-5.0f,+5.0f]‚Åƒ‰ƒ“ƒ_ƒ€‚É•ª•z
+	//	// X,Y,Zã™ã¹ã¦[-5.0f,+5.0f]ã§ãƒ©ãƒ³ãƒ€ãƒ ã«åˆ†å¸ƒ
 	//	const float md_pos = 10.0f;
 	//	XMFLOAT3 pos{};
 	//	float posx = -5;
 	//	pos.x = (float)rand() / RAND_MAX * md_pos - md_pos / 2.0f + posx;
 	//	pos.y = (float)rand() / RAND_MAX * md_pos - md_pos / 2.0f;
 	//	pos.z = (float)rand() / RAND_MAX * md_pos - md_pos / 2.0f;
-	//	// X,Y,Z‘S‚Ä[-0.05f,+0.05f]‚Åƒ‰ƒ“ƒ_ƒ€•ª•z
+	//	// X,Y,Zå…¨ã¦[-0.05f,+0.05f]ã§ãƒ©ãƒ³ãƒ€ãƒ åˆ†å¸ƒ
 	//	const float md_vel = 0.1f;
 	//	XMFLOAT3 vel{};
 	//	vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
 	//	vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
 	//	vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-	//	// d—Í‚ÉŒ©—§‚Ä‚ÄY‚Ì‚İ[-0.001f,0]‚Åƒ‰ƒ“ƒ_ƒ€•ª•z
+	//	// é‡åŠ›ã«è¦‹ç«‹ã¦ã¦Yã®ã¿[-0.001f,0]ã§ãƒ©ãƒ³ãƒ€ãƒ åˆ†å¸ƒ
 	//	XMFLOAT3 acc{};
 	//	const float md_acc = 0.001f;
 	//	acc.y = (float)rand() / RAND_MAX * md_acc;
 
-	//	// ’Ç‰Á
+	//	// è¿½åŠ 
 	//	particleMan->Add(20, pos, vel, acc, 1.0f, 0.0);
 	//}
 }
 
 void GameScene::ParticleUpdate()
 {
-	//// ƒJƒƒ‰ˆÚ“®
+	//// ã‚«ãƒ¡ãƒ©ç§»å‹•
 	//if (input->PushKey(DIK_W) || input->PushKey(DIK_S) || input->PushKey(DIK_D) || input->PushKey(DIK_A))
 	//{
 	//	if (input->PushKey(DIK_W)) { ParticleManager::CameraMoveEyeVector({ 0.0f,+1.0f,0.0f }); }
@@ -369,7 +369,7 @@ void GameScene::ParticleUpdate()
 
 void GameScene::GameReset()
 {
-	// 3DƒIƒuƒWƒFƒNƒg‚ÌˆÊ’u‚ğw’è
+	// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½ç½®ã‚’æŒ‡å®š
 	position[0] = { -20,-5,0 };
 	rotation[0] = { 0,90,0 };
 	object3d[0]->SetPosition(position[0]);
@@ -385,14 +385,14 @@ void GameScene::GameReset()
 }
 
 int GameScene::CheckCollision(XMFLOAT3 position, XMFLOAT3 scale) {
-	////ƒIƒuƒWƒFƒNƒg‚ÌÀ•W
+	////ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®åº§æ¨™
 	//float objLeftX = position.x - scale.x;
 	//float objRightX = position.x + scale.x;
 	//float objTopY = position.y + scale.y;
 	//float objBottomY = position.y - scale.y;
 	//float objFrontZ = position.z - scale.z;
 	//float objBZ = position.z + scale.z;
-	////ƒvƒŒƒCƒ„[‚ÌÀ•W
+	////ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åº§æ¨™
 	//float playerLeftX = object3d[0]->GetPosition().x - object3d[0]->GetScale().x;
 	//float playerRightX = object3d[0]->GetPosition().x + object3d[0]->GetScale().x;
 	//float playerTopY = object3d[0]->GetPosition().y + object3d[0]->GetScale().y;

@@ -157,7 +157,7 @@ Quaternion& Quaternion::operator/=(float s)
 	return *this;
 }
 
-//============ Quaternion ƒNƒ‰ƒX‚É‘®‚³‚È‚¢ŠÖ”ŒQ ==============//
+//============ Quaternion ã‚¯ãƒ©ã‚¹ã«å±ã•ãªã„é–¢æ•°ç¾¤ ==============//
 
 const Quaternion operator+(const Quaternion& q1, const Quaternion& q2)
 {
@@ -211,20 +211,20 @@ Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t)
 	Quaternion temp1 = q1;
 	float EPSILON = 0.0005f;
 
-	// “àÏˆ—
+	// å†…ç©å‡¦ç†
 	float dot = (temp0.x * temp1.x) + (temp0.y * temp1.y) + (temp0.z * temp1.z) + (temp0.w * temp1.w);
 
-	// ”½“]ˆ—
+	// åè»¢å‡¦ç†
 	if (dot < 0)
 	{
-		temp0 = -temp0; //‚à‚¤•Ğ•û‚Ì‰ñ“]‚ğ—˜—p‚·‚é
-		dot = -dot; //“àÏ‚à”½“]
+		temp0 = -temp0; //ã‚‚ã†ç‰‡æ–¹ã®å›è»¢ã‚’åˆ©ç”¨ã™ã‚‹
+		dot = -dot; //å†…ç©ã‚‚åè»¢
 	}
 
-	// ‚È‚·Šp‚ğ‹‚ß‚é
+	// ãªã™è§’ã‚’æ±‚ã‚ã‚‹
 	float theta = std::acos(dot);
 
-	//theta‚Æsin‚ğg‚Á‚Ä•âŠÔŒW”scale0,scale1‚ğ‹‚ß‚é
+	//thetaã¨sinã‚’ä½¿ã£ã¦è£œé–“ä¿‚æ•°scale0,scale1ã‚’æ±‚ã‚ã‚‹
 	float scale0, scale1;
 	scale0 = sinf((1 - t) * theta) / sinf(theta);
 	scale1 = sinf(t * theta) / sinf(theta);
@@ -234,7 +234,7 @@ Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t)
 		return (1.0f - t) * temp0 + t * temp1;
 	}
 
-	// ‚»‚ê‚¼‚ê‚Ì•âŠÔŒW”‚ğ—˜—p‚µ‚Ä•âŠÔŒã‚ÌQuaternion‚ğ‹‚ß‚é
+	// ãã‚Œãã‚Œã®è£œé–“ä¿‚æ•°ã‚’åˆ©ç”¨ã—ã¦è£œé–“å¾Œã®Quaternionã‚’æ±‚ã‚ã‚‹
 	return scale0 * temp0 + scale1 * temp1;
 }
 
@@ -247,19 +247,19 @@ Quaternion DirectionToDirection(const Vector3& u, const Vector3& v)
 	v0.Normalize();
 	v1.Normalize();
 
-	// ³‹K‰»‚µ‚Ä“àÏ‚ğ‹‚ß‚é
+	// æ­£è¦åŒ–ã—ã¦å†…ç©ã‚’æ±‚ã‚ã‚‹
 	float dot = v0.x * v1.x + v0.y * v1.y + v0.z * v1.z;
 
-	// u,v‚ÌŠOÏ‚ğ‚Æ‚é
+	// u,vã®å¤–ç©ã‚’ã¨ã‚‹
 	Vector3 cross = v0.Cross(v1);
 
-	// ³‹K‰»
+	// æ­£è¦åŒ–
 	Vector3 axis = cross.Normalize();
 
-	// ’PˆÊƒxƒNƒgƒ‹‚Å“àÏ‚ğæ‚Á‚Ä‚¢‚é‚Ì‚Åacos‚ÅŠp“x‚ğ‹‚ß‚é
+	// å˜ä½ãƒ™ã‚¯ãƒˆãƒ«ã§å†…ç©ã‚’å–ã£ã¦ã„ã‚‹ã®ã§acosã§è§’åº¦ã‚’æ±‚ã‚ã‚‹
 	float theta = std::acos(dot);
 
-	// axis‚Ætheta‚Å”CˆÓ²‰ñ“]‚ğì‚Á‚Ä•Ô‚·
+	// axisã¨thetaã§ä»»æ„è»¸å›è»¢ã‚’ä½œã£ã¦è¿”ã™
 	temp = MakeAxisAngle(axis, theta);
 	return temp;
 }

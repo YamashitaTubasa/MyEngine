@@ -13,23 +13,23 @@
 class TYFramework
 {
 public:
-	// Às
+	// å®Ÿè¡Œ
 	void Run();
 
-public: // ƒƒ“ƒoŠÖ”
-	// ‰Šú‰»
+public: // ãƒ¡ãƒ³ãƒé–¢æ•°
+	// åˆæœŸåŒ–
 	virtual void Initialize();
 
-	// I—¹
+	// çµ‚äº†
 	virtual void Finalize();
 
-	// –ˆƒtƒŒ[ƒ€XV
+	// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ›´æ–°
 	virtual void Update();
 
-	// •`‰æ
+	// æç”»
 	virtual void Draw() = 0;
 
-	// I—¹ƒ`ƒFƒbƒN
+	// çµ‚äº†ãƒã‚§ãƒƒã‚¯
 	virtual bool IsEndRequst() { return endRequst_; }
 
 
@@ -37,11 +37,11 @@ public:
 	virtual ~TYFramework() = default;
 
 private:
-	// ƒQ[ƒ€I—¹ƒtƒ‰ƒO
+	// ã‚²ãƒ¼ãƒ çµ‚äº†ãƒ•ãƒ©ã‚°
 	bool endRequst_ = false;
 
 protected:
-	// ƒXƒvƒ‰ƒCƒg
+	// ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ
 	SpriteCommon spriteCommon;
 	DirectXCommon* dXCommon = nullptr;
 	WinApp* winApp = nullptr;

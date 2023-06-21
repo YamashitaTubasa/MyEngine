@@ -4,7 +4,7 @@
 //}
 //cbuffer ConstBufferDataMaterial : register(b0)
 //{
-//    float4 color; // F(RGBA)
+//    float4 color; // è‰²(RGBA)
 //};
 //float4 main() : SV_TARGET
 //{
@@ -18,11 +18,11 @@
 //}
 #include "Basic.hlsli"
 
-Texture2D<float4> tex : register(t0);  	// 0”ÔƒXƒƒbƒg‚Éİ’è‚³‚ê‚½ƒeƒNƒXƒ`ƒƒ
-SamplerState smp : register(s0);      	// 0”ÔƒXƒƒbƒg‚Éİ’è‚³‚ê‚½ƒTƒ“ƒvƒ‰[
+Texture2D<float4> tex : register(t0);  	// 0ç•ªã‚¹ãƒ­ãƒƒãƒˆã«è¨­å®šã•ã‚ŒãŸãƒ†ã‚¯ã‚¹ãƒãƒ£
+SamplerState smp : register(s0);      	// 0ç•ªã‚¹ãƒ­ãƒƒãƒˆã«è¨­å®šã•ã‚ŒãŸã‚µãƒ³ãƒ—ãƒ©ãƒ¼
 
 float4 main(VSOutput input) : SV_TARGET{
-    //return float4(input.normal,1); // RGB‚»‚ê‚¼‚ê–@ü‚ÌXYZ, A‚ğ1‚Åo—Í
+    //return float4(input.normal,1); // RGBãã‚Œãã‚Œæ³•ç·šã®XYZ, Aã‚’1ã§å‡ºåŠ›
     /*return float4(1,1,1,1);*/
     float4 texcolor = float4(tex.Sample(smp, input.uv));
     float3 light = normalize(float3(1,-1,1));

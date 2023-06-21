@@ -5,9 +5,9 @@ using namespace DirectX;
 
 void Camera::Initialize() 
 {
-	eye = { 0, 0, -distance }; // ‹“_À•W
-	target = { 0, 0, 0 };      // ’‹“_À•W
-	up = { 0, 1, 0 };          // ã•ûŒüƒxƒNƒgƒ‹
+	eye = { 0, 0, -distance }; // è¦–ç‚¹åº§æ¨™
+	target = { 0, 0, 0 };      // æ³¨è¦–ç‚¹åº§æ¨™
+	up = { 0, 1, 0 };          // ä¸Šæ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«
 
 	UpdateViewMatrix();
 	UpdateProjectionMatrix();
@@ -25,13 +25,13 @@ void Camera::Update()
 
 void Camera::UpdateViewMatrix()
 {
-	// ƒrƒ…[s—ñ‚ÌŒvZ
+	// ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—ã®è¨ˆç®—
 	matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
 }
 
 void Camera::UpdateProjectionMatrix()
 {
-	// “§‹“Š‰e
+	// é€è¦–æŠ•å½±
 	matProjection = XMMatrixPerspectiveFovLH(
 		XMConvertToRadians(60.0f),
 		(float)WinApp::window_width / WinApp::window_height, 0.1f, 1000.0f

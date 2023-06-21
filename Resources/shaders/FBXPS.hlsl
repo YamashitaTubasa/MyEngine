@@ -1,21 +1,21 @@
 #include "FBX.hlsli"
 
-// 0”ÔƒXƒƒbƒg‚Éİ’è‚³‚ê‚½ƒeƒNƒXƒ`ƒƒ
+// 0ç•ªã‚¹ãƒ­ãƒƒãƒˆã«è¨­å®šã•ã‚ŒãŸãƒ†ã‚¯ã‚¹ãƒãƒ£
 Texture2D<float4> tex : register(t0);
-// 0”ÔƒXƒƒbƒg‚Éİ’è‚³‚ê‚½ƒTƒ“ƒvƒ‰[
+// 0ç•ªã‚¹ãƒ­ãƒƒãƒˆã«è¨­å®šã•ã‚ŒãŸã‚µãƒ³ãƒ—ãƒ©ãƒ¼
 SamplerState smp : register(s0);
 
-// ƒGƒ“ƒgƒŠ[ƒ|ƒCƒ“ƒg
+// ã‚¨ãƒ³ãƒˆãƒªãƒ¼ãƒã‚¤ãƒ³ãƒˆ
 float4 main(VSOutput input) : SV_TARGET
 {
-	// ƒeƒNƒXƒ`ƒƒƒ}ƒbƒsƒ“ƒO
+	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ”ãƒ³ã‚°
 	float4 texcolor = tex.Sample(smp, input.uv);
-	// Lambert”½Ë
-	float3 light = normalize(float3(1, -1, 1)); // ‰E‰º‰œ@Œü‚«‚Ìƒ‰ƒCƒg
+	// Lambertåå°„
+	float3 light = normalize(float3(1, -1, 1)); // å³ä¸‹å¥¥ã€€å‘ãã®ãƒ©ã‚¤ãƒˆ
 	float diffuse = saturate(dot(-light, input.normal));
 	float brightness = diffuse + 0.3f;
 	float4 shadecolor = float4(brightness, brightness, brightness, 1.0f);
 
-	// ‰A‰e‚ÆƒeƒNƒXƒ`ƒƒ‚ÌF‚ğ‡¬
+	// é™°å½±ã¨ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®è‰²ã‚’åˆæˆ
 	return shadecolor * texcolor;
 }

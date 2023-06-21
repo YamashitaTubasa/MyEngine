@@ -1,44 +1,44 @@
 #include "FBX.hlsli"
 
-// ƒXƒLƒjƒ“ƒOŒã‚Ì’¸“_E–@ü‚ª“ü‚é
+// ã‚¹ã‚­ãƒ‹ãƒ³ã‚°å¾Œã®é ‚ç‚¹ãƒ»æ³•ç·šãŒå…¥ã‚‹
 struct SkinOutput
 {
     float4 pos;
     float3 normal;
 };
 
-// ƒXƒLƒjƒ“ƒOŒvZ
+// ã‚¹ã‚­ãƒ‹ãƒ³ã‚°è¨ˆç®—
 SkinOutput ComputeSkin(VSInput input)
 {
-	// ƒ[ƒƒNƒŠƒA
+	// ã‚¼ãƒ­ã‚¯ãƒªã‚¢
 	SkinOutput output = (SkinOutput)0;
 
-	uint iBone;   // ŒvZ‚·‚éƒ{[ƒ“”Ô†
-	float weight; // ƒ{[ƒ“ƒEƒFƒC(d‚İ)
-	matrix m;     // ƒXƒLƒjƒ“ƒOs—ñ
+	uint iBone;   // è¨ˆç®—ã™ã‚‹ãƒœãƒ¼ãƒ³ç•ªå·
+	float weight; // ãƒœãƒ¼ãƒ³ã‚¦ã‚§ã‚¤(é‡ã¿)
+	matrix m;     // ã‚¹ã‚­ãƒ‹ãƒ³ã‚°è¡Œåˆ—
 
-	// ƒ{[ƒ“0
+	// ãƒœãƒ¼ãƒ³0
 	iBone = input.boneIndices.x;
 	weight = input.boneWeights.x;
 	m = matSkinning[iBone];
 	output.pos += weight * mul(m, input.pos);
 	output.normal += weight * mul((float3x3)m , input.normal);
 
-	// ƒ{[ƒ“1
+	// ãƒœãƒ¼ãƒ³1
 	iBone = input.boneIndices.y;
 	weight = input.boneWeights.y;
 	m = matSkinning[iBone];
 	output.pos += weight * mul(m, input.pos);
 	output.normal += weight * mul((float3x3)m, input.normal);
 
-	// ƒ{[ƒ“2
+	// ãƒœãƒ¼ãƒ³2
 	iBone = input.boneIndices.z;
 	weight = input.boneWeights.z;
 	m = matSkinning[iBone];
 	output.pos += weight * mul(m, input.pos);
 	output.normal += weight * mul((float3x3)m, input.normal);
 
-	// ƒ{[ƒ“3
+	// ãƒœãƒ¼ãƒ³3
 	iBone = input.boneIndices.w;
 	weight = input.boneWeights.w;
 	m = matSkinning[iBone];
@@ -48,20 +48,20 @@ SkinOutput ComputeSkin(VSInput input)
 	return output;
 }
 
-// ƒGƒ“ƒgƒŠ[ƒ|ƒCƒ“ƒg
+// ã‚¨ãƒ³ãƒˆãƒªãƒ¼ãƒã‚¤ãƒ³ãƒˆ
 VSOutput main(VSInput input)
 {
-	// ƒXƒLƒjƒ“ƒOŒvZ
+	// ã‚¹ã‚­ãƒ‹ãƒ³ã‚°è¨ˆç®—
 	SkinOutput skinned = ComputeSkin(input);
-	// –@ü‚Éƒ[ƒ‹ƒhs—ñ‚É‚æ‚éƒXƒP[ƒŠƒ“ƒOE‰ñ“]‚ğ“K—p
+	// æ³•ç·šã«ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã«ã‚ˆã‚‹ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°ãƒ»å›è»¢ã‚’é©ç”¨
 	float4 wnormal = normalize(mul(world, float4(skinned.normal, 0)));
-	// ƒsƒNƒZƒ‹ƒVƒF[ƒ_[‚É“n‚·’l
+	// ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã«æ¸¡ã™å€¤
 	VSOutput output;
-	// s—ñ‚É‚æ‚éÀ•W•ÏŠ·
+	// è¡Œåˆ—ã«ã‚ˆã‚‹åº§æ¨™å¤‰æ›
 	output.svpos = mul(mul(viewproj, world), skinned.pos);
-	// ƒ[ƒ‹ƒh–@ü‚ğŸ‚ÌƒXƒe[ƒW‚É“n‚·
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰æ³•ç·šã‚’æ¬¡ã®ã‚¹ãƒ†ãƒ¼ã‚¸ã«æ¸¡ã™
 	output.normal = wnormal.xyz;
-	// “ü—Í’l‚ğ‚»‚Ì‚Ü‚ÜŸ‚ÌƒXƒe[ƒW‚É“n‚·
+	// å…¥åŠ›å€¤ã‚’ãã®ã¾ã¾æ¬¡ã®ã‚¹ãƒ†ãƒ¼ã‚¸ã«æ¸¡ã™
 	output.uv = input.uv;
 
 	return output;

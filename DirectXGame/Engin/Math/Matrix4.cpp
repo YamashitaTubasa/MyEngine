@@ -1,11 +1,11 @@
 // ========================
-// Matrix4 Œ^ Matrix4.cpp
+// Matrix4 å‹ Matrix4.cpp
 // ========================
 #include "Matrix4.h"
 #include "Vector3.h"
 #include <cmath> // sin cos
 
-// ’PˆÊs—ñ‚ğ‹‚ß‚é
+// å˜ä½è¡Œåˆ—ã‚’æ±‚ã‚ã‚‹
 Matrix4 Identity()
 {
 	static const Matrix4 result
@@ -19,7 +19,7 @@ Matrix4 Identity()
 	return result;
 }
 
-// Šg‘åk¬s—ñ‚ğ‹‚ß‚é
+// æ‹¡å¤§ç¸®å°è¡Œåˆ—ã‚’æ±‚ã‚ã‚‹
 Matrix4 Scale(const Vector3& s) {
 	Matrix4 result
 	{
@@ -32,7 +32,7 @@ Matrix4 Scale(const Vector3& s) {
 	return result;
 }
 
-// x²‚Ü‚í‚è‚Ì‰ñ“]s—ñ‚ğ‹‚ß‚é
+// xè»¸ã¾ã‚ã‚Šã®å›è»¢è¡Œåˆ—ã‚’æ±‚ã‚ã‚‹
 Matrix4 RotateX(float angle)
 {
 	float sin = std::sin(angle);
@@ -49,7 +49,7 @@ Matrix4 RotateX(float angle)
 	return result;
 }
 
-// y²‚Ü‚í‚è‚Ì‰ñ“]s—ñ‚ğ‹‚ß‚é
+// yè»¸ã¾ã‚ã‚Šã®å›è»¢è¡Œåˆ—ã‚’æ±‚ã‚ã‚‹
 Matrix4 RotateY(float angle)
 {
 	float sin = std::sin(angle);
@@ -66,7 +66,7 @@ Matrix4 RotateY(float angle)
 	return result;
 }
 
-// z²‚Ü‚í‚è‚Ì‰ñ“]‚ğs—ñ‚ğ‹‚ß‚é
+// zè»¸ã¾ã‚ã‚Šã®å›è»¢ã‚’è¡Œåˆ—ã‚’æ±‚ã‚ã‚‹
 Matrix4 RotateZ(float angle)
 {
 	float sin = std::sin(angle);
@@ -83,7 +83,7 @@ Matrix4 RotateZ(float angle)
 	return result;
 }
 
-// •½sˆÚ“®s—ñ‚Ìİ’è
+// å¹³è¡Œç§»å‹•è¡Œåˆ—ã®è¨­å®š
 Matrix4 Translate(const Vector3& t)
 {
 	Matrix4 result
@@ -97,7 +97,7 @@ Matrix4 Translate(const Vector3& t)
 	return result;
 }
 
-// À•W•ÏŠ·iƒxƒNƒgƒ‹‚Æs—ñ‚ÌŠ|‚¯Zj‚ğs‚¤transformŠÖ”‚ğì¬‚·‚éB@i“§‹•ÏŠ·‚É‚à‘Î‰‚µ‚Ä‚¢‚éj
+// åº§æ¨™å¤‰æ›ï¼ˆãƒ™ã‚¯ãƒˆãƒ«ã¨è¡Œåˆ—ã®æ›ã‘ç®—ï¼‰ã‚’è¡Œã†transformé–¢æ•°ã‚’ä½œæˆã™ã‚‹ã€‚ã€€ï¼ˆé€è¦–å¤‰æ›ã«ã‚‚å¯¾å¿œã—ã¦ã„ã‚‹ï¼‰
 Vector3 Transform(const Vector3& v, const Matrix4& m)
 {
 	float w = v.x * m.m[0][3] + v.y * m.m[1][3] + v.z * m.m[2][3] + m.m[3][3];
@@ -112,7 +112,7 @@ Vector3 Transform(const Vector3& v, const Matrix4& m)
 	return result;
 }
 
-// ‘ã“ü‰‰ZqƒI[ƒo[ƒ[ƒh
+// ä»£å…¥æ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰
 Matrix4& operator *=(Matrix4& m1, const Matrix4& m2)
 {
 	Matrix4 result{ 0 };
@@ -132,7 +132,7 @@ Matrix4& operator *=(Matrix4& m1, const Matrix4& m2)
 	return m1;
 }
 
-// 2€‰‰Zq* ‚ÌƒI[ƒo[ƒ[ƒhŠÖ”(s—ñ‚Æs—ñ‚ÌÏ)
+// 2é …æ¼”ç®—å­* ã®ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰é–¢æ•°(è¡Œåˆ—ã¨è¡Œåˆ—ã®ç©)
 const Matrix4 operator *(const Matrix4& m1, const Matrix4& m2)
 {
 	Matrix4 result = m1;
@@ -140,7 +140,7 @@ const Matrix4 operator *(const Matrix4& m1, const Matrix4& m2)
 	return result *= m2;
 }
 
-// 2€‰‰Zq* ‚ÌƒI[ƒo[ƒ[ƒhŠÖ”(ƒxƒNƒgƒ‹‚Æs—ñ‚ÌÏ)
+// 2é …æ¼”ç®—å­* ã®ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰é–¢æ•°(ãƒ™ã‚¯ãƒˆãƒ«ã¨è¡Œåˆ—ã®ç©)
 const Vector3 operator *(const Vector3& v, const Matrix4& m)
 {
 	return Transform(v, m);

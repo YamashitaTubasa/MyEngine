@@ -1,7 +1,7 @@
 #include "Particle.hlsli"
 
-// OŠpŒ`‚Ì“ü—Í‚©‚çAOŠpŒ`‚ğo—Í‚·‚é‚ªA
-// “r’†‚ÅUV‚ğ‰ÁH‚µ‚Äƒ^ƒCƒŠƒ“ƒO
+// ä¸‰è§’å½¢ã®å…¥åŠ›ã‹ã‚‰ã€ä¸‰è§’å½¢ã‚’å‡ºåŠ›ã™ã‚‹ãŒã€
+// é€”ä¸­ã§UVã‚’åŠ å·¥ã—ã¦ã‚¿ã‚¤ãƒªãƒ³ã‚°
 //[maxvertexcount(3)]
 //void main(
 //	triangle VSOutput input[3] : SV_POSITION,
@@ -10,24 +10,24 @@
 //{
 //	for (uint i = 0; i < 3; i++)
 //	{
-//		GSOutput element;                   // o—Í—p’¸“_ƒf[ƒ^
-//		element.svpos = input[i].svpos;     // ’¸“_À•W‚ğƒRƒs[
-//		element.normal = input[i].normal;   // –@ü‚ğƒRƒs[
-//		element.uv = input[i].uv;           // UV‚ğƒRƒs[
-//		// UV‚ğ2”{‚É
+//		GSOutput element;                   // å‡ºåŠ›ç”¨é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿
+//		element.svpos = input[i].svpos;     // é ‚ç‚¹åº§æ¨™ã‚’ã‚³ãƒ”ãƒ¼
+//		element.normal = input[i].normal;   // æ³•ç·šã‚’ã‚³ãƒ”ãƒ¼
+//		element.uv = input[i].uv;           // UVã‚’ã‚³ãƒ”ãƒ¼
+//		// UVã‚’2å€ã«
 //		element.uv = input[i].uv * 2.0f;
 //		output.Append(element);
 //	}
 //}
 
-// OŠpŒ`‚Ì“ü—Í‚©‚çAOŠpŒ`‚ğ2‚Âo—Í
+// ä¸‰è§’å½¢ã®å…¥åŠ›ã‹ã‚‰ã€ä¸‰è§’å½¢ã‚’2ã¤å‡ºåŠ›
 //[maxvertexcount(6)]
 //void main(
 //	triangle VSOutput input[3] : SV_POSITION,
 //	inout TriangleStream< GSOutput > output
 //)
 //{
-//	// 1‚Â–Ú‚ÌOŠpŒ`
+//	// 1ã¤ç›®ã®ä¸‰è§’å½¢
 //	for (uint i = 0; i < 3; i++) {
 //		GSOutput element;
 //		element.svpos = input[i].svpos;
@@ -35,103 +35,103 @@
 //		element.uv = input[i].uv;
 //		output.Append(element);
 //	}
-//	// Œ»İ‚ÌƒXƒgƒŠƒbƒv‚ğI—¹
+//	// ç¾åœ¨ã®ã‚¹ãƒˆãƒªãƒƒãƒ—ã‚’çµ‚äº†
 //	output.RestartStrip();
 //
-//	// 2‚Â–Ú‚ÌOŠpŒ`
+//	// 2ã¤ç›®ã®ä¸‰è§’å½¢
 //	for (uint i = 0; i < 3; i++) {
 //		GSOutput element;
-//		// X•ûŒü‚É20‚¸‚ç‚·
+//		// Xæ–¹å‘ã«20ãšã‚‰ã™
 //		element.svpos = input[i].svpos + float4(20.0f, 0.0f, 0.0f, 0.0f);
 //		element.normal = input[i].normal;
-//		// UV‚ğ5”{‚É
+//		// UVã‚’5å€ã«
 //		element.uv = input[i].uv * 5.0f;
 //		output.Append(element);
 //	}
 //}
 
-//// OŠpŒ`‚Ì“ü—Í‚©‚çA“_‚ğ1‚Âo—Í‚·‚éƒTƒ“ƒvƒ‹
+//// ä¸‰è§’å½¢ã®å…¥åŠ›ã‹ã‚‰ã€ç‚¹ã‚’1ã¤å‡ºåŠ›ã™ã‚‹ã‚µãƒ³ãƒ—ãƒ«
 //[maxvertexcount(1)]
 //void main(
 //	triangle VSOutput input[3] : SV_POSITION,
-//	// “_ƒXƒgƒŠ[ƒ€
+//	// ç‚¹ã‚¹ãƒˆãƒªãƒ¼ãƒ 
 //	inout PointStream< GSOutput > output
 //)
 //{
-//	GSOutput element;                   // o—Í—p’¸“_ƒf[ƒ^
-//	element.svpos = input[0].svpos;     // ’¸“_À•W‚ğƒRƒs[
-//	element.normal = input[0].normal;   // –@ü‚ğƒRƒs[
-//	element.uv = input[0].uv;           // UV‚ğƒRƒs[
-//	// ’¸“_‚ğ1‚Âo—Íio—ÍƒŠƒXƒg‚É’Ç‰Áj
+//	GSOutput element;                   // å‡ºåŠ›ç”¨é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿
+//	element.svpos = input[0].svpos;     // é ‚ç‚¹åº§æ¨™ã‚’ã‚³ãƒ”ãƒ¼
+//	element.normal = input[0].normal;   // æ³•ç·šã‚’ã‚³ãƒ”ãƒ¼
+//	element.uv = input[0].uv;           // UVã‚’ã‚³ãƒ”ãƒ¼
+//	// é ‚ç‚¹ã‚’1ã¤å‡ºåŠ›ï¼ˆå‡ºåŠ›ãƒªã‚¹ãƒˆã«è¿½åŠ ï¼‰
 //	output.Append(element);
 //}
 //
-//// OŠpŒ`‚Ì“ü—Í‚©‚çA“_‚ğ3‚Âo—Í‚·‚éƒTƒ“ƒvƒ‹
+//// ä¸‰è§’å½¢ã®å…¥åŠ›ã‹ã‚‰ã€ç‚¹ã‚’3ã¤å‡ºåŠ›ã™ã‚‹ã‚µãƒ³ãƒ—ãƒ«
 //[maxvertexcount(3)]
 //void main(
 //	triangle VSOutput input[3] : SV_POSITION,
-//	// “_ƒXƒgƒŠ[ƒ€
+//	// ç‚¹ã‚¹ãƒˆãƒªãƒ¼ãƒ 
 //	inout PointStream< GSOutput > output
 //)
 //{
 //	for (uint i = 0; i < 3; i++)
 //	{
-//		GSOutput element;                   // o—Í—p’¸“_ƒf[ƒ^
-//		element.svpos = input[i].svpos;     // ’¸“_À•W‚ğƒRƒs[
-//		element.normal = input[i].normal;   // –@ü‚ğƒRƒs[
-//		element.uv = input[i].uv;           // UV‚ğƒRƒs[
-//		// ’¸“_‚ğo—Íio—ÍƒŠƒXƒg‚É’Ç‰Áj
+//		GSOutput element;                   // å‡ºåŠ›ç”¨é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿
+//		element.svpos = input[i].svpos;     // é ‚ç‚¹åº§æ¨™ã‚’ã‚³ãƒ”ãƒ¼
+//		element.normal = input[i].normal;   // æ³•ç·šã‚’ã‚³ãƒ”ãƒ¼
+//		element.uv = input[i].uv;           // UVã‚’ã‚³ãƒ”ãƒ¼
+//		// é ‚ç‚¹ã‚’å‡ºåŠ›ï¼ˆå‡ºåŠ›ãƒªã‚¹ãƒˆã«è¿½åŠ ï¼‰
 //		output.Append(element);
 //	}
 //}
 //
 //
-//// OŠpŒ`‚Ì“ü—Í‚©‚çAü•ª‚ğ1‚Âo—Í‚·‚éƒTƒ“ƒvƒ‹
+//// ä¸‰è§’å½¢ã®å…¥åŠ›ã‹ã‚‰ã€ç·šåˆ†ã‚’1ã¤å‡ºåŠ›ã™ã‚‹ã‚µãƒ³ãƒ—ãƒ«
 //[maxvertexcount(2)]
 //void main(
 //	triangle VSOutput input[3] : SV_POSITION,
-//	// ü•ªƒXƒgƒŠ[ƒ€
+//	// ç·šåˆ†ã‚¹ãƒˆãƒªãƒ¼ãƒ 
 //	inout LineStream< GSOutput > output
 //)
 //{
-//	GSOutput element;                   // o—Í—p’¸“_ƒf[ƒ^
+//	GSOutput element;                   // å‡ºåŠ›ç”¨é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿
 //
-//	// ü•ª‚Ìn“_
-//	element.svpos = input[0].svpos;     // ’¸“_À•W‚ğƒRƒs[
-//	element.normal = input[0].normal;   // –@ü‚ğƒRƒs[
-//	element.uv = input[0].uv;           // UV‚ğƒRƒs[
+//	// ç·šåˆ†ã®å§‹ç‚¹
+//	element.svpos = input[0].svpos;     // é ‚ç‚¹åº§æ¨™ã‚’ã‚³ãƒ”ãƒ¼
+//	element.normal = input[0].normal;   // æ³•ç·šã‚’ã‚³ãƒ”ãƒ¼
+//	element.uv = input[0].uv;           // UVã‚’ã‚³ãƒ”ãƒ¼
 //	output.Append(element);
 //
-//	// ü•ª‚ÌI“_
-//	element.svpos = input[1].svpos;     // ’¸“_À•W‚ğƒRƒs[
-//	element.normal = input[1].normal;   // –@ü‚ğƒRƒs[
-//	element.uv = input[1].uv;           // UV‚ğƒRƒs[
+//	// ç·šåˆ†ã®çµ‚ç‚¹
+//	element.svpos = input[1].svpos;     // é ‚ç‚¹åº§æ¨™ã‚’ã‚³ãƒ”ãƒ¼
+//	element.normal = input[1].normal;   // æ³•ç·šã‚’ã‚³ãƒ”ãƒ¼
+//	element.uv = input[1].uv;           // UVã‚’ã‚³ãƒ”ãƒ¼
 //	output.Append(element);
 //}
 //
-//// OŠpŒ`‚Ì“ü—Í‚©‚çAü•ª‚ğ3‚Âo—Í‚·‚éƒTƒ“ƒvƒ‹
+//// ä¸‰è§’å½¢ã®å…¥åŠ›ã‹ã‚‰ã€ç·šåˆ†ã‚’3ã¤å‡ºåŠ›ã™ã‚‹ã‚µãƒ³ãƒ—ãƒ«
 //[maxvertexcount(6)]
 //void main(
 //	triangle VSOutput input[3] : SV_POSITION,
-//	// ü•ªƒXƒgƒŠ[ƒ€
+//	// ç·šåˆ†ã‚¹ãƒˆãƒªãƒ¼ãƒ 
 //	inout LineStream< GSOutput > output
 //)
 //{
-//	GSOutput element;                   // o—Í—p’¸“_ƒf[ƒ^
-//	// OŠpŒ`‚Ì’¸“_1“_‚¸‚Âˆµ‚¤
+//	GSOutput element;                   // å‡ºåŠ›ç”¨é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿
+//	// ä¸‰è§’å½¢ã®é ‚ç‚¹1ç‚¹ãšã¤æ‰±ã†
 //	for (uint i = 0; i < 3; i++)
 //	{
-//		// ü•ª‚Ìn“_
-//		element.svpos = input[i].svpos;     // ’¸“_À•W‚ğƒRƒs[
-//		element.normal = input[i].normal;   // –@ü‚ğƒRƒs[
-//		element.uv = input[i].uv;           // UV‚ğƒRƒs[
+//		// ç·šåˆ†ã®å§‹ç‚¹
+//		element.svpos = input[i].svpos;     // é ‚ç‚¹åº§æ¨™ã‚’ã‚³ãƒ”ãƒ¼
+//		element.normal = input[i].normal;   // æ³•ç·šã‚’ã‚³ãƒ”ãƒ¼
+//		element.uv = input[i].uv;           // UVã‚’ã‚³ãƒ”ãƒ¼
 //		output.Append(element);
 //
-//		// ü•ª‚ÌI“_
+//		// ç·šåˆ†ã®çµ‚ç‚¹
 //		if (i == 2) {
-//			element.svpos = input[0].svpos;     // ’¸“_À•W‚ğƒRƒs[
-//			element.normal = input[0].normal;   // –@ü‚ğƒRƒs[
-//			element.uv = input[0].uv;           // UV‚ğƒRƒs[
+//			element.svpos = input[0].svpos;     // é ‚ç‚¹åº§æ¨™ã‚’ã‚³ãƒ”ãƒ¼
+//			element.normal = input[0].normal;   // æ³•ç·šã‚’ã‚³ãƒ”ãƒ¼
+//			element.uv = input[0].uv;           // UVã‚’ã‚³ãƒ”ãƒ¼
 //		}
 //		else {
 //			element.svpos = input[i + 1].svpos;
@@ -139,38 +139,38 @@
 //			element.uv = input[i + 1].uv;
 //		}
 //		output.Append(element);
-//		// Œ»İ‚ÌƒXƒgƒŠƒbƒv‚ğI—¹‚µAŸ‚ÌƒXƒgƒŠƒbƒv‚ğŠJn
+//		// ç¾åœ¨ã®ã‚¹ãƒˆãƒªãƒƒãƒ—ã‚’çµ‚äº†ã—ã€æ¬¡ã®ã‚¹ãƒˆãƒªãƒƒãƒ—ã‚’é–‹å§‹
 //		output.RestartStrip();
 //	}
 //}
 //
-//// OŠpŒ`‚Ì“ü—Í‚©‚çAü•ª‚ğ3‚Âo—Í‚·‚éƒTƒ“ƒvƒ‹
+//// ä¸‰è§’å½¢ã®å…¥åŠ›ã‹ã‚‰ã€ç·šåˆ†ã‚’3ã¤å‡ºåŠ›ã™ã‚‹ã‚µãƒ³ãƒ—ãƒ«
 //[maxvertexcount(4)]
 //void main(
 //	triangle VSOutput input[3] : SV_POSITION,
-//	// ü•ªƒXƒgƒŠ[ƒ€
+//	// ç·šåˆ†ã‚¹ãƒˆãƒªãƒ¼ãƒ 
 //	inout LineStream< GSOutput > output
 //)
 //{
-//	GSOutput element;                   // o—Í—p’¸“_ƒf[ƒ^
-//	// OŠpŒ`‚Ì’¸“_1“_‚¸‚Âˆµ‚¤
+//	GSOutput element;                   // å‡ºåŠ›ç”¨é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿
+//	// ä¸‰è§’å½¢ã®é ‚ç‚¹1ç‚¹ãšã¤æ‰±ã†
 //	for (uint i = 0; i < 3; i++)
 //	{
-//		element.svpos = input[i].svpos;     // ’¸“_À•W‚ğƒRƒs[
-//		element.normal = input[i].normal;   // –@ü‚ğƒRƒs[
-//		element.uv = input[i].uv;           // UV‚ğƒRƒs[
-//		// ’¸“_‚ğ1‚Â’Ç‰Á
+//		element.svpos = input[i].svpos;     // é ‚ç‚¹åº§æ¨™ã‚’ã‚³ãƒ”ãƒ¼
+//		element.normal = input[i].normal;   // æ³•ç·šã‚’ã‚³ãƒ”ãƒ¼
+//		element.uv = input[i].uv;           // UVã‚’ã‚³ãƒ”ãƒ¼
+//		// é ‚ç‚¹ã‚’1ã¤è¿½åŠ 
 //		output.Append(element);
 //	}
-//	// Å‰‚Ì“_‚ğ‚à‚¤1“x’Ç‰Á
-//	element.svpos = input[0].svpos;     // ’¸“_À•W‚ğƒRƒs[
-//	element.normal = input[0].normal;   // –@ü‚ğƒRƒs[
-//	element.uv = input[0].uv;           // UV‚ğƒRƒs[
-//	// ’¸“_‚ğ1‚Â’Ç‰Á
+//	// æœ€åˆã®ç‚¹ã‚’ã‚‚ã†1åº¦è¿½åŠ 
+//	element.svpos = input[0].svpos;     // é ‚ç‚¹åº§æ¨™ã‚’ã‚³ãƒ”ãƒ¼
+//	element.normal = input[0].normal;   // æ³•ç·šã‚’ã‚³ãƒ”ãƒ¼
+//	element.uv = input[0].uv;           // UVã‚’ã‚³ãƒ”ãƒ¼
+//	// é ‚ç‚¹ã‚’1ã¤è¿½åŠ 
 //	output.Append(element);
 //}
 
-// “_‚Ì“ü—Í‚©‚çA“_‚ğo—Í
+// ç‚¹ã®å…¥åŠ›ã‹ã‚‰ã€ç‚¹ã‚’å‡ºåŠ›
 //[maxvertexcount(1)]
 //void main(
 //	point VSOutput input[1] : SV_POSITION,
@@ -178,14 +178,14 @@
 //)
 //{
 //	GSOutput element;
-//	// ’¸“_î•ñ
+//	// é ‚ç‚¹æƒ…å ±
 //	element.normal = input[0].normal;
 //	element.uv = input[0].uv;
 //	element.svpos = input[0].svpos;
 //	output.Append(element);
 //}
 
-// “_‚Ì“ü—Í‚©‚çAOŠpŒ`‚ğo—Í
+// ç‚¹ã®å…¥åŠ›ã‹ã‚‰ã€ä¸‰è§’å½¢ã‚’å‡ºåŠ›
 //[maxvertexcount(3)]
 //void main(
 //	point VSOutput input[1] : SV_POSITION,
@@ -193,42 +193,42 @@
 //)
 //{
 //	GSOutput element;
-//	// ‹¤’Ê
+//	// å…±é€š
 //	element.normal = input[0].normal;
 //	element.uv = input[0].uv;
-//	// 1“_–Ú
+//	// 1ç‚¹ç›®
 //	element.svpos = input[0].svpos;
 //	output.Append(element);
-//	// 2“_–Ú
+//	// 2ç‚¹ç›®
 //	element.svpos = input[0].svpos + float4(10.0f, 10.0f, 0, 0);
 //	output.Append(element);
-//	// 3“_–Ú
+//	// 3ç‚¹ç›®
 //	element.svpos = input[0].svpos + float4(10.0f, 0, 0, 0);
 //	output.Append(element);
 //}
 
-// lŠpŒ`‚Ì’´“_”
+// å››è§’å½¢ã®è¶…ç‚¹æ•°
 static const uint vnum = 4;
 
-// ƒZƒ“ƒ^[‚©‚ç‚ÌƒIƒtƒZƒbƒg
+// ã‚»ãƒ³ã‚¿ãƒ¼ã‹ã‚‰ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆ
 static const float4 offset_array[vnum] =
 {
-	float4(-0.5f, -0.5f, 0,0), // ¶‰º
-	float4(-0.5f, +0.5f, 0,0), // ¶ã
-	float4(+0.5f, -0.5f, 0,0), // ‰E‰º
-	float4(+0.5f, +0.5f, 0,0)  // ‰Eã
+	float4(-0.5f, -0.5f, 0,0), // å·¦ä¸‹
+	float4(-0.5f, +0.5f, 0,0), // å·¦ä¸Š
+	float4(+0.5f, -0.5f, 0,0), // å³ä¸‹
+	float4(+0.5f, +0.5f, 0,0)  // å³ä¸Š
 };
 
-// ¶ã‚ª0,0 ‰E‰º‚ª1,1
+// å·¦ä¸ŠãŒ0,0 å³ä¸‹ãŒ1,1
 static const float2 uv_array[vnum] =
 {
-	float2(0, 1), // ¶‰º
-	float2(0, 0), // ¶ã
-	float2(1, 1), // ‰E‰º
-	float2(1, 0)  // ‰Eã
+	float2(0, 1), // å·¦ä¸‹
+	float2(0, 0), // å·¦ä¸Š
+	float2(1, 1), // å³ä¸‹
+	float2(1, 0)  // å³ä¸Š
 };
 
-// “_‚Ì“ü—Í‚©‚çAlŠpŒ`‚ğo—Í
+// ç‚¹ã®å…¥åŠ›ã‹ã‚‰ã€å››è§’å½¢ã‚’å‡ºåŠ›
 [maxvertexcount(vnum)]
 void main(
 	point VSOutput input[1] : SV_POSITION,
@@ -236,17 +236,17 @@ void main(
 )
 {
 	GSOutput element;
-	// 4“_•ª‚Ü‚í‚·
+	// 4ç‚¹åˆ†ã¾ã‚ã™
 	for (uint i = 0; i < vnum; i++) {
-		// ’†S‚©‚çƒIƒtƒZƒbƒg‚ğƒrƒ‹ƒ{[ƒh‰ñ“]iƒ‚ƒfƒ‹À•Wj
+		// ä¸­å¿ƒã‹ã‚‰ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’ãƒ“ãƒ«ãƒœãƒ¼ãƒ‰å›è»¢ï¼ˆãƒ¢ãƒ‡ãƒ«åº§æ¨™ï¼‰
 		//float4 offset = mul(matBillboard, offset_array[i]);
-		//’†S‚©‚ç‚ÌƒIƒtƒZƒbƒg‚ğƒXƒP[ƒŠƒ“ƒO
+		//ä¸­å¿ƒã‹ã‚‰ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°
 		float4 offset = offset_array[i]*input[0].scale;
-		// ’†S‚©‚ç‚ÌƒIƒtƒZƒbƒg‚ğƒrƒ‹ƒ{[ƒh‰ñ“]iƒ‚ƒfƒ‹À•Wj
+		// ä¸­å¿ƒã‹ã‚‰ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’ãƒ“ãƒ«ãƒœãƒ¼ãƒ‰å›è»¢ï¼ˆãƒ¢ãƒ‡ãƒ«åº§æ¨™ï¼‰
 		offset = mul(matBillboard, offset);
-		// ƒIƒtƒZƒbƒg•ª‚¸‚ç‚·iƒ[ƒ‹ƒhÀ•Wj
+		// ã‚ªãƒ•ã‚»ãƒƒãƒˆåˆ†ãšã‚‰ã™ï¼ˆãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ï¼‰
 		element.svpos = input[0].pos + offset;
-		// ƒrƒ…[ƒvƒƒWƒFƒNƒVƒ‡ƒ“•ÏŠ·
+		// ãƒ“ãƒ¥ãƒ¼ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³å¤‰æ›
 		element.svpos = mul(mat, element.svpos);
 		//element.uv = float2(0.5f, 0.5f);
 		element.uv = uv_array[i];

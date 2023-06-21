@@ -2,49 +2,49 @@
 
 void MyGame::Initialize()
 {	
-	// Šî’êƒNƒ‰ƒX‚Ì‰Šú‰»ˆ—
+	// åŸºåº•ã‚¯ãƒ©ã‚¹ã®åˆæœŸåŒ–å‡¦ç†
 	TYFramework::Initialize();
 
 	//dXCommon = DirectXCommon::GetInstance();
 
-	// ƒQ[ƒ€ƒV[ƒ“‚Ì‰Šú‰»
+	// ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³ã®åˆæœŸåŒ–
 	gameScene = new GameScene();
 	gameScene->Initialize(spriteCommon);
 }
 
 void MyGame::Finalize()
 {
-	// ƒQ[ƒ€ƒV[ƒ“‚Ì‰ð•ú
+	// ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³ã®è§£æ”¾
 	gameScene->Finalize();
 	delete gameScene;
 
-	// Šî’êƒNƒ‰ƒX‚ÌI—¹ˆ—
+	// åŸºåº•ã‚¯ãƒ©ã‚¹ã®çµ‚äº†å‡¦ç†
 	TYFramework::Finalize();
 }
 
 void MyGame::Update()
 {
-	// Šî’êƒNƒ‰ƒX‚ÌXVˆ—
+	// åŸºåº•ã‚¯ãƒ©ã‚¹ã®æ›´æ–°å‡¦ç†
 	TYFramework::Update();
 
-	// ƒQ[ƒ€ƒV[ƒ“‚ÌXV
+	// ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³ã®æ›´æ–°
 	gameScene->Update();
 }
 
 void MyGame::Draw()
 {
-#pragma region •`‰æ
+#pragma region æç”»
 
-	// •`‰æ‘Oˆ—
+	// æç”»å‰å‡¦ç†
 	dXCommon->PreDraw();
 
-	// ƒQ[ƒ€ƒV[ƒ“‚Ì•`‰æ
+	// ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³ã®æç”»
 	gameScene->Draw(spriteCommon);
 
-	// ImGui•`‰æ
+	// ImGuiæç”»
 	//imGuiManager->Draw(dXCommon);
 
-	// •`‰æŒãˆ—
+	// æç”»å¾Œå‡¦ç†
 	dXCommon->PostDraw();
 
 #pragma endregion

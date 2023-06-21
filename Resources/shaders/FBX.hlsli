@@ -1,32 +1,32 @@
 cbuffer cbuff0 : register(b0)
 {
-	matrix viewproj;  // ƒrƒ…[ƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñ
-	matrix world;     // ƒ[ƒ‹ƒhs—ñ
-	float3 cameraPos; // ƒJƒƒ‰À•Wiƒ[ƒ‹ƒhs—ñj
+	matrix viewproj;  // ãƒ“ãƒ¥ãƒ¼ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³è¡Œåˆ—
+	matrix world;     // ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—
+	float3 cameraPos; // ã‚«ãƒ¡ãƒ©åº§æ¨™ï¼ˆãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ï¼‰
 }
 
-// ƒ{[ƒ“‚ÌÅ‘å”
+// ãƒœãƒ¼ãƒ³ã®æœ€å¤§æ•°
 static const int MAX_BONES = 32;
 
-cbuffer skinning:register(b3) // ƒ{[ƒ“‚ÌƒXƒLƒjƒ“ƒOs—ñ‚ª“ü‚é
+cbuffer skinning:register(b3) // ãƒœãƒ¼ãƒ³ã®ã‚¹ã‚­ãƒ‹ãƒ³ã‚°è¡Œåˆ—ãŒå…¥ã‚‹
 {
 	matrix matSkinning[MAX_BONES];
 };
 
-// ƒo[ƒeƒbƒNƒXƒoƒbƒtƒ@‚Ì“ü—Í
+// ãƒãƒ¼ãƒ†ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã®å…¥åŠ›
 struct VSInput
 {
-	float4 pos : POSITION;            // ˆÊ’u
-	float3 normal : NORMAL;           // ’¸“_–@ü
-	float2 uv : TEXCOORD;             // ƒeƒNƒXƒ`ƒƒ[À•W
-	uint4 boneIndices : BONEINDICES;  // ƒ{[ƒ“‚Ì”Ô†
-	float4 boneWeights : BONEWEIGHTS; // ƒ{[ƒ“‚ÌƒXƒLƒ“ƒEƒFƒCƒg
+	float4 pos : POSITION;            // ä½ç½®
+	float3 normal : NORMAL;           // é ‚ç‚¹æ³•ç·š
+	float2 uv : TEXCOORD;             // ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ¼åº§æ¨™
+	uint4 boneIndices : BONEINDICES;  // ãƒœãƒ¼ãƒ³ã®ç•ªå·
+	float4 boneWeights : BONEWEIGHTS; // ãƒœãƒ¼ãƒ³ã®ã‚¹ã‚­ãƒ³ã‚¦ã‚§ã‚¤ãƒˆ
 };
 
-// ’¸“_ƒVƒF[ƒ_[‚©‚çƒsƒNƒZƒ‹ƒVƒF[ƒ_[‚Ö‚Ì‚â‚èŽæ‚è‚ÉŽg—p‚·‚é\‘¢‘Ì
+// é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‹ã‚‰ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã¸ã®ã‚„ã‚Šå–ã‚Šã«ä½¿ç”¨ã™ã‚‹æ§‹é€ ä½“
 struct VSOutput
 {
-	float4 svpos : SV_POSITION; // ƒVƒXƒeƒ€—p’¸“_À•W
-	float3 normal : NORMAL;     // –@ü
-	float2 uv : TEXCOORD;       // uv’l
+	float4 svpos : SV_POSITION; // ã‚·ã‚¹ãƒ†ãƒ ç”¨é ‚ç‚¹åº§æ¨™
+	float3 normal : NORMAL;     // æ³•ç·š
+	float2 uv : TEXCOORD;       // uvå€¤
 };

@@ -6,9 +6,9 @@
 
 VSOutput main(float4 pos : POSITION, float3 normal : NORMAL,float2 uv : TEXCOORD)
 {
-    VSOutput output;//ƒsƒNƒZƒ‹ƒVƒF[ƒ_[‚É“n‚·’l
+    VSOutput output;//ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã«æ¸¡ã™å€¤
     /*output.svpos = pos;*/
-    output.svpos = mul(mat, pos); // À•W‚És—ñ‚ğæZ
+    output.svpos = mul(mat, pos); // åº§æ¨™ã«è¡Œåˆ—ã‚’ä¹—ç®—
     output.uv = uv;
     output.normal = normal;
     return output;
