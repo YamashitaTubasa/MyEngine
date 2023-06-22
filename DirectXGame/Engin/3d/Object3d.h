@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <Windows.h>
 #include <wrl.h>
@@ -148,7 +148,7 @@ public: // メンバ関数
 	const XMFLOAT3& GetPosition() const { return position; }
 	void SetPosition(const XMFLOAT3& position) { this->position = position; }
 	// オブジェクトの大きさ
-	void SetScale(const XMFLOAT3& scale) { this->scale = scale; }
+	void SetScale(const XMFLOAT3& scale_) { this->scale = scale_; }
 	const XMFLOAT3& GetScale() const { return scale; }
 	// オブジェクトの回転
 	void SetRotation(const XMFLOAT3& rotation) { this->rotation = rotation; }

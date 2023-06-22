@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <Windows.h>
 #include <wrl.h>
@@ -88,7 +88,7 @@ public: // 静的メンバ関数
 	/// 注視点座標の設定
 	/// </summary>
 	/// <param name="position">座標</param>
-	static void SetTarget(XMFLOAT3 target);
+	static void SetTarget(XMFLOAT3 target_);
 
 	/// <summary>
 	/// ベクトルによる移動

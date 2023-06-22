@@ -127,13 +127,13 @@ public:
 
 public: // セッター
 	// 座標設定
-	void SetPosition(XMFLOAT3 position) { this->position = position; }
+	void SetPosition(const XMFLOAT3& position) { this->position = position; }
 	// サイズ設定
-	void SetScale(XMFLOAT2 scale) { this->scale = scale; }
+	void SetScale(const XMFLOAT2& scale_) { this->scale = scale_; }
 	// 回転
-	void SetRotation(float rotation) { this->rotation = rotation; }
+	void SetRotation(float rotation_) { this->rotation = rotation_; }
 	// 番号
-	void SetTexNumber(UINT texNumber) { this->texNumber = texNumber; }
+	void SetTexNumber(UINT texNumber_) { this->texNumber = texNumber_; }
 	// 色
 	void SetColor(const XMFLOAT4& color) { this->color_ = color; }
 	// フリップ

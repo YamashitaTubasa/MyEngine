@@ -37,8 +37,8 @@ public:
 	void SetMatProjection(const XMMATRIX& matProjection) { this->matProjection = matProjection; }
 	void SetEye(const XMFLOAT3& eye) { this->eye = eye; }
 	void SetTarget(const XMFLOAT3& target) { this->target = target; }
-	void SetUp(const XMFLOAT3& up) { this->up = up; }
-	void SetDistance(float distance) { this->distance = distance; }
+	void SetUp(const XMFLOAT3& up_) { this->up = up_; }
+	void SetDistance(float distance_) { this->distance = distance_; }
 
 private:
 	XMMATRIX matView;

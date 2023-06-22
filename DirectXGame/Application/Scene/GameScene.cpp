@@ -82,7 +82,7 @@ void GameScene::Initialize(SpriteCommon& spriteCommon)
 	hp->SpriteCreate(dXCommon->GetDevice(), 50, 50, 3, spriteCommon, XMFLOAT2(0.0f, 0.0f), false, false);
 	hp->SetPosition(XMFLOAT3(0, 0, 0));
 	hp->SetScale(XMFLOAT2(50 * 1, 50 * 1));
-	hp->SetRotation(0.0f);
+	hp->SetRotation(0.5f);
 	hp->SpriteTransferVertexBuffer(hp, spriteCommon, 3);
 	hp->SpriteUpdate(hp, spriteCommon_);
 

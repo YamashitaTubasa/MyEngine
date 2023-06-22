@@ -1,4 +1,4 @@
-﻿#include "ParticleManager.h"
+#include "ParticleManager.h"
 #include <d3dcompiler.h>
 #include <DirectXTex.h>
 
@@ -102,9 +102,9 @@ void ParticleManager::SetEye(XMFLOAT3 eye)
 	UpdateViewMatrix();
 }
 
-void ParticleManager::SetTarget(XMFLOAT3 target)
+void ParticleManager::SetTarget(XMFLOAT3 target_)
 {
-	ParticleManager::target = target;
+	ParticleManager::target = target_;
 
 	UpdateViewMatrix();
 }
