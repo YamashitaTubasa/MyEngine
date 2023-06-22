@@ -9,7 +9,7 @@
 #include <string>
 
 //==============
-// ƒp[ƒeƒBƒNƒ‹
+// ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«
 //==============
 class ParticleM
 {
@@ -20,110 +20,110 @@ private:
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 
-public: // ƒTƒuƒNƒ‰ƒX
-	// ’¸“_ƒf[ƒ^\‘¢‘Ì
+public: // ã‚µãƒ–ã‚¯ãƒ©ã‚¹
+	// é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
 	struct VertexPos
 	{
-		XMFLOAT3 pos; // xyzÀ•W
-		float scale; // ƒXƒP[ƒ‹
+		XMFLOAT3 pos; // xyzåº§æ¨™
+		float scale; // ã‚¹ã‚±ãƒ¼ãƒ«
 	};
 
-	// ƒp[ƒeƒBƒNƒ‹1—±
+	// ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«1ç²’
 	struct Particle0
 	{
-		// DirectX::‚ğÈ—ª
+		// DirectX::ã‚’çœç•¥
 		using XNFLOAT3 = DirectX::XMFLOAT3;
-		// À•W
+		// åº§æ¨™
 		XMFLOAT3 position = {};
-		// ‘¬“x
+		// é€Ÿåº¦
 		XMFLOAT3 velocity = {};
-		// ‰Á‘¬“x
+		// åŠ é€Ÿåº¦
 		XMFLOAT3 accel = {};
-		// Œ»İƒtƒŒ[ƒ€
+		// ç¾åœ¨ãƒ•ãƒ¬ãƒ¼ãƒ 
 		int frame = 0;
-		// I—¹ƒtƒŒ[ƒ€
+		// çµ‚äº†ãƒ•ãƒ¬ãƒ¼ãƒ 
 		int num_frame = 0;
-		// ƒXƒP[ƒ‹
+		// ã‚¹ã‚±ãƒ¼ãƒ«
 		float scale = 1.0f;
-		// ‰Šú’l
+		// åˆæœŸå€¤
 		float s_scale = 1.0f;
-		// ÅI’l
+		// æœ€çµ‚å€¤
 		float e_scale = 0.0f;
 	};
 
-private: // ’è”
-	static const int vertexCount = 1024; // ’¸“_”
+private: // å®šæ•°
+	static const int vertexCount = 1024; // é ‚ç‚¹æ•°
 
-private: // Ã“Iƒƒ“ƒo•Ï”
-    // ƒfƒoƒCƒX
+private: // é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°
+    // ãƒ‡ãƒã‚¤ã‚¹
 	static ID3D12Device* device;
-	// ƒfƒXƒNƒŠƒvƒ^ƒTƒCƒY
+	// ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ã‚µã‚¤ã‚º
 	static UINT descriptorHandleIncrementSize;
-	// ƒ‹[ƒgƒVƒOƒlƒ`ƒƒ
+	// ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒãƒãƒ£
 	static ComPtr<ID3D12RootSignature> rootsignature;
-	// ƒpƒCƒvƒ‰ƒCƒ“ƒXƒe[ƒgƒIƒuƒWƒFƒNƒg
+	// ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚¹ãƒ†ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	static ComPtr<ID3D12PipelineState> pipelinestate;
-	// ƒfƒXƒNƒŠƒvƒ^ƒq[ƒv
+	// ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—
 	static ComPtr<ID3D12DescriptorHeap> descHeap;
-	// ’¸“_ƒoƒbƒtƒ@
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡
 	static ComPtr<ID3D12Resource> vertBuff;
-	// ƒeƒNƒXƒ`ƒƒƒoƒbƒtƒ@
+	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ•ã‚¡
 	static ComPtr<ID3D12Resource> texbuff;
-	// ƒVƒF[ƒ_ƒŠƒ\[ƒXƒrƒ…[‚Ìƒnƒ“ƒhƒ‹(CPU)
+	// ã‚·ã‚§ãƒ¼ãƒ€ãƒªã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼ã®ãƒãƒ³ãƒ‰ãƒ«(CPU)
 	static CD3DX12_CPU_DESCRIPTOR_HANDLE cpuDescHandleSRV;
-	// ƒVƒF[ƒ_ƒŠƒ\[ƒXƒrƒ…[‚Ìƒnƒ“ƒhƒ‹(CPU)
+	// ã‚·ã‚§ãƒ¼ãƒ€ãƒªã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼ã®ãƒãƒ³ãƒ‰ãƒ«(CPU)
 	static CD3DX12_GPU_DESCRIPTOR_HANDLE gpuDescHandleSRV;
-	// ’¸“_ƒoƒbƒtƒ@ƒrƒ…[
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼
 	static D3D12_VERTEX_BUFFER_VIEW vbView;
-	// ’¸“_ƒf[ƒ^”z—ñ
+	// é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿é…åˆ—
 	static VertexPos vertices[vertexCount];
 
-public:// Ã“Iƒƒ“ƒoŠÖ”
+public:// é™çš„ãƒ¡ãƒ³ãƒé–¢æ•°
 	/// <summary>
-	/// OBJƒtƒ@ƒCƒ‹‚©‚çƒp[ƒeƒBƒNƒ‹ƒ}ƒl[ƒWƒƒ[‚ğ“Ç‚İ‚Ş
+	/// OBJãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã‚’èª­ã¿è¾¼ã‚€
 	/// </summary>
-	/// <param name="filename">ƒtƒ@ƒCƒ‹–¼</param>
+	/// <param name="filename">ãƒ•ã‚¡ã‚¤ãƒ«å</param>
 	/// <returns></returns>
 	static ParticleM* LoadFromOBJ(const std::string& filename);
 
 	/// <summary>
-	/// –ˆƒtƒŒ[ƒ€ˆ—
+	/// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‡¦ç†
 	/// </summary>
 	void Update();
 
 	/// <summary>
-	/// •`‰æ
+	/// æç”»
 	/// </summary>
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 
 	/// <summary>
-	/// ƒeƒNƒXƒ`ƒƒ“Ç‚İ‚İ
+	/// ãƒ†ã‚¯ã‚¹ãƒãƒ£èª­ã¿è¾¼ã¿
 	/// </summary>
 	void LoadTexture(const std::string& filename);
 
 	/// <summary>
-	/// ƒfƒXƒNƒŠƒvƒ^ƒq[ƒv‚Ì‰Šú‰»
+	/// ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ã®åˆæœŸåŒ–
 	/// </summary>
 	void InitializeDescriptorHeap();
 
 	/// <summary>
-	/// ƒ‚ƒfƒ‹ì¬
+	/// ãƒ¢ãƒ‡ãƒ«ä½œæˆ
 	/// </summary>
 	void CreateModel();
 
 	/// <summary>
-	/// ƒp[ƒeƒBƒNƒ‹‚Ì’Ç‰Á
+	/// ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã®è¿½åŠ 
 	/// </summary>
-	/// <param name = "life">¶‘¶Šú</param>
-	/// <param name = "position">‰ŠúÀ•W</param>
-	/// <param name = "velocity">‘¬“x</param>
-	/// <param name = "accel">‰Á‘¬“x</param>
+	/// <param name = "life">ç”Ÿå­˜æ™‚æœŸ</param>
+	/// <param name = "position">åˆæœŸåº§æ¨™</param>
+	/// <param name = "velocity">é€Ÿåº¦</param>
+	/// <param name = "accel">åŠ é€Ÿåº¦</param>
 	void Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float start_scale, float end_scale);
 
 public:
 	static void SetDevice(ID3D12Device* device) { ParticleM::device = device; }
 
-private: // ƒƒ“ƒo•Ï”
-	// eƒIƒuƒWƒFƒNƒg
+private: // ãƒ¡ãƒ³ãƒå¤‰æ•°
+	// è¦ªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	std::forward_list<Particle0> particles;
 };

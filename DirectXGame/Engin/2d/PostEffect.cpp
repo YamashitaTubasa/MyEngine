@@ -6,13 +6,13 @@ using namespace DirectX;
 
 PostEffect::PostEffect()
 	: Sprite(
-		100, // ƒeƒNƒXƒ`ƒƒ”Ô†
-		{ 0,0 }, // À•W
-		{ 500.0f,500.0f }, // ƒTƒCƒY
-		{ 1,1,1,1 }, // F
-		{ 0.0f,0.0f }, // ƒAƒ“ƒJ[ƒ|ƒCƒ“ƒg
-		false, // ¶‰E”½“]ƒtƒ‰ƒO
-		false) // ã‰º”½“]ƒtƒ‰ƒO
+		100, // ãƒ†ã‚¯ã‚¹ãƒãƒ£ç•ªå·
+		{ 0,0 }, // åº§æ¨™
+		{ 500.0f,500.0f }, // ã‚µã‚¤ã‚º
+		{ 1,1,1,1 }, // è‰²
+		{ 0.0f,0.0f }, // ã‚¢ãƒ³ã‚«ãƒ¼ãƒã‚¤ãƒ³ãƒˆ
+		false, // å·¦å³åè»¢ãƒ•ãƒ©ã‚°
+		false) // ä¸Šä¸‹åè»¢ãƒ•ãƒ©ã‚°
 {
 }
 
@@ -20,19 +20,19 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	//this->cmdList = cmdList_;
 
-	//// ’¸“_ƒoƒbƒtƒ@‚ðƒZƒbƒg
+	//// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã‚’ã‚»ãƒƒãƒˆ
 	//cmdList->IASetVertexBuffers(0, 1, &vbView);
 
-	//// ’è”ƒoƒbƒtƒ@(CBV)‚ðƒZƒbƒg
+	//// å®šæ•°ãƒãƒƒãƒ•ã‚¡(CBV)ã‚’ã‚»ãƒƒãƒˆ
 	//cmdList->SetGraphicsRootConstantBufferView(0, constBuff->GetGPUVirtualAddress());
 
-	////ƒVƒF[ƒ_[ƒŠƒ\[ƒXƒrƒ…[‚ðƒZƒbƒg
+	////ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ãƒªã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼ã‚’ã‚»ãƒƒãƒˆ
 	//cmdList->SetGraphicsRootDescriptorTable(
 	//	1, CD3DX12_GPU_DESCRIPTOR_HANDLE(
 	//		spriteCommon.descHeap->GetGPUDescriptorHandleForHeapStart(),
 	//		texNumber,
 	//		dev->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
 
-	////ƒ|ƒŠƒSƒ“‚Ì•`‰æ(4’¸“_‚ÅŽlŠpŒ`)
+	////ãƒãƒªã‚´ãƒ³ã®æç”»(4é ‚ç‚¹ã§å››è§’å½¢)
 	//cmdList->DrawInstanced(4, 1, 0, 0);
 }

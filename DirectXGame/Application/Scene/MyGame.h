@@ -3,20 +3,20 @@
 #include "TYFramework.h"
 #include "GameScene.h"
 
-// ƒQ[ƒ€‘S‘Ì
+// ã‚²ãƒ¼ãƒ å…¨ä½“
 class MyGame : public TYFramework
 {
-public: // ƒƒ“ƒoŠÖ”
-	// ‰Šú‰»
+public: // ãƒ¡ãƒ³ãƒé–¢æ•°
+	// åˆæœŸåŒ–
 	void Initialize() override;
 
-	// I—¹
+	// çµ‚äº†
 	void Finalize() override;
 
-	// –ˆƒtƒŒ[ƒ€XV
+	// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ›´æ–°
 	void Update() override;
 
-	// •`‰æ
+	// æç”»
 	void Draw() override;
 
 private:

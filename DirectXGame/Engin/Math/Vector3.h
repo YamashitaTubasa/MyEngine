@@ -5,40 +5,40 @@
 class Vector3 
 {
 public:
-	float x; // x¬•ª
-	float y; // y¬•ª
-	float z; // z¬•ª
+	float x; // xæˆåˆ†
+	float y; // yæˆåˆ†
+	float z; // zæˆåˆ†
 
 public:
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒg
-	Vector3();                            // ƒ[ƒƒxƒNƒgƒ‹‚Æ‚µ‚Ä¶¬
-	Vector3(float x, float y, float z);   // x¬•ª,y¬•ª‚ğw’è‚µ‚Ä‚Ì¶¬
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ãƒˆ
+	Vector3();                            // ã‚¼ãƒ­ãƒ™ã‚¯ãƒˆãƒ«ã¨ã—ã¦ç”Ÿæˆ
+	Vector3(float x, float y, float z);   // xæˆåˆ†,yæˆåˆ†ã‚’æŒ‡å®šã—ã¦ã®ç”Ÿæˆ
 
-	// ƒƒ“ƒoŠÖ”
-	float Length() const;                 // ƒmƒ‹ƒ€(’·‚³)‚ğ‹‚ß‚é
-	Vector3& Normalize();                 // ³‹K‰»‚·‚é
-	float Dot(const Vector3& v)const;     // “àÏ‚ğ‹‚ß‚é
-	Vector3 Cross(const Vector3& v)const; // ŠOÏ‚ğ‹‚ß‚é
+	// ãƒ¡ãƒ³ãƒé–¢æ•°
+	float Length() const;                 // ãƒãƒ«ãƒ (é•·ã•)ã‚’æ±‚ã‚ã‚‹
+	Vector3& Normalize();                 // æ­£è¦åŒ–ã™ã‚‹
+	float Dot(const Vector3& v)const;     // å†…ç©ã‚’æ±‚ã‚ã‚‹
+	Vector3 Cross(const Vector3& v)const; // å¤–ç©ã‚’æ±‚ã‚ã‚‹
 
-	// ’P€‰‰ZqƒI[ƒo[ƒ[ƒh
+	// å˜é …æ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰
 	Vector3 operator+() const;
 	Vector3 operator-() const;
 
-	// ‘ã“ü‰‰ZqƒI[ƒo[ƒ[ƒh
+	// ä»£å…¥æ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰
 	Vector3& operator+=(const Vector3& v);
 	Vector3& operator-=(const Vector3& v);
 	Vector3& operator*=(float s);
 	Vector3& operator/=(float s);
 };
-// 2€‰‰ZqƒI[ƒo[ƒ[ƒh
-// ¦‚¢‚ë‚ñ‚Èˆø”(ˆø”‚ÌŒ^‚Æ‡˜)‚Ìƒpƒ^[ƒ“‚É‘Î‰‚·‚é‚½‚ßAˆÈ‰º‚Ì‚æ‚¤‚É€”õ‚µ‚Ä‚¢‚é
+// 2é …æ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰
+// â€»ã„ã‚ã‚“ãªå¼•æ•°(å¼•æ•°ã®å‹ã¨é †åº)ã®ãƒ‘ã‚¿ãƒ¼ãƒ³ã«å¯¾å¿œã™ã‚‹ãŸã‚ã€ä»¥ä¸‹ã®ã‚ˆã†ã«æº–å‚™ã—ã¦ã„ã‚‹
 const Vector3  operator+(const Vector3& v1, const Vector3& v2);
 const Vector3  operator-(const Vector3& v1, const Vector3& v2);
 const Vector3  operator*(const Vector3& v, float s);
 const Vector3  operator*(float s, const Vector3& v);
 const Vector3  operator/(const Vector3& v, float s);
 
-// •âŠ®ŠÖ”
-// üŒ`•âŠÔ(1ŸŠÖ”•âŠÔj
+// è£œå®Œé–¢æ•°
+// ç·šå½¢è£œé–“(1æ¬¡é–¢æ•°è£œé–“ï¼‰
 const Vector3 Lerp(const Vector3& start, const Vector3& end, const float t);
 
