@@ -150,7 +150,7 @@
     <ClCompile Include="DirectXGame\Engin\Math\Vector3.cpp">
       <Filter>ソース ファイル\Engin\Math</Filter>
     </ClCompile>
-    <ClCompile Include="External\ImGui\ImGuiManager.cpp">
+    <ClCompile Include="DirectXGame\Engin\ImGui\ImGuiManager.cpp">
       <Filter>ソース ファイル\Engin\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="DirectXGame\main.cpp">
@@ -282,7 +282,7 @@
     <ClInclude Include="DirectXGame\Engin\Math\Vector3.h">
       <Filter>ヘッダー ファイル\Engin\Math</Filter>
     </ClInclude>
-    <ClInclude Include="External\ImGui\ImGuiManager.h">
+    <ClInclude Include="DirectXGame\Engin\ImGui\ImGuiManager.h">
       <Filter>ヘッダー ファイル\Engin\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="DirectXGame\Engin\Camera\Camera.h">
