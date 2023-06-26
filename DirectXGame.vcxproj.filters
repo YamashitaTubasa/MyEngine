@@ -192,6 +192,9 @@
     <ClCompile Include="DirectXGame\Engin\2d\PostEffect.cpp">
       <Filter>ソース ファイル\Engin\2d</Filter>
     </ClCompile>
+    <ClCompile Include="DirectXGame\Engin\3d\LevelLoader.cpp">
+      <Filter>ソース ファイル\Engin\3d</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Basic.hlsli">
@@ -320,6 +323,9 @@
     </ClInclude>
     <ClInclude Include="DirectXGame\Engin\2d\PostEffect.h">
       <Filter>ヘッダー ファイル\Engin\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXGame\Engin\3d\LevelLoader.h">
+      <Filter>ヘッダー ファイル\Engin\3d</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

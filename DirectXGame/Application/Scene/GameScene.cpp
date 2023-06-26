@@ -25,6 +25,25 @@ void GameScene::Initialize(SpriteCommon& spriteCommon)
 	camera = new Camera();
 	camera->Initialize();
 
+	// レベルローダー
+	levelLoader = new LevelLoader();
+	levelLoader->LoadFile("none.json");
+
+	// レベルデータからオブジェクトを生成、配置
+	for (auto& objectData : levelData->objects) {
+		// ファイル名から登録済みモデルを検索
+		Model* newModel = nullptr;
+		newModel = Model::LoadFromOBJ("fighter", "");
+		decltype(models)::iterator it = models.find(objectData.fileName);
+		if (it != models.end()) { model = it->second; }
+		// モデルを指定して3Dオブジェクトを生成
+		Object3d* newObject = Object3d::Create();
+		newObject->SetModel(newModel);
+		// 座標
+		Vector3 pos;
+		newObject->SetPosition(pos);
+	}
+
 	// デバイスをセット
 	FbxObject3d::SetDevice(dXCommon->GetDevice());
 	// カメラをセット
@@ -223,7 +242,7 @@ void GameScene::Finalize()
 void GameScene::ObjectInitialize() 
 {
 	// OBJからモデルデータを読み込む
-	Model[0] = Model::LoadFromOBJ("fighter2", "effect1.png");
+	Model[0] = Model::LoadFromOBJ("fighter", "effect1.png");
 	//Model[0]->LoadTexture("effect1.png");
 	Model[1] = Model::LoadFromOBJ("ironSphere", "ironShpere/ironSphere.png");
 	//Model[2] = Model::LoadFromOBJ("skydome", "skydome/skydome.jpg");
