@@ -13,6 +13,7 @@
 #include "Camera.h"
 #include "FbxLoader.h"
 #include "FbxObject3d.h"
+#include "PostEffect.h"
 
 class GameScene
 {
@@ -132,7 +133,7 @@ private:
 	ParticleM* particle = nullptr;
 	ParticleM* particle1 = nullptr;
 	//ParticleManager* particleMan1 = nullptr;
-
+	
 	DirectXCommon* dXCommon = nullptr;
 
 	ImGuiManager* imGuiManager = nullptr;
@@ -140,6 +141,7 @@ private:
 	Camera* camera = nullptr;
 	FbxModel* fbxModel = nullptr;
 	FbxObject3d* fbxObject = nullptr;
+	PostEffect* postEffect = nullptr;
 
 	DirectX::XMFLOAT3 position[5]{};
 	DirectX::XMFLOAT3 rotation[5]{};

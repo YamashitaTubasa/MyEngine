@@ -9,6 +9,10 @@
 #include <wrl.h>
 #include <array>
 
+#include "Vector2.h"
+#include "Vector3.h"
+#include "Vector4.h"
+#include "Matrix4.h"
 #include "DirectXCommon.h"
 
 #pragma comment(lib, "d3dcompiler.lib")
@@ -60,7 +64,7 @@ private: // エイリアス
 	template <class T> using vector = std::vector<T>;
 
 public:
-	Sprite(UINT texNumber, XMFLOAT2 pos, XMFLOAT2 size, XMFLOAT4 color, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY);
+	Sprite(UINT texNumber, XMFLOAT3 pos, XMFLOAT2 size, XMFLOAT4 color, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY);
 	~Sprite();
 
 private:
