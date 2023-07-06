@@ -31,59 +31,59 @@ public:
 
 public:
 	/// <summary>
-	/// ‰Šú‰»
+	/// åˆæœŸåŒ–
 	/// </summary>
 	/// <param name="dXCommon"></param>
 	void Initialize(SpriteCommon& spriteCommon);
 
 	/// <summary>
-	/// XV
+	/// æ›´æ–°
 	/// </summary>
 	void Update();
 
 	/// <summary>
-	/// •`‰æ
+	/// æç”»
 	/// </summary>
 	void Draw(SpriteCommon& spriteCommon);
 
 	/// <summary>
-	/// ‰ğ•ú
+	/// è§£æ”¾
 	/// </summary>
 	void Finalize();
 
 	/// <summary>
-	/// ƒIƒuƒWƒFƒNƒg‚Ì‰Šú‰»
+	/// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®åˆæœŸåŒ–
 	/// </summary>
 	/// <param name="dXCommon"></param>
 	void ObjectInitialize();
 
 	/// <summary>
-	/// ƒIƒuƒWƒFƒNƒg‚ÌXV
+	/// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ›´æ–°
 	/// </summary>
 	void ObjectUpdate();
 
 	/// <summary>
-	/// ƒIƒuƒWƒFƒNƒg‚Ì•`‰æ
+	/// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æç”»
 	/// </summary>
 	void ObjectDraw();
 
 	/// <summary>
-	/// ƒIƒuƒWƒFƒNƒg‚Ì‰ğ•ú
+	/// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è§£æ”¾
 	/// </summary>
 	void ObjectFinalize();
 
 	/// <summary>
-	/// ƒXƒvƒ‰ƒCƒg‰Šú‰»
+	/// ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆåˆæœŸåŒ–
 	/// </summary>
 	void SpriteInitialize(SpriteCommon& spriteCommon);
 
 	/// <summary>
-	/// ƒXƒvƒ‰ƒCƒg‚ÌXV
+	/// ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®æ›´æ–°
 	/// </summary>
 	void SpriteUpdate();
 
 	/// <summary>
-	/// ƒXƒvƒ‰ƒCƒg‚Ì•`‰æ
+	/// ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®æç”»
 	/// </summary>
 	void TitleDraw();
 	void GameDraw();
@@ -91,11 +91,11 @@ public:
 	void GameOverDraw();
 
 	/// <summary>
-	/// ƒXƒvƒ‰ƒCƒg‚Ì‰ğ•ú
+	/// ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®è§£æ”¾
 	/// </summary>
 	void SpriteFinalize();
 
-	// ƒp[ƒeƒBƒNƒ‹‚Ì‰Šú‰»
+	// ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã®åˆæœŸåŒ–
 	void ParticleInitialize();
 
 	void ParticleUpdate();
@@ -103,34 +103,29 @@ public:
 	void ParticleDraw();
 
 	/// <summary>
-	/// ƒQ[ƒ€‚ÌƒŠƒZƒbƒg
+	/// ã‚²ãƒ¼ãƒ ã®ãƒªã‚»ãƒƒãƒˆ
 	/// </summary>
 	void GameReset();
 
-	/// <summary>
-	/// “–‚½‚è”»’è
-	/// </summary>
-	int CheckCollision(DirectX::XMFLOAT3 object, DirectX::XMFLOAT3 scale);
-
 private:
 	WinApp* winApp = nullptr;
-	// “ü—Í
+	// å…¥åŠ›
 	Input* input = nullptr;
-	// ƒ‚ƒfƒ‹
+	// ãƒ¢ãƒ‡ãƒ«
 	Model* Model[5];
-	// ƒIƒuƒWƒFƒNƒg
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	Object3d* object3d[5];
-	// ƒXƒvƒ‰ƒCƒg
+	// ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ
 	Sprite* sprite = nullptr;
 	//std::shared_ptr<Sprite> sprite;
 	Sprite* hp = nullptr;
 	SpriteCommon spriteCommon_;
 
-	// ƒp[ƒeƒBƒNƒ‹
+	// ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«
 	ParticleManager* particleMan = nullptr;
 	ParticleManager* particleMan1 = nullptr;
-	ParticleM* particle = nullptr;
-	ParticleM* particle1 = nullptr;
+	Particle* particle = nullptr;
+	Particle* particle1 = nullptr;
 	//ParticleManager* particleMan1 = nullptr;
 
 	DirectXCommon* dXCommon = nullptr;

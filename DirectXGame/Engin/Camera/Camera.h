@@ -3,7 +3,7 @@
 #include <DirectXMath.h>
 #include <wrl.h>
 
-// ƒJƒƒ‰
+// ã‚«ãƒ¡ãƒ©
 class Camera
 {
 public:
@@ -12,16 +12,16 @@ public:
 	using XMMATRIX = DirectX::XMMATRIX;
 
 public:
-	// ‰Šú‰»
+	// åˆæœŸåŒ–
 	void Initialize();
 
-	// XV
+	// æ›´æ–°
 	void Update();
 
-	// ƒrƒ…[s—ñ
+	// ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—
 	void UpdateViewMatrix();
 
-	// “§‹“Š‰e
+	// é€è¦–æŠ•å½±
 	void UpdateProjectionMatrix();
 
 public:

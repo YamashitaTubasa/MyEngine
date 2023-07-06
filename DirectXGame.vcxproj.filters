@@ -159,7 +159,7 @@
     <ClCompile Include="DirectXGame\Engin\Camera\Camera.cpp">
       <Filter>ソース ファイル\Engin\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="DirectXGame\Engin\Effect\ParticleM.cpp">
+    <ClCompile Include="DirectXGame\Engin\Effect\Particle.cpp">
       <Filter>ソース ファイル\Engin\Effect</Filter>
     </ClCompile>
     <ClCompile Include="DirectXGame\Engin\3d\FbxLoader.cpp">
@@ -189,7 +189,7 @@
     <ClCompile Include="DirectXGame\Engin\Scene\TYFramework.cpp">
       <Filter>ソース ファイル\Engin\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="DirectXGame\Engin\2d\PostEffect.cpp">
+    <ClCompile Include="DirectXGame\Engin\PostEffect\PostEffect.cpp">
       <Filter>ソース ファイル\Engin\2d</Filter>
     </ClCompile>
   </ItemGroup>
@@ -288,7 +288,7 @@
     <ClInclude Include="DirectXGame\Engin\Camera\Camera.h">
       <Filter>ヘッダー ファイル\Engin\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="DirectXGame\Engin\Effect\ParticleM.h">
+    <ClInclude Include="DirectXGame\Engin\Effect\Particle.h">
       <Filter>ヘッダー ファイル\Engin\Effect</Filter>
     </ClInclude>
     <ClInclude Include="DirectXGame\Engin\3d\FbxLoader.h">
@@ -318,7 +318,7 @@
     <ClInclude Include="DirectXGame\Engin\Scene\TYFramework.h">
       <Filter>ヘッダー ファイル\Engin\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="DirectXGame\Engin\2d\PostEffect.h">
+    <ClInclude Include="DirectXGame\Engin\PostEffect\PostEffect.h">
       <Filter>ヘッダー ファイル\Engin\2d</Filter>
     </ClInclude>
   </ItemGroup>

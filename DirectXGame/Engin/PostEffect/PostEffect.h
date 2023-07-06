@@ -3,18 +3,18 @@
 #include "Sprite.h"
 
 /// <summary>
-/// ƒ|ƒXƒgƒGƒtƒFƒNƒg
+/// ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 /// </summary>
 class PostEffect : public Sprite
 {
 public:
 	/// <summary>
-	/// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	/// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	/// </summary>
 	PostEffect();
 
 	/// <summary>
-	/// •`‰æƒRƒ}ƒ“ƒh‚Ì”­s
+	/// æç”»ã‚³ãƒãƒ³ãƒ‰ã®ç™ºè¡Œ
 	/// </summary>
 	/// <param name="cmdList"></param>
 	void Draw(ID3D12GraphicsCommandList* cmdList);

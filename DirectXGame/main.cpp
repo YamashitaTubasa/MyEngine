@@ -1,6 +1,6 @@
 #include "MyGame.h"
 
-// windowsƒAƒvƒŠ‚Å‚ÌƒGƒ“ƒgƒŠ[ƒ|ƒCƒ“ƒg(mainŠÖ”)
+// windowsã‚¢ãƒ—ãƒªã§ã®ã‚¨ãƒ³ãƒˆãƒªãƒ¼ãƒã‚¤ãƒ³ãƒˆ(mainé–¢æ•°)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) 
 {
 	TYFramework* game = new MyGame();

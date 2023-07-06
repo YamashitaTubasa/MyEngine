@@ -5,32 +5,32 @@
 class Vector4
 {
 public:
-	float x; // x¬•ª
-	float y; // y¬•ª
-	float z; // z¬•ª
-	float w; // w¬•ª
+	float x; // xæˆåˆ†
+	float y; // yæˆåˆ†
+	float z; // zæˆåˆ†
+	float w; // wæˆåˆ†
 
-public: // ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+public: // ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	Vector4();
 	Vector4(float x, float y, float z, float w);
 
-public: // ƒƒ“ƒoŠÖ”
-	float Length() const;                 // ƒmƒ‹ƒ€(’·‚³)‚ğ‹‚ß‚é
-	Vector4& Normalize();                 // ³‹K‰»‚·‚é
-	float Dot(const Vector4& v)const;     // “àÏ‚ğ‹‚ß‚é
-	Vector4 Cross(const Vector4& v)const; // ŠOÏ‚ğ‹‚ß‚é
+public: // ãƒ¡ãƒ³ãƒé–¢æ•°
+	float Length() const;                 // ãƒãƒ«ãƒ (é•·ã•)ã‚’æ±‚ã‚ã‚‹
+	Vector4& Normalize();                 // æ­£è¦åŒ–ã™ã‚‹
+	float Dot(const Vector4& v)const;     // å†…ç©ã‚’æ±‚ã‚ã‚‹
+	Vector4 Cross(const Vector4& v)const; // å¤–ç©ã‚’æ±‚ã‚ã‚‹
 
-	// ’P€‰‰Zq‚ÌƒI[ƒo[ƒ[ƒh
+	// å˜é …æ¼”ç®—å­ã®ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰
 	Vector4 operator+() const;
 	Vector4 operator-() const;
 
-	// ‘ã“ü‰‰Zq‚ÌƒI[ƒo[ƒ[ƒh
+	// ä»£å…¥æ¼”ç®—å­ã®ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰
 	Vector4& operator+=(const Vector4& v);
 	Vector4& operator-=(const Vector4& v);
 	Vector4& operator*=(float s);
 	Vector4& operator/=(float s);
 };
-// 2€‰‰ZqƒI[ƒo[ƒ[ƒh
+// 2é …æ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰
 const Vector4 operator+(const Vector4& v1, const Vector4& v2);
 const Vector4 operator-(const Vector4& v1, const Vector4& v2);
 const Vector4 operator*(const Vector4& v, float s);
