@@ -43,7 +43,7 @@ void TYFramework::Initialize()
 	imGuiManager->Initialize(dXCommon, winApp);
 
 	// ポストエフェクトの初期化
-	postEffect_ = new PostEffect();
+	postEffect_ = PostEffect::GetInstance();
 	postEffect_->Initialize();
 
 	// Cameraの初期化
@@ -68,9 +68,6 @@ void TYFramework::Finalize()
 	// imguiの解放
 	delete imGuiManager;
 	imGuiManager = nullptr;
-
-	// ポストエフェクトの解放
-	delete postEffect_;
 
 	// WindowsAPIの終了処理
 	winApp->Finalize();

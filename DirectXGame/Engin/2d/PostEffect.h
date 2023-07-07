@@ -16,6 +16,14 @@ private:
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 
+private:
+	struct ConstBufferData {
+		DirectX::XMFLOAT4 color; // 色 (RGBA)
+		DirectX::XMMATRIX mat; // 座標
+		bool isBlur; // ブラーフラグ
+		float alpha; // アルファ値
+	};
+
 public:
 	/// <summary>
 	/// コンストラクタ
@@ -46,6 +54,28 @@ public: // メンバ関数
 	/// <param name="cmdList">コマンドリスト</param>
 	void PostDrawScene(ID3D12GraphicsCommandList* cmdList);
 
+	/// <summary>
+	/// パイプライン生成
+	/// </summary>
+	void CreateGraphicsPipelineState();
+
+public:
+	static PostEffect* GetInstance();
+
+private:
+	PostEffect(const PostEffect&) = delete;
+	PostEffect* operator=(const PostEffect&) = delete;
+
+public: // セッター
+	// カラーの設定
+	void SetColor(const XMFLOAT4& color);
+	// アルファ値の設定
+	void SetAlpha(float alpha);
+	// ブラーの設定
+	void SetBlur(bool isBlur);
+
+	XMFLOAT4 GetColor() const { return PostEffect::color_; }
+
 private: // メンバ変数
 	// テクスチャバッファ
 	ComPtr<ID3D12Resource> texBuff;
@@ -63,6 +93,7 @@ private: // メンバ変数
 	ComPtr<ID3D12RootSignature> rootSignature;
 	ComPtr<ID3D12Device> device;
 	ComPtr<ID3D12GraphicsCommandList> cmdList;
+	ConstBufferData* constMap = nullptr;
 
 private: // 定数
 	// 画面クリアカラー
@@ -71,5 +102,9 @@ private: // 定数
 	static const int vertNum = 4;
 	// 色
 	DirectX::XMFLOAT4 color_ = { 1,1,1,1 };
+	// ブラーフラグ
+	bool isBlur_ = false;
+	// アルファ値
+	float alpha_ = 1.0f;
 };
 
