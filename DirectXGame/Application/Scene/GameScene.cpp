@@ -41,7 +41,7 @@ void GameScene::Initialize(SpriteCommon& spriteCommon)
 	// FBXオブジェクトにFBXモデルを割り当てる
 	fbxObject->SetModel(fbxModel);
 	// スケール、回転、座標
-	fbxObject->SetRotation({ 0,90,0 });
+	fbxObject->SetRotation({ 0,50,0 });
 
 	// カメラの注視点をセット
 	target[0] = { 0,2.5f,0 };
@@ -67,19 +67,16 @@ void GameScene::Initialize(SpriteCommon& spriteCommon)
 	// オブジェクトの初期化
 	ObjectInitialize();
 	// スプライトの初期化
-	//SpriteInitialize(spriteCommon);
-	// スプライト
-	sprite = new Sprite(100, { 0.0f,0.0f }, { 500.0f,500.0f }, { 1,1,1,1 }, { 0.0f,0.0f }, false, false);
-	//sprite = make_shared<Sprite>(100, { 0.0f,0.0f }, { 500.0f,500.0f }, { 1,1,1,1 }, { 0.0f,0.0f }, false, false);
-	spriteCommon_ = sprite->SpriteCommonCreate(dXCommon->GetDevice(), 1280, 720);
+	sprite = new Sprite(100, { 0.0f,0.0f,0.0f }, { 500.0f,500.0f }, { 1,1,1,1 }, { 0.0f,0.0f }, false, false);
+	spriteCommon_ = sprite->SpriteCommonCreate(1280, 720);
 	// スプライト用パイプライン生成呼び出し
-	PipelineSet spritePipelineSet = sprite->SpriteCreateGraphicsPipeline(dXCommon->GetDevice());
+	PipelineSet spritePipelineSet = sprite->SpriteCreateGraphicsPipeline();
 
 	// HP
-	hp = new Sprite(100, { 0.0f,0.0f }, { 500.0f,500.0f }, { 1,1,1,1 }, { 0.0f,0.0f }, false, false);
-	hp->LoadTexture(spriteCommon_, 3, L"Resources/Image/hp.png", dXCommon->GetDevice());
+	hp = new Sprite(100, { 0.0f,0.0f,0.0f }, { 500.0f,500.0f }, { 1,1,1,1 }, { 0.0f,0.0f }, false, false);
+	hp->SpriteCreate(50, 50, 3, spriteCommon, XMFLOAT2(0.0f, 0.0f), false, false);
+	hp->LoadTexture(spriteCommon_, 3, L"Resources/Image/hp.png");
 	hp->SetColor(XMFLOAT4(1, 1, 1, 1));
-	hp->SpriteCreate(dXCommon->GetDevice(), 50, 50, 3, spriteCommon, XMFLOAT2(0.0f, 0.0f), false, false);
 	hp->SetPosition(XMFLOAT3(0, 0, 0));
 	hp->SetScale(XMFLOAT2(50 * 1, 50 * 1));
 	hp->SetRotation(0.5f);
@@ -97,9 +94,6 @@ void GameScene::Update()
 {
 	// ImGui受付開始
 	imGuiManager->Begin();
-
-	// 入力の更新
-	input->Update();
 
 	// カメラの更新
 	camera->Update();
@@ -170,10 +164,10 @@ void GameScene::Draw(SpriteCommon& spriteCommon)
 	/*for (int i = 0; i < 5; i++) {
 		object3d[i]->Draw();
 	}*/
-	object3d[0]->Draw();
+	//object3d[0]->Draw();
 
 	// FBX3Dオブジェクトの描画
-	//fbxObject->Draw(dXCommon->GetCommandList());
+	fbxObject->Draw(dXCommon->GetCommandList());
 
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
@@ -204,7 +198,7 @@ void GameScene::Draw(SpriteCommon& spriteCommon)
 
 	Sprite::PreDraw(dXCommon->GetCommandList(), spriteCommon_);
 
-	hp->SpriteDraw(dXCommon->GetCommandList(), spriteCommon_, dXCommon->GetDevice(), hp->vbView);
+	hp->SpriteDraw(dXCommon->GetCommandList(), spriteCommon_);
 
 	Sprite::PostDraw();
 

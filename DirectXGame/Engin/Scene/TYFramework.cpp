@@ -42,6 +42,10 @@ void TYFramework::Initialize()
 	imGuiManager = new ImGuiManager();
 	imGuiManager->Initialize(dXCommon, winApp);
 
+	// ポストエフェクトの初期化
+	postEffect_ = new PostEffect();
+	postEffect_->Initialize();
+
 	// Cameraの初期化
 	/*camera = new Camera();
 	camera->Initialize();*/
@@ -65,6 +69,9 @@ void TYFramework::Finalize()
 	delete imGuiManager;
 	imGuiManager = nullptr;
 
+	// ポストエフェクトの解放
+	delete postEffect_;
+
 	// WindowsAPIの終了処理
 	winApp->Finalize();
 
@@ -79,4 +86,7 @@ void TYFramework::Update()
 		// ゲームループを抜ける
 		endRequst_ = true;
 	}
+
+	// 入力の更新
+	input->Update();
 }

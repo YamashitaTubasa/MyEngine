@@ -60,7 +60,7 @@ private: // エイリアス
 	template <class T> using vector = std::vector<T>;
 
 public:
-	Sprite(UINT texNumber, XMFLOAT2 pos, XMFLOAT2 size, XMFLOAT4 color, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY);
+	Sprite(UINT texNumber, XMFLOAT3 pos, XMFLOAT2 size, XMFLOAT4 color, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY);
 	~Sprite();
 
 private:
@@ -69,29 +69,34 @@ private:
 		XMMATRIX mat; //座標
 	};
 
+public: // 静的メンバ関数
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	//static void StaticInitialize(ID3D12Device* device_);
+
 public:
 	/// <summary>
 	/// スプライト共通データ生成
 	/// </summary>
-	SpriteCommon SpriteCommonCreate(ID3D12Device* dev, int window_width, int window_height);
+	SpriteCommon SpriteCommonCreate(int window_width, int window_height);
 
 	/// <summary>
 	/// 3Dオブジェクト用パイプライン生成
 	/// </summary>
 	/// <param name="device"></param>
 	/// <returns></returns>
-	PipelineSet SpriteCreateGraphicsPipeline(ID3D12Device* device);
+	PipelineSet SpriteCreateGraphicsPipeline();
 
 	/// <summary>
 	/// スプライト共通テクスチャ読み込み
 	/// </summary>
-	void LoadTexture(SpriteCommon& spriteCommon, UINT texnumber, 
-		const wchar_t* filename, ID3D12Device* dev);
+	void LoadTexture(SpriteCommon& spriteCommon, UINT texnumber, const wchar_t* filename);
 
 	/// <summary>
 	/// スプライト生成
 	/// </summary>
-	void SpriteCreate(ID3D12Device* dev, float window_width, float window_height, 
+	void SpriteCreate(float window_width, float window_height, 
 		UINT texNumber, const SpriteCommon& spriteCommon, XMFLOAT2 anchorpoint, bool isFlipX, bool FlipY);
 
 	/// <summary>
@@ -117,8 +122,7 @@ public:
 	/// <summary>
 	/// スプライト単体描画
 	/// </summary>
-	void SpriteDraw(ID3D12GraphicsCommandList* cmdList_, const SpriteCommon& spriteCommon, 
-		ID3D12Device* dev,D3D12_VERTEX_BUFFER_VIEW& vbView);
+	void SpriteDraw(ID3D12GraphicsCommandList* cmdList_, const SpriteCommon& spriteCommon);
 
 	/// <summary>
 	/// 終了処理
@@ -163,18 +167,20 @@ public: // ゲッター
 	// テクスチャ切り出しサイズ
 	XMFLOAT2 GetTexSize() const { return texSize_; }
 
-public:
-	//頂点バッファ
-	ComPtr<ID3D12Resource> vertBuff;
-	//頂点バッファビュー
-	D3D12_VERTEX_BUFFER_VIEW vbView{};
-	D3D12_RESOURCE_DESC resDesc;
+protected: // 静的メンバ変数
+	//static ID3D12Device* device;
 
 protected:
 	// DirectXCommonのインスタンス
 	DirectXCommon* dXCommon = nullptr;
 	SpriteCommon spriteCommon_;
 
+	//頂点バッファ
+	ComPtr<ID3D12Resource> vertBuff;
+	//頂点バッファビュー
+	D3D12_VERTEX_BUFFER_VIEW vbView{};
+	ComPtr<ID3D12Device> device;
+	D3D12_RESOURCE_DESC resDesc;
 	ComPtr<ID3D12GraphicsCommandList> cmdList;
 	ComPtr<ID3D12DescriptorHeap> descHeap;
 	ComPtr<ID3D12Resource> constBuff;

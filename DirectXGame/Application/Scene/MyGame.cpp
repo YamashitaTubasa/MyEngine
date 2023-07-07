@@ -5,8 +5,6 @@ void MyGame::Initialize()
 	// 基底クラスの初期化処理
 	TYFramework::Initialize();
 
-	//dXCommon = DirectXCommon::GetInstance();
-
 	// ゲームシーンの初期化
 	gameScene = new GameScene();
 	gameScene->Initialize(spriteCommon);
@@ -39,7 +37,10 @@ void MyGame::Draw()
 	dXCommon->PreDraw();
 
 	// ゲームシーンの描画
-	gameScene->Draw(spriteCommon);
+	//gameScene->Draw(spriteCommon);
+
+	// ポストエフェクトの描画
+	postEffect_->Draw(dXCommon->GetCommandList());
 
 	// ImGui描画
 	//imGuiManager->Draw(dXCommon);
