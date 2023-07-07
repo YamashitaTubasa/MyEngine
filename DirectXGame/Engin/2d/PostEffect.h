@@ -32,7 +32,7 @@ public: // メンバ関数
 	/// 描画コマンドの発行
 	/// </summary>
 	/// <param name="cmdList"></param>
-	void Draw(ID3D12GraphicsCommandList* cmdList_);
+	void Draw(ID3D12GraphicsCommandList* cmdList);
 
 private:
 	SpriteCommon spriteCommon;
@@ -41,6 +41,13 @@ private:
 	ComPtr<ID3D12Resource> constBuff;
 	ComPtr<ID3D12PipelineState> pipelinestate;
 	ComPtr<ID3D12RootSignature> rootsignature;
-	ComPtr<ID3D12DescriptorHeap> descHeap;
+	// テクスチャバッファ
+	ComPtr<ID3D12Resource> texBuff;
+	// SRV用デスクリプタヒープ
+	ComPtr<ID3D12DescriptorHeap> descHeapSRV;
+
+private: // 定数
+	// 画面クリアカラー
+	static const float clearColor[4];
 };
 
