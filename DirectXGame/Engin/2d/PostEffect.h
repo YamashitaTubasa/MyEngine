@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Sprite.h"
+#include "Input.h"
 
 /// <summary>
 /// ポストエフェクト
@@ -72,7 +73,7 @@ public: // セッター
 
 private: // メンバ変数
 	// テクスチャバッファ
-	ComPtr<ID3D12Resource> texBuff;
+	ComPtr<ID3D12Resource> texBuff[2];
 	// SRV用デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> descHeapSRV;
 	// 震度バッファ

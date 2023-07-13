@@ -46,7 +46,7 @@ float4 main(VSOutput input) : SV_TARGET
     float4 texcolor = tex.Sample(smp, input.uv) * color;
     float luminance = 1.0f; // 輝度
     float setU = 4.0f / 1280.0f;
-    float setV = 4.0f / 720.0f;
+    float setV = .0f / 720.0f;
 
     // 左上ピクセルの色をサンプリングする
     texcolor += tex.Sample(smp, input.uv + float2(-setU, -setV));

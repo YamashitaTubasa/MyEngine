@@ -195,13 +195,13 @@ void GameScene::Draw(SpriteCommon& spriteCommon)
 #pragma region ポストエフェクト描画
 
 	// レンダーテクスチャ1の前処理
-	postEffect1_->PreDrawScene(dXCommon->GetCommandList());
+	//postEffect1_->PreDrawScene(dXCommon->GetCommandList());
 
-	//=== ポストエフェクトの描画 ===//
-	postEffect_->Draw(dXCommon->GetCommandList());
+	////=== ポストエフェクトの描画 ===//
+	//postEffect_->Draw(dXCommon->GetCommandList());
 
-	// レンダーテクスチャ1の後処理
-	postEffect1_->PostDrawScene(dXCommon->GetCommandList());
+	//// レンダーテクスチャ1の後処理
+	//postEffect1_->PostDrawScene(dXCommon->GetCommandList());
 
 #pragma endregion
 
@@ -209,7 +209,7 @@ void GameScene::Draw(SpriteCommon& spriteCommon)
 	dXCommon->PreDraw();
 
 	//=== ポストエフェクト1の描画 ===//
-	postEffect1_->Draw(dXCommon->GetCommandList());
+	postEffect_->Draw(dXCommon->GetCommandList());
 
 	// ImGui描画
 	//imGuiManager->Draw(dXCommon);
