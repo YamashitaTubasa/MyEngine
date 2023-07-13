@@ -31,32 +31,12 @@ void MyGame::Update()
 
 void MyGame::Draw()
 {
-#pragma region ゲームシーン描画
+	ID3D12GraphicsCommandList* cmdList = dXCommon->GetCommandList();
 
-	// レンダーテクスチャの前処理
-	postEffect_->PreDrawScene(dXCommon->GetCommandList());
+#pragma region ゲームシーン描画
 
 	//=== ゲームシーン描画 ===//
 	gameScene->Draw(spriteCommon);
-
-	// レンダーテクスチャの後処理
-	postEffect_->PostDrawScene(dXCommon->GetCommandList());
-
-#pragma endregion
-
-#pragma region 描画
-
-	// 描画前処理
-	dXCommon->PreDraw();
-
-	//=== ポストエフェクトの描画 ===//
-	postEffect_->Draw(dXCommon->GetCommandList());
-
-	// ImGui描画
-	//imGuiManager->Draw(dXCommon);
-
-	// 描画後処理
-	dXCommon->PostDraw();
 
 #pragma endregion
 }

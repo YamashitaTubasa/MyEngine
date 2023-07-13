@@ -21,13 +21,6 @@ PostEffect::PostEffect()
 {
 }
 
-PostEffect* PostEffect::GetInstance() 
-{
-	static PostEffect instance;
-
-	return &instance;
-}
-
 void PostEffect::Initialize()
 {
 	dXCommon = DirectXCommon::GetInstance();

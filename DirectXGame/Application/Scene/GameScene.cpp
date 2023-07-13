@@ -20,7 +20,11 @@ void GameScene::Initialize(SpriteCommon& spriteCommon)
 	winApp = WinApp::GetInstance();
 	input = Input::GetInstance();
 	dXCommon = DirectXCommon::GetInstance();
-	postEffect_ = PostEffect::GetInstance();
+
+	postEffect_ = new PostEffect();
+	postEffect_->Initialize();
+	postEffect1_ = new PostEffect();
+	postEffect1_->Initialize();
 
 	// カメラ
 	camera = new Camera();
@@ -103,7 +107,10 @@ void GameScene::Update()
 	fbxObject->Update();
 
 	// ポストエフェクト
+	/*postEffect_->SetColor({ 1,1,1,1 });
+	postEffect1_->SetColor({ 1,1,1,1 });*/
 	postEffect_->SetBlur(false);
+	postEffect1_->SetBlur(false);
 
 	// gTSの更新
 	//gTS->Update();
@@ -159,6 +166,9 @@ void GameScene::Update()
 
 void GameScene::Draw(SpriteCommon& spriteCommon)
 {
+	// レンダーテクスチャの前処理
+	postEffect_->PreDrawScene(dXCommon->GetCommandList());
+
 #pragma region 3Dオブジェクトの描画
 
 	// 3Dオブジェクト描画前処理
@@ -175,12 +185,36 @@ void GameScene::Draw(SpriteCommon& spriteCommon)
 
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
+
 #pragma endregion 
 
-#pragma region パーティクルの描画
+	// レンダーテクスチャの後処理
+	postEffect_->PostDrawScene(dXCommon->GetCommandList());
 
-	// コマンドリストの取得
-	//ID3D12GraphicsCommandList* cmdList = dXCommon->GetCommandList();
+
+#pragma region ポストエフェクト描画
+
+	// レンダーテクスチャ1の前処理
+	postEffect1_->PreDrawScene(dXCommon->GetCommandList());
+
+	//=== ポストエフェクトの描画 ===//
+	postEffect_->Draw(dXCommon->GetCommandList());
+
+	// レンダーテクスチャ1の後処理
+	postEffect1_->PostDrawScene(dXCommon->GetCommandList());
+
+#pragma endregion
+
+	// 描画前処理
+	dXCommon->PreDraw();
+
+	//=== ポストエフェクト1の描画 ===//
+	postEffect1_->Draw(dXCommon->GetCommandList());
+
+	// ImGui描画
+	//imGuiManager->Draw(dXCommon);
+
+#pragma region パーティクルの描画
 
 	// 3Dオブジェクト描画前処理
 	ParticleManager::PreDraw(dXCommon->GetCommandList());
@@ -200,13 +234,19 @@ void GameScene::Draw(SpriteCommon& spriteCommon)
 
 #pragma region スプライト描画
 
+	// スプライトの描画前処理
 	Sprite::PreDraw(dXCommon->GetCommandList(), spriteCommon_);
 
+	//===== スプライトの描画 =====//
 	hp->SpriteDraw(dXCommon->GetCommandList(), spriteCommon_);
 
+	// スプライトの描画後処理
 	Sprite::PostDraw();
 
 #pragma endregion
+
+	// 描画後処理
+	dXCommon->PostDraw();
 }
 
 void GameScene::Finalize()

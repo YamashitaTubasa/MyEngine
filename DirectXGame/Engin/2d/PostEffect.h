@@ -17,6 +17,7 @@ private:
 	using XMMATRIX = DirectX::XMMATRIX;
 
 private:
+	// 定数バッファ用データ構造体
 	struct ConstBufferData {
 		DirectX::XMFLOAT4 color; // 色 (RGBA)
 		DirectX::XMMATRIX mat; // 座標
@@ -59,13 +60,6 @@ public: // メンバ関数
 	/// </summary>
 	void CreateGraphicsPipelineState();
 
-public:
-	static PostEffect* GetInstance();
-
-private:
-	PostEffect(const PostEffect&) = delete;
-	PostEffect* operator=(const PostEffect&) = delete;
-
 public: // セッター
 	// カラーの設定
 	void SetColor(const XMFLOAT4& color);
@@ -91,8 +85,11 @@ private: // メンバ変数
 	ComPtr<ID3D12PipelineState> pipelineState;
 	// ルートシグネチャ
 	ComPtr<ID3D12RootSignature> rootSignature;
+	// デバイス
 	ComPtr<ID3D12Device> device;
+	// コマンドリスト
 	ComPtr<ID3D12GraphicsCommandList> cmdList;
+	// 定数バッファ用データ構造体
 	ConstBufferData* constMap = nullptr;
 
 private: // 定数

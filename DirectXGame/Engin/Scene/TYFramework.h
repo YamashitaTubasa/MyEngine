@@ -9,7 +9,6 @@
 #include "GameScene.h"
 #include "Camera.h"
 #include "ImGuiManager.h"
-#include "PostEffect.h"
 
 class TYFramework
 {
@@ -33,7 +32,6 @@ public: // メンバ関数
 	// 終了チェック
 	virtual bool IsEndRequst() { return endRequst_; }
 
-
 public:
 	virtual ~TYFramework() = default;
 
@@ -50,5 +48,6 @@ protected:
 	ImGuiManager* imGuiManager = nullptr;
 	Camera* camera = nullptr;
 	PostEffect* postEffect_ = nullptr;
+	PostEffect* postEffect1_ = nullptr;
 };
 

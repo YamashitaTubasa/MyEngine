@@ -1,9 +1,9 @@
 cbuffer cbuff0 : register(b0)
 {
-	float4 color;
-	matrix mat;
-	bool isBlur;
-	float alpha;
+	float4 color; // 色
+	matrix mat;   // 行列
+	bool isBlur;  // フラグ
+	float alpha;  // アルファ値
 };
 
 // 頂点シェーダーからの出力構造体

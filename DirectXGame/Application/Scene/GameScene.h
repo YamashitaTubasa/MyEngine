@@ -142,6 +142,7 @@ private:
 	FbxModel* fbxModel = nullptr;
 	FbxObject3d* fbxObject = nullptr;
 	PostEffect* postEffect_ = nullptr;
+	PostEffect* postEffect1_ = nullptr;
 
 	DirectX::XMFLOAT3 position[5]{};
 	DirectX::XMFLOAT3 rotation[5]{};
