@@ -4,6 +4,7 @@
 #include <string>
 #include <fstream>
 #include "Vector3.h"
+#include <DirectXMath.h>
 
 // レベルデータ
 struct LevelData {
@@ -12,11 +13,11 @@ struct LevelData {
 		// ファイル名
 		std::string fileName;
 		// 移動
-		Vector3 translation;
+		DirectX::XMVECTOR translation;
 		// 回転角
-		Vector3 rotation;
+		DirectX::XMVECTOR rotation;
 		// スケール
-		Vector3 scaling;
+		DirectX::XMVECTOR scaling;
 	};
 	std::vector<ObjectData> objects;
 };

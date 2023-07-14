@@ -32,16 +32,27 @@ void GameScene::Initialize(SpriteCommon& spriteCommon)
 	// レベルデータからオブジェクトを生成、配置
 	for (auto& objectData : levelData->objects) {
 		// ファイル名から登録済みモデルを検索
-		Model* newModel = nullptr;
-		newModel = Model::LoadFromOBJ("fighter", "");
+		Model* model = nullptr;
+		model = Model::LoadFromOBJ("fighter", "effect1.png");
 		decltype(models)::iterator it = models.find(objectData.fileName);
 		if (it != models.end()) { model = it->second; }
 		// モデルを指定して3Dオブジェクトを生成
 		Object3d* newObject = Object3d::Create();
-		newObject->SetModel(newModel);
+		newObject->SetModel(model);
 		// 座標
-		Vector3 pos;
+		DirectX::XMFLOAT3 pos;
+		DirectX::XMStoreFloat3(&pos, objectData.translation);
 		newObject->SetPosition(pos);
+		// 座標
+		DirectX::XMFLOAT3 rot;
+		DirectX::XMStoreFloat3(&pos, objectData.rotation);
+		newObject->SetPosition(rot);
+		// 座標
+		DirectX::XMFLOAT3 scale;
+		DirectX::XMStoreFloat3(&pos, objectData.scaling);
+		newObject->SetPosition(scale);
+		// 配列に登録
+		objects.push_back(newObject);
 	}
 
 	// デバイスをセット
@@ -189,7 +200,8 @@ void GameScene::Draw(SpriteCommon& spriteCommon)
 	/*for (int i = 0; i < 5; i++) {
 		object3d[i]->Draw();
 	}*/
-	object3d[0]->Draw();
+	playerO->Draw();
+	enemyO->Draw();
 
 	// FBX3Dオブジェクトの描画
 	//fbxObject->Draw(dXCommon->GetCommandList());
@@ -242,47 +254,45 @@ void GameScene::Finalize()
 void GameScene::ObjectInitialize() 
 {
 	// OBJからモデルデータを読み込む
-	Model[0] = Model::LoadFromOBJ("fighter", "effect1.png");
+	player = Model::LoadFromOBJ("fighter", "effect1.png");
 	//Model[0]->LoadTexture("effect1.png");
-	Model[1] = Model::LoadFromOBJ("ironSphere", "ironShpere/ironSphere.png");
+	enemy = Model::LoadFromOBJ("ironSphere", "ironShpere/ironSphere.png");
 	//Model[2] = Model::LoadFromOBJ("skydome", "skydome/skydome.jpg");
 	// 3Dオブジェクト生成
-	for (int i = 0; i < 5; i++) {
-		object3d[i] = Object3d::Create();
-	}
+	playerO = Object3d::Create();
+	enemyO = Object3d::Create();
 	// オブジェクトにモデルをひも付ける
-	object3d[0]->SetModel(Model[0]);
-	object3d[1]->SetModel(Model[1]);
-	object3d[2]->SetModel(Model[2]);
+	playerO->SetModel(player);
+	enemyO->SetModel(enemy);
+	//object3d[2]->SetModel(Model[2]);
 	// 3Dオブジェクトの位置を指定
 	position[0] = { 0,-5,-35 };
 	rotation[0] = { 0,0,0 };
-	object3d[0]->SetPosition(position[0]);
-	object3d[0]->SetScale({ 5, 5, 5 });
-	object3d[0]->SetRotation(rotation[0]);
+	playerO->SetPosition(position[0]);
+	playerO->SetScale({ 5, 5, 5 });
+	playerO->SetRotation(rotation[0]);
 	//object3d[0]->SetEye(eye[0]);
 
 	position[1] = { 0,0,50 };
-	object3d[1]->SetPosition(position[1]);
-	object3d[1]->SetScale({ 5,5,5 });
-	object3d[1]->SetRotation({ 0, 90, 0 });
+	enemyO->SetPosition(position[1]);
+	enemyO->SetScale({ 5,5,5 });
+	enemyO->SetRotation({ 0, 90, 0 });
 
-	object3d[2]->SetPosition({ 0,-40,0 });
+	/*object3d[2]->SetPosition({ 0,-40,0 });
 	object3d[2]->SetScale({ 100, 100, 100 });
-	object3d[2]->SetRotation({0,100,20});
+	object3d[2]->SetRotation({0,100,20});*/
 }
 
 void GameScene::ObjectUpdate()
 {
 	// 3Dオブジェクト更新
-	for (int i = 0; i < 5; i++) {
-		object3d[i]->Update();
-	}
+	playerO->Update();
+	enemyO->Update();
 
-	object3d[0]->SetPosition(position[0]);
-	object3d[0]->SetRotation(rotation[0]);
+	playerO->SetPosition(position[0]);
+	playerO->SetRotation(rotation[0]);
 	//object3d[0]->SetEye(eye[0]);
-	object3d[1]->SetPosition(position[1]);
+	enemyO->SetPosition(position[1]);
 
 	/*if (input->PushKey(DIK_RIGHT)){
 		eye[0].x += 0.5;
@@ -321,13 +331,12 @@ void GameScene::ObjectUpdate()
 void GameScene::ObjectFinalize()
 {
 	// 3Dオブジェクト解放
-	for (int i = 0; i < 5; i++) {
-		delete object3d[i];
-	}
+	delete playerO;
+	delete enemyO;
 	// 3Dモデル解放
-	for (int i = 0; i < 5; i++) {
-		delete Model[i];
-	}
+	delete player;
+	delete enemy;
+
 }
 
 void GameScene::SpriteInitialize(SpriteCommon& spriteCommon)
@@ -388,19 +397,7 @@ void GameScene::ParticleUpdate()
 
 void GameScene::GameReset()
 {
-	// 3Dオブジェクトの位置を指定
-	position[0] = { -20,-5,0 };
-	rotation[0] = { 0,90,0 };
-	object3d[0]->SetPosition(position[0]);
-	object3d[0]->SetScale({ 5, 5, 5 });
-	object3d[0]->SetRotation(rotation[0]);
-	position[1] = { 0,5,50 };
-	object3d[1]->SetPosition(position[1]);
-	object3d[1]->SetRotation({ 0, 90, 0 });
-	object3d[1]->SetScale({ 5,5,5 });
-
-	playerHp = 3;
-	time = 0;
+	
 }
 
 int GameScene::CheckCollision(XMFLOAT3 position, XMFLOAT3 scale) {

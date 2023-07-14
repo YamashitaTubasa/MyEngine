@@ -118,9 +118,14 @@ private:
 	// 入力
 	Input* input = nullptr;
 	// モデル
-	Model* Model[5];
+	Model* player;
+	Model* enemy;
+	// モデルデータコンテナ
+	std::map<std::string, Model*> models;
 	// オブジェクト
-	Object3d* object3d[5];
+	Object3d* playerO;
+	Object3d* enemyO;
+	std::vector<Object3d*> objects;
 	// スプライト
 	Sprite* sprite = nullptr;
 	//std::shared_ptr<Sprite> sprite;
@@ -144,7 +149,6 @@ private:
 	LevelLoader* levelLoader = nullptr;
 	LevelData* levelData = nullptr;
 	//std::map<std::string, Model*> models;
-	std::vector<Object3d*> objects;
 
 	DirectX::XMFLOAT3 position[5]{};
 	DirectX::XMFLOAT3 rotation[5]{};
