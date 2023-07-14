@@ -46,7 +46,7 @@ void GameScene::Initialize(SpriteCommon& spriteCommon)
 	// FBXオブジェクトにFBXモデルを割り当てる
 	fbxObject->SetModel(fbxModel);
 	// スケール、回転、座標
-	fbxObject->SetRotation({ 0,50,0 });
+	fbxObject->SetRotation({ 0,100,0 });
 
 	// カメラの注視点をセット
 	target[0] = { 0,2.5f,0 };
