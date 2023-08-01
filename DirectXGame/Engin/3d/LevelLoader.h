@@ -1,9 +1,10 @@
 #pragma once
 
+#include "Vector3.h"
+
 #include <json.hpp>
 #include <string>
 #include <fstream>
-#include "Vector3.h"
 #include <DirectXMath.h>
 
 // レベルデータ
@@ -19,15 +20,19 @@ struct LevelData {
 		// スケール
 		DirectX::XMVECTOR scaling;
 	};
+
 	std::vector<ObjectData> objects;
 };
 
+/// <summary>
+/// レベルローダー
+/// </summary>
 class LevelLoader
 {
 public:
 	/// <summary>
 	/// レベルデータファイル読み込み
 	/// </summary>
-	/// <returns></returns>
-	static LevelData* LoadFile(std::string fileName);
+	/// <returns>ファイル名</returns>
+	static LevelData* LoadFile(const std::string& fileName);
 };

@@ -120,6 +120,9 @@ private:
 	// モデル
 	Model* player;
 	Model* enemy;
+	Model* playerM;
+	Model* enemyM;
+	Model* player1M;
 	// モデルデータコンテナ
 	std::map<std::string, Model*> models;
 	// オブジェクト

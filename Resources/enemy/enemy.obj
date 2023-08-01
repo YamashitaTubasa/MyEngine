@@ -1,6 +1,6 @@
 # Blender 3.5.0
 # www.blender.org
-mtllib fighter.mtl
+mtllib enemy.mtl
 o fighter
 v 0.539136 0.019268 -0.062657
 v 0.539136 0.001582 -0.062657

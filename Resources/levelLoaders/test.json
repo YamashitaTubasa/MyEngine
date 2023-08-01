@@ -2,40 +2,6 @@
     "name": "scene",
     "objects": [
         {
-            "type": "MESH",
-            "name": "Cube",
-            "transform": {
-                "translation": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    2.0,
-                    2.0,
-                    2.0
-                ]
-            }
-        },
-        {
             "type": "LIGHT",
             "name": "Light",
             "transform": {
@@ -79,11 +45,11 @@
         },
         {
             "type": "MESH",
-            "name": "ICO球",
+            "name": "fighter",
             "transform": {
                 "translation": [
                     0.0,
-                    6.0174174308776855,
+                    0.0,
                     0.0
                 ],
                 "rotation": [
@@ -97,20 +63,51 @@
                     1.0
                 ]
             },
-            "file_name": "",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
+            "file_name": "fighter"
+        },
+        {
+            "type": "MESH",
+            "name": "fighter.001",
+            "transform": {
+                "translation": [
+                    1.2887694835662842,
                     0.0,
                     0.0
                 ],
-                "size": [
-                    2.0,
-                    2.0,
-                    2.0
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    -90.00000762939453
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
                 ]
-            }
+            },
+            "file_name": "enemy"
+        },
+        {
+            "type": "MESH",
+            "name": "fighter.002",
+            "transform": {
+                "translation": [
+                    -1.7874845266342163,
+                    1.3276076316833496,
+                    0.9359610676765442
+                ],
+                "rotation": [
+                    90.00000762939453,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "fighter"
         }
     ]
 }

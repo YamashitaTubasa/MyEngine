@@ -9,10 +9,6 @@ GameScene::GameScene()
 
 GameScene::~GameScene()
 {
-	delete particleMan;
-	delete fbxModel;
-	delete fbxObject;
-	/*delete particleMan1;*/
 }
 
 void GameScene::Initialize(SpriteCommon& spriteCommon)
@@ -25,15 +21,20 @@ void GameScene::Initialize(SpriteCommon& spriteCommon)
 	camera = new Camera();
 	camera->Initialize();
 
-	// レベルローダー
-	levelLoader = new LevelLoader();
-	levelLoader->LoadFile("none.json");
+	// レベルデータの読み込み
+	levelData = LevelLoader::LoadFile("test.json");
+
+	// モデルデータを読み込む
+	playerM = Model::LoadFromOBJ("fighter");
+	enemyM = Model::LoadFromOBJ("enemy");
+
+	models.insert(std::make_pair("fighter", playerM));
+	models.insert(std::make_pair("enemy", enemyM));
 
 	// レベルデータからオブジェクトを生成、配置
 	for (auto& objectData : levelData->objects) {
 		// ファイル名から登録済みモデルを検索
 		Model* model = nullptr;
-		model = Model::LoadFromOBJ("fighter", "effect1.png");
 		decltype(models)::iterator it = models.find(objectData.fileName);
 		if (it != models.end()) { model = it->second; }
 		// モデルを指定して3Dオブジェクトを生成
@@ -43,84 +44,22 @@ void GameScene::Initialize(SpriteCommon& spriteCommon)
 		DirectX::XMFLOAT3 pos;
 		DirectX::XMStoreFloat3(&pos, objectData.translation);
 		newObject->SetPosition(pos);
-		// 座標
+		// 回転
 		DirectX::XMFLOAT3 rot;
-		DirectX::XMStoreFloat3(&pos, objectData.rotation);
-		newObject->SetPosition(rot);
-		// 座標
+		DirectX::XMStoreFloat3(&rot, objectData.rotation);
+		newObject->SetRotation(rot);
+		// サイズ
 		DirectX::XMFLOAT3 scale;
-		DirectX::XMStoreFloat3(&pos, objectData.scaling);
-		newObject->SetPosition(scale);
+		DirectX::XMStoreFloat3(&scale, objectData.scaling);
+		newObject->SetScale(scale);
+
 		// 配列に登録
 		objects.push_back(newObject);
 	}
 
-	// デバイスをセット
-	FbxObject3d::SetDevice(dXCommon->GetDevice());
-	// カメラをセット
-	FbxObject3d::SetCamera(camera);
-	// グラフィックスパイプライン生成
-	FbxObject3d::CreateGraphicsPipeline();
-
-	// FBXの3Dオブジェクト生成とモデルのセット
-	fbxObject = new FbxObject3d();
-	fbxModel = new FbxModel();
-	fbxObject->Initialize();
-	// モデル名を指定してファイル読み込み
-	fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
-	// FBXオブジェクトにFBXモデルを割り当てる
-	fbxObject->SetModel(fbxModel);
-	// スケール、回転、座標
-	fbxObject->SetRotation({ 0,90,0 });
-
-	// カメラの注視点をセット
-	target[0] = { 0,2.5f,0 };
-	eye[0] = { 0,0,-10 };
-	camera->SetTarget(target[0]);
-	camera->SetEye(eye[0]);
-	camera->SetDistance(8.0f);
-
-	// OBJの名前を指定してモデルデータを読み込む
-	particle = ParticleM::LoadFromOBJ("Resources/Image/effect1.png");
-	particle1 = ParticleM::LoadFromOBJ("Resources/Image/effect2.png");
-	// パーティクルの生成
-	particleMan = ParticleManager::Create();
-	particleMan1 = ParticleManager::Create();
-	// パーティクルマネージャーにパーティクルを割り当てる
-	particleMan->SetModel(particle);
-	particleMan1->SetModel(particle1);
-
-	// gTs
-	/*gTS = new GameTitleScene();
-	gTS->Initialize();*/
+	position[0] = { 0.0f,0.0f,-3.0f };
+	Object3d::SetEye(position[0]);
 	
-	// オブジェクトの初期化
-	ObjectInitialize();
-	// スプライトの初期化
-	//SpriteInitialize(spriteCommon);
-	// スプライト
-	sprite = new Sprite(100, { 0.0f,0.0f }, { 500.0f,500.0f }, { 1,1,1,1 }, { 0.0f,0.0f }, false, false);
-	//sprite = make_shared<Sprite>(100, { 0.0f,0.0f }, { 500.0f,500.0f }, { 1,1,1,1 }, { 0.0f,0.0f }, false, false);
-	spriteCommon_ = sprite->SpriteCommonCreate(dXCommon->GetDevice(), 1280, 720);
-	// スプライト用パイプライン生成呼び出し
-	PipelineSet spritePipelineSet = sprite->SpriteCreateGraphicsPipeline(dXCommon->GetDevice());
-
-	// HP
-	hp = new Sprite(100, { 0.0f,0.0f }, { 500.0f,500.0f }, { 1,1,1,1 }, { 0.0f,0.0f }, false, false);
-	hp->LoadTexture(spriteCommon_, 3, L"Resources/Image/hp.png", dXCommon->GetDevice());
-	hp->SetColor(XMFLOAT4(1, 1, 1, 1));
-	hp->SpriteCreate(dXCommon->GetDevice(), 50, 50, 3, spriteCommon, XMFLOAT2(0.0f, 0.0f), false, false);
-	hp->SetPosition(XMFLOAT3(0, 0, 0));
-	hp->SetScale(XMFLOAT2(50 * 1, 50 * 1));
-	hp->SetRotation(0.5f);
-	hp->SpriteTransferVertexBuffer(hp, spriteCommon, 3);
-	hp->SpriteUpdate(hp, spriteCommon_);
-
-	//// パーティクルの初期化
-	//ParticleInitialize();
-
-	// FBXアニメーションの実行
-	fbxObject->PlayAnimation();
 }
 
 void GameScene::Update()
@@ -134,26 +73,25 @@ void GameScene::Update()
 	// カメラの更新
 	camera->Update();
 
-	// FBXオブジェクトの更新
-	fbxObject->Update();
-
-	// gTSの更新
-	//gTS->Update();
-
-	static char buf[256]{};
-	static float f = 0.0f;
-
-	/*ImGui::Text("Hello%d", 123);
-	if (ImGui::Button("Save")) {
-		imGuiManager->MySaveFunction();
-
-		ImGui::InputText("string", buf, IM_ARRAYSIZE(buf));
-		ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
-	}*/
-
-	if (input->PushKey(DIK_RIGHT)) {
-		eye[0].x += 0.5;
+	// 3Dオブジェクト更新
+	for (auto& object : objects) {
+		object->Update();
 	}
+
+	if (input->PushKey(DIK_O)) {
+		position[0].x += 0.1f;
+	}
+	if (input->PushKey(DIK_I)) {
+		position[0].x -= 0.1f;
+	}
+	if (input->PushKey(DIK_K)) {
+		position[0].y += 0.1f;
+	}
+	Object3d::SetEye(position[0]);
+
+	/*if (input->PushKey(DIK_RIGHT)) {
+	//	eye[0].x += 0.5;
+	//}
 	if (input->PushKey(DIK_LEFT)) {
 		eye[0].x -= 0.5;
 	}
@@ -163,28 +101,11 @@ void GameScene::Update()
 	if (input->PushKey(DIK_DOWN)) {
 		eye[0].y -= 0.5;
 	}
-	camera->SetEye(eye[0]);
+	camera->SetEye(eye[0]);*/
 
 	// オブジェクトの更新
-	ObjectUpdate();
-	// スプライトの更新
-	SpriteUpdate();
+	//ObjectUpdate();
 	
-	if (input->TriggerKey(DIK_U)) {
-		particl = true;
-	}
-	if (particl == true) {
-		particleTime++;
-	}
-	if (particleTime >= 10) { particl = false; particleTime = 0; }
-	if (particl == true) {
-		// パーティクルの初期化
-		particleMan->Execution(particle, 0);
-	}
-
-	// パーティクルの更新
-	particleMan->Update();
-
 	// ImGui受付終了
 	imGuiManager->End();
 }
@@ -197,11 +118,9 @@ void GameScene::Draw(SpriteCommon& spriteCommon)
 	Object3d::PreDraw(dXCommon->GetCommandList());
 
 	// 3Dオブジェクトの描画
-	/*for (int i = 0; i < 5; i++) {
-		object3d[i]->Draw();
-	}*/
-	playerO->Draw();
-	enemyO->Draw();
+	for (auto& object : objects) {
+		object->Draw();
+	}
 
 	// FBX3Dオブジェクトの描画
 	//fbxObject->Draw(dXCommon->GetCommandList());
@@ -219,8 +138,6 @@ void GameScene::Draw(SpriteCommon& spriteCommon)
 	ParticleManager::PreDraw(dXCommon->GetCommandList());
 
 	// 3Dオブクジェクトの描画
-	particleMan->Draw();
-	//particleMan1->Draw();
 
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
@@ -233,11 +150,11 @@ void GameScene::Draw(SpriteCommon& spriteCommon)
 
 #pragma region スプライト描画
 
-	Sprite::PreDraw(dXCommon->GetCommandList(), spriteCommon_);
+	//Sprite::PreDraw(dXCommon->GetCommandList(), spriteCommon_);
 
-	hp->SpriteDraw(dXCommon->GetCommandList(), spriteCommon_, dXCommon->GetDevice(), hp->vbView);
+	//
 
-	Sprite::PostDraw();
+	//Sprite::PostDraw();
 
 #pragma endregion
 }
@@ -254,29 +171,29 @@ void GameScene::Finalize()
 void GameScene::ObjectInitialize() 
 {
 	// OBJからモデルデータを読み込む
-	player = Model::LoadFromOBJ("fighter", "effect1.png");
-	//Model[0]->LoadTexture("effect1.png");
-	enemy = Model::LoadFromOBJ("ironSphere", "ironShpere/ironSphere.png");
-	//Model[2] = Model::LoadFromOBJ("skydome", "skydome/skydome.jpg");
-	// 3Dオブジェクト生成
-	playerO = Object3d::Create();
-	enemyO = Object3d::Create();
-	// オブジェクトにモデルをひも付ける
-	playerO->SetModel(player);
-	enemyO->SetModel(enemy);
-	//object3d[2]->SetModel(Model[2]);
-	// 3Dオブジェクトの位置を指定
-	position[0] = { 0,-5,-35 };
-	rotation[0] = { 0,0,0 };
-	playerO->SetPosition(position[0]);
-	playerO->SetScale({ 5, 5, 5 });
-	playerO->SetRotation(rotation[0]);
-	//object3d[0]->SetEye(eye[0]);
+	//player = Model::LoadFromOBJ("fighter", "effect1.png");
+	////Model[0]->LoadTexture("effect1.png");
+	//enemy = Model::LoadFromOBJ("ironSphere", "ironShpere/ironSphere.png");
+	////Model[2] = Model::LoadFromOBJ("skydome", "skydome/skydome.jpg");
+	//// 3Dオブジェクト生成
+	//playerO = Object3d::Create();
+	//enemyO = Object3d::Create();
+	//// オブジェクトにモデルをひも付ける
+	//playerO->SetModel(player);
+	//enemyO->SetModel(enemy);
+	////object3d[2]->SetModel(Model[2]);
+	//// 3Dオブジェクトの位置を指定
+	//position[0] = { 0,-5,-35 };
+	//rotation[0] = { 0,0,0 };
+	//playerO->SetPosition(position[0]);
+	//playerO->SetScale({ 5, 5, 5 });
+	//playerO->SetRotation(rotation[0]);
+	////object3d[0]->SetEye(eye[0]);
 
-	position[1] = { 0,0,50 };
-	enemyO->SetPosition(position[1]);
-	enemyO->SetScale({ 5,5,5 });
-	enemyO->SetRotation({ 0, 90, 0 });
+	//position[1] = { 0,0,50 };
+	//enemyO->SetPosition(position[1]);
+	//enemyO->SetScale({ 5,5,5 });
+	//enemyO->SetRotation({ 0, 90, 0 });
 
 	/*object3d[2]->SetPosition({ 0,-40,0 });
 	object3d[2]->SetScale({ 100, 100, 100 });
@@ -285,14 +202,7 @@ void GameScene::ObjectInitialize()
 
 void GameScene::ObjectUpdate()
 {
-	// 3Dオブジェクト更新
-	playerO->Update();
-	enemyO->Update();
-
-	playerO->SetPosition(position[0]);
-	playerO->SetRotation(rotation[0]);
-	//object3d[0]->SetEye(eye[0]);
-	enemyO->SetPosition(position[1]);
+	
 
 	/*if (input->PushKey(DIK_RIGHT)){
 		eye[0].x += 0.5;
@@ -319,23 +229,10 @@ void GameScene::ObjectUpdate()
 		position[1].z = 50;
 	}
 
-	// プレイヤーと鉄球の当たり判定
-	/*if (CheckCollision(object3d[1]->GetPosition(), object3d[1]->GetScale()) == true) {
-		playerHp -= 1;
-	}*/
-	/*if (playerHp == 0) {
-		scene = GameOver;
-	}*/
 }
 
 void GameScene::ObjectFinalize()
 {
-	// 3Dオブジェクト解放
-	delete playerO;
-	delete enemyO;
-	// 3Dモデル解放
-	delete player;
-	delete enemy;
 
 }
 
