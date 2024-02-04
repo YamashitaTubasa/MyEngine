@@ -118,6 +118,7 @@
     <ClCompile Include="DirectXGame\Engin\Input\Input.cpp" />
     <ClCompile Include="DirectXGame\Engin\Math\Quaternion.cpp" />
     <ClCompile Include="DirectXGame\Engin\Math\Vector4.cpp" />
+    <ClCompile Include="DirectXGame\Engin\Platform\TextureConverter.cpp" />
     <ClCompile Include="DirectXGame\Engin\Scene\TYFramework.cpp" />
     <ClCompile Include="DirectXGame\Application\Scene\GameTitleScene.cpp" />
     <ClCompile Include="DirectXGame\Application\Scene\MyGame.cpp" />
@@ -227,6 +228,7 @@
     <ClInclude Include="DirectXGame\Engin\Math\Vector4.h" />
     <ClInclude Include="DirectXGame\Engin\Platform\DirectXCommon.h" />
     <ClInclude Include="DirectXGame\Engin\Platform\FPSFixed.h" />
+    <ClInclude Include="DirectXGame\Engin\Platform\TextureConverter.h" />
     <ClInclude Include="DirectXGame\Engin\Platform\WinApp.h" />
     <ClInclude Include="DirectXGame\Engin\Scene\TYFramework.h" />
     <ClInclude Include="DirectXGame\Application\Scene\GameScene.h" />

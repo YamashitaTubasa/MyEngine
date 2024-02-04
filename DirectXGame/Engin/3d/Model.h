@@ -120,6 +120,8 @@ private: // 静的メンバ変数
 	D3D12_INDEX_BUFFER_VIEW ibView;
 	// 定数バッファ（マテリアル）
 	ComPtr<ID3D12Resource> constBuffB1; // 定数バッファ
+	// ファイル拡張子
+	std::wstring fileExt_;
 
 private:// 静的メンバ関数
 	// OBJファイルから3Dモデルを読み込む(非公開)

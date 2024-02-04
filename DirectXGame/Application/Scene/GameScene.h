@@ -14,6 +14,7 @@
 #include "FbxLoader.h"
 #include "FbxObject3d.h"
 #include "LevelLoader.h"
+#include "TextureConverter.h"
 
 class GameScene
 {
@@ -152,6 +153,7 @@ private:
 	LevelLoader* levelLoader = nullptr;
 	LevelData* levelData = nullptr;
 	//std::map<std::string, Model*> models;
+	TextureConverter textureConverter_;
 
 	DirectX::XMFLOAT3 position[5]{};
 	DirectX::XMFLOAT3 rotation[5]{};

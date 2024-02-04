@@ -112,9 +112,9 @@ void Model::LoadTexture(const std::string& directoryPath, const std::string& fil
 	wchar_t wfilepath[128];
 	int iBufferSize = MultiByteToWideChar(CP_ACP, 0, filepath.c_str(), -1, wfilepath, _countof(wfilepath));
 
-	result = LoadFromWICFile(
-		wfilepath, WIC_FLAGS_NONE,
-		&metadata, scratchImg
+	// DDSテクスチャのロード
+	result = LoadFromDDSFile(
+		wfilepath, DDS_FLAGS_NONE, &metadata, scratchImg
 	);
 	assert(SUCCEEDED(result));
 
@@ -193,9 +193,9 @@ void Model::LoadTexture(const std::string& filename)
 	wchar_t wfilepath[128];
 	int iBufferSize = MultiByteToWideChar(CP_ACP, 0, filepath.c_str(), -1, wfilepath, _countof(wfilepath));
 
-	result = LoadFromWICFile(
-		wfilepath, WIC_FLAGS_NONE,
-		&metadata, scratchImg
+	// DDSテクスチャのロード
+	result = LoadFromDDSFile(
+		wfilepath, DDS_FLAGS_NONE, &metadata, scratchImg
 	);
 	assert(SUCCEEDED(result));
 

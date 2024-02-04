@@ -60,6 +60,7 @@ void GameScene::Initialize(SpriteCommon& spriteCommon)
 	position[0] = { 0.0f,0.0f,-3.0f };
 	Object3d::SetEye(position[0]);
 	
+	textureConverter_.ConvertTextureWICToDDS("Resources/none.png");
 }
 
 void GameScene::Update()
